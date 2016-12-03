@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.cs175.bulletinandroid.bulletin.RegisterActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="50dp"
+        android:text="Bulletin"
+        android:layout_marginLeft="1dp"
+        android:id="@+id/registerText"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Let's get you registered"
+        android:layout_marginLeft="3dp"
+        android:layout_below="@+id/registerText"
+        android:id="@+id/subtitle"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@+id/nextButton"
+        android:id="@+id/emaillayout"
+        >
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/email_icon"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="1dp"
+            android:id="@+id/registerEmailIcon"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/registerEmailIcon"
+            android:textSize="14dp"
+            android:hint=" Please Enter your campus email"
+            android:textColorHint="#CCCCCC"
+            android:textColor="#DDDDDD"
+            android:id="@+id/registerEmail"
+            android:inputType="text|textNoSuggestions"
+            android:imeOptions="actionNext"
+
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@+id/nextButton"
+        android:id="@+id/usernamelayout"
+        >
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/email_icon"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="1dp"
+            android:id="@+id/registerUserNameIcon"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/registerUserNameIcon"
+            android:textSize="14dp"
+            android:hint=" Please Enter your user name email"
+            android:textColorHint="#CCCCCC"
+            android:textColor="#DDDDDD"
+            android:id="@+id/registerUserName"
+            android:inputType="text|textNoSuggestions"
+            android:imeOptions="actionNext"
+            />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@+id/nextButton"
+        android:id="@+id/passwordlayout"
+        >
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/email_icon"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="1dp"
+            android:id="@+id/registerPasswordIcon"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/registerPasswordIcon"
+            android:textSize="14dp"
+            android:hint=" Please Enter your user name email"
+            android:textColorHint="#CCCCCC"
+            android:textColor="#DDDDDD"
+            android:id="@+id/registerPassword"
+            android:inputType="text|textNoSuggestions"
+            android:imeOptions="actionNext"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@+id/nextButton"
+        android:id="@+id/conformationlayout"
+        >
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/email_icon"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="1dp"
+            android:id="@+id/registerConfirmationIcon"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/registerConfirmationIcon"
+            android:textSize="14dp"
+            android:hint=" Please Enter your user name email"
+            android:textColorHint="#CCCCCC"
+            android:textColor="#DDDDDD"
+            android:id="@+id/registerConfirmation"
+            android:inputType="text|textNoSuggestions"
+            android:imeOptions="actionDone"
+            />
+    </RelativeLayout>
+
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="NEXT"
+        android:id="@+id/nextButton"
+        android:layout_alignParentBottom="true"
+        android:textColor="#FFFFFF"
+        android:background="#FA8E6C"/>
+
+</RelativeLayout>
