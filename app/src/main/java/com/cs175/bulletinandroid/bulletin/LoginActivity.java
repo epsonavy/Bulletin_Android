@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
         //getWindow().setGravity(Gravity.TOP| Gravity.CENTER_HORIZONTAL);
 
 
-       passwordview.setVisibility(View.INVISIBLE);
+        passwordview.setVisibility(View.INVISIBLE);
         params = (RelativeLayout.LayoutParams)(emailview).getLayoutParams();
         serverResponse = false;
         email = "";
@@ -136,7 +136,7 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
                     Log.d("getheight", width+","+height);
                     email = emailtext.getText().toString();
                     if (!email.equals("") || email == null) {
-                        singleton.getInstance().getAPI().checkEmail((OnRequestListener) context, "");
+                        singleton.getInstance().getAPI().checkEmail((OnRequestListener) context, email);
                         loadingPanel.setVisibility(View.VISIBLE);
                         //UserInteractions = false;
                         int i = 0;

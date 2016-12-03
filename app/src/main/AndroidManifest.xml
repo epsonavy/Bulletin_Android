@@ -14,12 +14,12 @@
             android:name=".LoginActivity"
             android:excludeFromRecents="true"
             android:theme="@style/dialogFullScreen"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
-
-        </activity>
-        <activity android:name=".RegisterActivity"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
-        <activity android:name=".LoginActivityBackground"
+        <activity
+            android:name=".RegisterActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity
+            android:name=".LoginActivityBackground"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".RegistrationCompletedActivity"></activity>
     </application>
 
 </manifest>
