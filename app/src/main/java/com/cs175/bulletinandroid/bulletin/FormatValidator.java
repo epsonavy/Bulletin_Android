@@ -24,5 +24,13 @@ public class FormatValidator {
         return matcher.matches();
     }
 
+    public int validatePassword(String password) {
+        if (password.length() < 3) {
+            return 1;
+        } else if (password.length() > 25) {
+            return 2;
+        }
+        return 0;
+    }
 
 }

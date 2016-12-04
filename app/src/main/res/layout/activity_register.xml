@@ -158,6 +158,6 @@
         android:id="@+id/nextButton"
         android:layout_alignParentBottom="true"
         android:textColor="#FFFFFF"
-        android:background="#FA8E6C"/>
+        android:background="@color/themeColor"/>
 
 </RelativeLayout>

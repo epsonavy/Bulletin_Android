@@ -35,6 +35,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
+import com.cs175.bulletinandroid.bulletin.Elements.AlertDialogController;
 import com.cs175.bulletinandroid.bulletin.animations.*;
 import org.w3c.dom.Text;
 
@@ -50,6 +51,8 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
     private boolean serverResponse;
     private boolean UserInteractions = true;
     private String email;
+    private FormatValidator validator;
+    private AlertDialogController alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,25 +61,17 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
-        WindowManager manager = (WindowManager) getSystemService(Activity.WINDOW_SERVICE);
-        int width, height;
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        Point point = new Point();
-        manager.getDefaultDisplay().getSize(point);
-        width = point.x;
-        height = point.y;
-        lp.width = width;
-        lp.height = height;
-        //getWindow().setAttributes(lp);
+
+
 
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-
-
         Drawable d = new ColorDrawable(Color.BLACK);
         d.setAlpha(0);
         getWindow().setBackgroundDrawable(d);
+
         context = LoginActivity.this;
+        validator = new FormatValidator();
+        alertDialog = new AlertDialogController();
         //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
 
@@ -127,14 +122,16 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
 
 
                 if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                    Display display = getWindowManager().getDefaultDisplay();
-                    Point size = new Point();
-                    display.getSize(size);
-                    int width = size.x;
-                    int height = size.y;
 
-                    Log.d("getheight", width+","+height);
+
                     email = emailtext.getText().toString();
+
+
+                    if (!validator.validateEmail(email)) {
+                        alertDialog.showDialog(LoginActivity.this, "Please use an .edu email!");
+                        return false;
+                    }
+
                     if (!email.equals("") || email == null) {
                         singleton.getInstance().getAPI().checkEmail((OnRequestListener) context, email);
                         loadingPanel.setVisibility(View.VISIBLE);

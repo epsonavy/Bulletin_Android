@@ -1,5 +1,6 @@
 package com.cs175.bulletinandroid.bulletin;
 
+import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,8 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.cs175.bulletinandroid.bulletin.Elements.AlertDialogController;
 
 import java.text.Normalizer;
 
@@ -45,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
     private int responseCode;
 
     private FormatValidator validator;
-
+    private AlertDialogController alertDialog;
     private boolean UserInteractions;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,8 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
 
 
         userEmail = "deafult";
+
+        //activity = (Activity)getApplicationContext();
         userEmail = getIntent().getStringExtra("key");
         if (!userEmail.equals("")) {
             emailText.setText(userEmail);
@@ -65,6 +70,7 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
         inst = new Instrumentation();
         flag = 0;
         responseCode = 0;
+
 
         validator = new FormatValidator();
 
@@ -86,6 +92,8 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
 
                     usernameView.requestFocus();
                     return true;
+                } else {
+                    alertDialog.showDialog(RegisterActivity.this, "Please use an .edu email!");
                 }
                 return false;
             }
@@ -95,7 +103,18 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
 
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (true) {
+
+                String username = usernameText.getText().toString();
+                if (username.length() <3) {
+                    alertDialog.showDialog(RegisterActivity.this, "Display name is too short!");
+                    return false;
+                }
+                if (username.length() > 25) {
+                    alertDialog.showDialog(RegisterActivity.this, "Display name is too long!");
+                    return false;
+                }
+
+                if (validator.validateUserName(username)) {
                     passwordView.setVisibility(View.VISIBLE);
                     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)usernameView.getLayoutParams();
                     layoutSwitch(params, R.id.passwordlayout);
@@ -103,15 +122,22 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
 
                     passwordView.requestFocus();
                     return true;
+                } else {
+                    alertDialog.showDialog(RegisterActivity.this, "Only letters and numbers allowed!");
                 }
                 return false;
             }
         });
 
+
+
         passwordText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (true) {
+
+                int index = validator.validatePassword(passwordText.getText().toString());
+
+                if (index == 0) {
 
                     confirmationView.setVisibility(View.VISIBLE);
                     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)passwordView.getLayoutParams();
@@ -119,7 +145,14 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
                     passwordView.setLayoutParams(params);
                     confirmationView.requestFocus();
                     return true;
+                } else if (index == 1) {
+                    alertDialog.showDialog(RegisterActivity.this, "Password is too short!");
+                    return false;
+                } else if (index == 2) {
+                    alertDialog.showDialog(RegisterActivity.this, "Password is too long!");
+                    return false;
                 }
+
                 return false;
             }
         });
@@ -127,8 +160,29 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
         confirmationText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
            @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-               if (true) {
+               password = confirmationText.getText().toString();
+               if (password.equals(passwordText.getText().toString())) {
+                   email = emailText.getText().toString();
+                   username = usernameText.getText().toString();
+                   UserInteractions = false;
+                   singleton.getInstance().getAPI().register((OnRequestListener) context, email, password, username);
+                   String title = nextButton.getText().toString();
+                   nextButton.setText("Verifying");
+                   while (UserInteractions == false) {
 
+                   }
+                   nextButton.setText(title);
+                   if (responseCode == 200) {
+                       Intent intent = new Intent(RegisterActivity.this, RegistrationCompletedActivity.class);
+                       startActivity(intent);
+                       finish();
+
+                   } else {
+                       alertDialog.showDialog(RegisterActivity.this, "There was an problem with registering!");
+                   }
+
+               } else {
+                   alertDialog.showDialog(RegisterActivity.this, "Passwords do not match!");
                }
                return false;
            }
@@ -138,26 +192,72 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
             @Override
             public void onClick(View v) {
                 if (flag == 0) {
-                    usernameView.setVisibility(View.VISIBLE);
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)emailView.getLayoutParams();
-                    layoutSwitch(params, R.id.usernamelayout);
-                    emailView.setLayoutParams(params);
 
-                    usernameView.requestFocus();
-                } else if (flag == 1) {
-                    passwordView.setVisibility(View.VISIBLE);
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)usernameView.getLayoutParams();
-                    layoutSwitch(params, R.id.passwordlayout);
-                    usernameView.setLayoutParams(params);
+                    if(validator.validateEmail(emailText.getText().toString())) {
 
-                    passwordView.requestFocus();
-                } else if (flag == 2) {
-                    confirmationView.setVisibility(View.VISIBLE);
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)passwordView.getLayoutParams();
-                    layoutSwitch(params, R.id.conformationlayout);
-                    passwordView.setLayoutParams(params);
-                    confirmationView.requestFocus();
-                } else {
+                        usernameView.setVisibility(View.VISIBLE);
+
+                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)emailView.getLayoutParams();
+                        layoutSwitch(params, R.id.usernamelayout);
+                        emailView.setLayoutParams(params);
+
+                        usernameView.requestFocus();
+                    } else {
+                        alertDialog.showDialog(RegisterActivity.this, "Please use an .edu email!");
+                    }
+
+                }
+
+
+                else if (flag == 1) {
+                    String username = usernameText.getText().toString();
+                    if (username.length() <3) {
+                        alertDialog.showDialog(RegisterActivity.this, "Display name is too short!");
+                    }
+                    else if (username.length() > 25) {
+                        alertDialog.showDialog(RegisterActivity.this, "Display name is too long!");
+                    }
+
+                    else if (validator.validateUserName(username)) {
+                        passwordView.setVisibility(View.VISIBLE);
+                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)usernameView.getLayoutParams();
+                        layoutSwitch(params, R.id.passwordlayout);
+                        usernameView.setLayoutParams(params);
+
+                        passwordView.requestFocus();
+
+                    } else {
+                        alertDialog.showDialog(RegisterActivity.this, "Only letters and numbers allowed!");
+                    }
+
+
+                }
+
+
+
+                else if (flag == 2) {
+
+                    int index = validator.validatePassword(passwordText.getText().toString());
+
+                    if (index == 0) {
+
+                        confirmationView.setVisibility(View.VISIBLE);
+                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)passwordView.getLayoutParams();
+                        layoutSwitch(params, R.id.conformationlayout);
+                        passwordView.setLayoutParams(params);
+                        confirmationView.requestFocus();
+                    } else if (index == 1) {
+                        alertDialog.showDialog(RegisterActivity.this, "Password is too short!");
+                    } else if (index == 2) {
+                        alertDialog.showDialog(RegisterActivity.this, "Password is too long!");
+                    }
+
+
+
+                }
+
+
+                else {
                     //Done
                     password = confirmationText.getText().toString();
                     if (password.equals(passwordText.getText().toString())) {
@@ -176,10 +276,12 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
                             startActivity(intent);
                             finish();
 
+                        } else {
+                            alertDialog.showDialog(RegisterActivity.this, "There was an problem with registering!");
                         }
 
                     } else {
-                        //password doesn't match
+                        alertDialog.showDialog(RegisterActivity.this, "Passwords do not match!");
                     }
                 }
             }
@@ -201,6 +303,8 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
         usernameView.setVisibility(View.INVISIBLE);
         passwordView.setVisibility(View.INVISIBLE);
         confirmationView.setVisibility(View.INVISIBLE);
+
+        alertDialog = new AlertDialogController();
 
     }
 
