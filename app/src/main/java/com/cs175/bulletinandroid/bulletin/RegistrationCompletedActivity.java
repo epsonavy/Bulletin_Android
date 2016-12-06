@@ -34,6 +34,7 @@ public class RegistrationCompletedActivity extends AppCompatActivity {
         int dp = (int) (150 * scale + 0.5f);
         int dpTop = (int) (30*scale + 0.5f);
         initViews();
+
         imageView = new RoundedImageView(getApplicationContext());
         Bitmap icon = BitmapFactory.decodeResource(getResources(),R.drawable.background1);
         imageView.setImageResource(R.drawable.tuzki);

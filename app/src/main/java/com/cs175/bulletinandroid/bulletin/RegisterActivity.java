@@ -240,7 +240,6 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
                     int index = validator.validatePassword(passwordText.getText().toString());
 
                     if (index == 0) {
-
                         confirmationView.setVisibility(View.VISIBLE);
                         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)passwordView.getLayoutParams();
                         layoutSwitch(params, R.id.conformationlayout);

@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.icu.text.LocaleDisplayNames;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -48,11 +49,15 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
     BulletinSingleton singleton;
     private Context context;
     private RelativeLayout.LayoutParams params;
-    private boolean serverResponse;
+    private int serverResponse;
     private boolean UserInteractions = true;
     private String email;
+    private String password;
     private FormatValidator validator;
     private AlertDialogController alertDialog;
+    private SuccessMessageTokenResponse token;
+    private boolean checkPassword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,9 +97,9 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
 
         passwordview.setVisibility(View.INVISIBLE);
         params = (RelativeLayout.LayoutParams)(emailview).getLayoutParams();
-        serverResponse = false;
+        serverResponse = 0;
         email = "";
-
+        password = "";
 
 
     }
@@ -120,57 +125,112 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-
                 if (actionId == EditorInfo.IME_ACTION_NEXT) {
 
 
                     email = emailtext.getText().toString();
-
+                    Log.d("emailis:", email);
 
                     if (!validator.validateEmail(email)) {
+
                         alertDialog.showDialog(LoginActivity.this, "Please use an .edu email!");
                         return false;
                     }
 
-                    if (!email.equals("") || email == null) {
+                    if (!email.equals("") && email != null) {
                         singleton.getInstance().getAPI().checkEmail((OnRequestListener) context, email);
                         loadingPanel.setVisibility(View.VISIBLE);
-                        //UserInteractions = false;
-                        int i = 0;
+                        UserInteractions = false;
 
-                        /*while (UserInteractions == false) {
+                        while (UserInteractions == false) {
 
-                        }*/
+                        }
                         loadingPanel.setVisibility(View.GONE);
-                        if (serverResponse == true) {
+                        if (serverResponse == 200) {
+                            serverResponse = 0;
                             passwordview.setVisibility(View.VISIBLE);
                             passwordview.requestFocus();
                             params.addRule(RelativeLayout.ABOVE, R.id.passwordview);
                             params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                             emailview.setLayoutParams(params);
-
                             return true;
+                        } else if (serverResponse == 418){
+
+                            alertDialog.startAnotherActivity(LoginActivity.this, "Let's get you registered", email);
+
+
                         } else {
-                            new AlertDialog.Builder(context)
-                                    .setMessage("Let's get you registered")
-                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                                            intent.putExtra("key", email);
-                                            LoginActivity.this.startActivity(intent);
-                                        }
-                                    })
 
-                                    .setIcon(android.R.drawable.ic_dialog_alert)
-                                    .show();
+                            alertDialog.showDialog(LoginActivity.this, "Unable to connect to server");
                         }
-
+                        serverResponse = 0;
                     }
 
                 }
                 return false;
             }
 
+        });
+
+        passwordtext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                    email = emailtext.getText().toString();
+                    if (!validator.validateEmail(email)) {
+                        alertDialog.showDialog(LoginActivity.this, "Please use an .edu email!");
+                        return false;
+                    }
+
+                    password = passwordtext.getText().toString();
+                    int index = validator.validatePassword(password);
+
+                    if (index == 0) {
+                        checkPassword = true;
+                        singleton.getInstance().getAPI().login((OnRequestListener) context, email, password);
+
+                        loadingPanel.setVisibility(View.VISIBLE);
+                        UserInteractions = false;
+                        int i = 0;
+
+                        while (UserInteractions == false) {
+
+                        }
+                        checkPassword = false;
+                        loadingPanel.setVisibility(View.GONE);
+                        if (serverResponse == 200) {
+
+                            serverResponse = 0;
+                            String tokenInfo = token.getToken();
+                            Log.d("token", tokenInfo);
+                            singleton.getInstance().getAPI().setToken(tokenInfo);
+                            Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
+                            startActivity(intent);
+                            finish();
+                            return true;
+
+                        } else if (serverResponse == 400){
+                            serverResponse = 0;
+                            alertDialog.showDialog(LoginActivity.this, "Password not recognized");
+                        } else {
+                            alertDialog.showDialog(LoginActivity.this, "Unable to connect to server");
+                        }
+                        return false;
+
+                    } else if (index == 1) {
+                        alertDialog.showDialog(LoginActivity.this, "Password is too short!");
+
+                    } else if (index == 2) {
+                        alertDialog.showDialog(LoginActivity.this, "Password is too long!");
+
+                    }
+
+
+
+                }
+                return false;
+            }
         });
         //loginAnimation.startAnimation();
     }
@@ -186,18 +246,23 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
 
     @Override
     public void onResponseReceived(RequestType type, Response response) {
-        String message = "";
         if(response.getResponseCode() == 418){
-            message = "email not found";
+            //message = "email not found";
+            serverResponse = 418;
 
         }else if (response.getResponseCode() == 200){
-            message = "email found";
-            serverResponse = true;
-        }else{
-            message = " fuck you";
+            //message = "email found";
+            serverResponse = 200;
+            if (checkPassword) {
+                token = (SuccessMessageTokenResponse) response;
+            }
+        } else if (response.getResponseCode() == 400) {
+            //password not found
+            serverResponse = 400;
+        }
+        else{
             //something went wrong with the server
         }
-        Log.d("god", message);
 
         UserInteractions = true;
     }

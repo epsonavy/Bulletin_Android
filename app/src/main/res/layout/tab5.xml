@@ -1,15 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:id="@+id/SettingPageLayout"
+    tools:context="com.cs175.bulletinandroid.bulletin.RegistrationCompletedActivity">
 
     <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Tab 5"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:text="Settings"
+        android:id="@+id/SettingMainTitle"
+        android:textSize="50dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="test chat"
+        android:id="@+id/SettingSubTitle"
+        android:layout_below="@id/SettingMainTitle"
+        android:textSize="20dp"
+        />
 
+    <com.cs175.bulletinandroid.bulletin.Elements.RoundedImageView
+
+        android:layout_height="120dp"
+        android:layout_width="120dp"
+        android:layout_below="@id/SettingSubTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src ="@drawable/tuzki"
+        android:adjustViewBounds="true"
+        android:id="@+id/SettingPicture"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/SettingPicture"
+        android:id="@+id/SettingEmailLayout"
+        >
+        <ImageView
+
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/email_icon"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/SettingEmailIcon"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:layout_toEndOf="@id/SettingEmailIcon"
+            android:textSize="14dp"
+            android:text=" Please Enter your user name email"
+            android:textColorHint="#CCCCCC"
+            android:textColor="#DDDDDD"
+            android:id="@+id/SettingEmailText"
+
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@+id/nextButton"
+        android:id="@+id/passwordlayout"
+        >
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/email_icon"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="1dp"
+            android:id="@+id/registerPasswordIcon"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/registerPasswordIcon"
+            android:textSize="14dp"
+            android:hint=" Please Enter your user name email"
+            android:textColorHint="#CCCCCC"
+            android:textColor="#DDDDDD"
+            android:id="@+id/registerPassword"
+            android:inputType="text|textNoSuggestions"
+            android:imeOptions="actionNext"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/nextButton"
+        android:id="@+id/conformationlayout"
+        >
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/email_icon"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="1dp"
+            android:id="@+id/registerConfirmationIcon"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/registerConfirmationIcon"
+            android:textSize="14dp"
+            android:hint=" Please Enter your user name email"
+            android:textColorHint="#CCCCCC"
+            android:textColor="#DDDDDD"
+            android:id="@+id/registerConfirmation"
+            android:inputType="text|textNoSuggestions"
+            android:imeOptions="actionDone"
+            />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/SettingButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/themeColor"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:text="Done"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

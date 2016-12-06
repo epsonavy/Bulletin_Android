@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
+import com.cs175.bulletinandroid.bulletin.BulletinSingleton;
 import com.cs175.bulletinandroid.bulletin.R;
 
 /**
@@ -18,7 +19,7 @@ import com.cs175.bulletinandroid.bulletin.R;
 public class Tab1 extends Fragment {
     private Button button;
     private TextView textView;
-
+    private BulletinSingleton singleton;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -28,7 +29,7 @@ public class Tab1 extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textView.setText("Hope that works");
+                textView.setText(singleton.getAPI().getToken());
             }
         });
 

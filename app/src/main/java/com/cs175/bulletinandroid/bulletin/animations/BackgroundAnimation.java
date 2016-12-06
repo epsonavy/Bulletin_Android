@@ -37,7 +37,7 @@ public class BackgroundAnimation {
         layout = (RelativeLayout)view.findViewById(R.id.mainLayout);
         layout.setBackground(transition);
         hanldechange();
-        Log.d("animationtest","1");
+
     }
     public void hanldechange() {
         Handler hand = new Handler();
@@ -47,7 +47,7 @@ public class BackgroundAnimation {
             public void run() {
 
                 if (flag == 0) {
-                    Log.d("animationtest","3");
+
                     transition = (TransitionDrawable) ContextCompat.getDrawable(context, R.drawable.transition);
                     layout.setBackground(transition);
                     transition.startTransition(3000);
