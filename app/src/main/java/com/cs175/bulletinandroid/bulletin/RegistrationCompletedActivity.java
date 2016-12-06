@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.cs175.bulletinandroid.bulletin.Elements.RoundedImageView;
@@ -22,6 +23,7 @@ public class RegistrationCompletedActivity extends AppCompatActivity {
     private static final int SELECT_PICTURE = 1;
     private String selectedImagePath;
     private RoundedImageView imageView;
+    private Button completeButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -47,6 +49,17 @@ public class RegistrationCompletedActivity extends AppCompatActivity {
         params.setMargins(0, dpTop, 0, 0);
         imageView.setLayoutParams(params);
         layout.addView(imageView);
+
+
+        completeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegistrationCompletedActivity.this, RegisterActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +111,7 @@ public class RegistrationCompletedActivity extends AppCompatActivity {
 
     public void initViews() {
         layout = (RelativeLayout)findViewById(R.id.confirmationPageLayout);
+        completeButton = (Button)findViewById(R.id.completeButton);
     }
 
     public Bitmap getRoundedShape(Bitmap scaleBitmapImage) {

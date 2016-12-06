@@ -80,51 +80,6 @@
             android:layout_marginLeft="1dp"
             android:id="@+id/registerPasswordIcon"/>
 
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/registerPasswordIcon"
-            android:textSize="14dp"
-            android:hint=" Please Enter your user name email"
-            android:textColorHint="#CCCCCC"
-            android:textColor="#DDDDDD"
-            android:id="@+id/registerPassword"
-            android:inputType="text|textNoSuggestions"
-            android:imeOptions="actionNext"
-            />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/nextButton"
-        android:id="@+id/conformationlayout"
-        >
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/email_icon"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="1dp"
-            android:id="@+id/registerConfirmationIcon"/>
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/registerConfirmationIcon"
-            android:textSize="14dp"
-            android:hint=" Please Enter your user name email"
-            android:textColorHint="#CCCCCC"
-            android:textColor="#DDDDDD"
-            android:id="@+id/registerConfirmation"
-            android:inputType="text|textNoSuggestions"
-            android:imeOptions="actionDone"
-            />
     </RelativeLayout>
 
     <Button
@@ -139,4 +94,50 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_alignParentBottom="true"/>
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textSize="14dp"
+        android:hint=" Please Enter your user name email"
+        android:textColorHint="#CCCCCC"
+        android:textColor="#DDDDDD"
+        android:id="@+id/registerConfirmation"
+        android:inputType="text|textNoSuggestions"
+        android:imeOptions="actionDone"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/registerConfirmationIcon"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="235dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/conformationlayout"
+        android:layout_below="@+id/SettingEmailLayout"
+        android:layout_alignParentStart="true">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/email_icon"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="1dp"
+            android:id="@+id/registerConfirmationIcon"/>
+
+    </RelativeLayout>
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textSize="14dp"
+        android:hint=" Please Enter your user name email"
+        android:textColorHint="#CCCCCC"
+        android:textColor="#DDDDDD"
+        android:id="@+id/registerPassword"
+        android:inputType="text|textNoSuggestions"
+        android:imeOptions="actionNext"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="297dp" />
 </RelativeLayout>

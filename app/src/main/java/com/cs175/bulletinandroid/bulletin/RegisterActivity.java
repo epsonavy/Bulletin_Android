@@ -50,6 +50,8 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
     private FormatValidator validator;
     private AlertDialogController alertDialog;
     private boolean UserInteractions;
+    private SuccessMessageTokenResponse token;
+    private boolean loginFlag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,7 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
 
 
         userEmail = "deafult";
+        loginFlag = false;
 
         //activity = (Activity)getApplicationContext();
         userEmail = getIntent().getStringExtra("key");
@@ -271,9 +274,24 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
                         }
                         nextButton.setText(title);
                         if (responseCode == 200) {
-                            Intent intent = new Intent(RegisterActivity.this, RegistrationCompletedActivity.class);
-                            startActivity(intent);
-                            finish();
+                            responseCode = 0;
+                            loginFlag = true;
+                            singleton.getInstance().getAPI().login((OnRequestListener) context, email, password);
+                            while (UserInteractions == false) {
+
+                            }
+                            loginFlag = false;
+                            if (responseCode == 200) {
+                                String tokenInfo = token.getToken();
+                                Log.d("token", tokenInfo);
+                                singleton.getInstance().getAPI().setToken(tokenInfo);
+
+                                Intent intent = new Intent(RegisterActivity.this, RegistrationCompletedActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                alertDialog.showDialog(RegisterActivity.this, "There was an problem with registering!");
+                            }
 
                         } else {
                             alertDialog.showDialog(RegisterActivity.this, "There was an problem with registering!");
@@ -366,14 +384,16 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
     public void onResponseReceived(RequestType type, Response response) {
         String message = "";
         if(response.getResponseCode() == 400){
-            message = "register not work";
+            //message = "register not work";
             responseCode = 400;
 
         }else if (response.getResponseCode() == 200){
-            message = "register works";
+            //message = "register works";
             responseCode = 200;
+            if (loginFlag) {
+                token = (SuccessMessageTokenResponse)response;
+            }
         }else{
-            message = " fuck you";
             //something went wrong with the server
         }
         Log.d("god", message);
