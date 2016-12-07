@@ -79,7 +79,11 @@
             android:layout_height="wrap_content"
             android:text="Enter a title"
                 android:id="@+id/titleEditText"
-            android:layout_marginLeft="17.5sp"
+                android:textColor="#222222"
+                android:background="#FFFFFF"
+                android:layout_marginTop="5sp"
+                android:layout_marginBottom="5sp"
+                android:layout_marginLeft="17.5sp"
                 android:layout_marginRight="17.5sp"/>
 
             <EditText
@@ -87,6 +91,10 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/priceEditText"
                 android:text="Enter a Price"
+                android:textColor="#222222"
+                android:background="#FFFFFF"
+                android:layout_marginTop="5sp"
+                android:layout_marginBottom="5sp"
                 android:layout_marginLeft="17.5sp"
                 android:layout_marginRight="17.5sp"/>
 
@@ -97,6 +105,10 @@
                 android:ems="10"
                 android:id="@+id/descriptionEditText"
                 android:text="Enter description"
+                android:textColor="#222222"
+                android:background="#FFFFFF"
+                android:layout_marginTop="5sp"
+                android:layout_marginBottom="5sp"
                 android:layout_marginLeft="17.5sp"
                 android:layout_marginRight="17.5sp"/>
 
