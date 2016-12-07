@@ -323,7 +323,7 @@ public class BulletinAPI {
 
 
                 }catch(Exception e){
-                    Log.d("Bulletin API", "Something went wrong with checking token " + e.getMessage());
+                    Log.d("Bulletin API", "Something went wrong with getting items " + e.getMessage());
                 }
             }
         }).start();
@@ -374,7 +374,7 @@ public class BulletinAPI {
 
 
                 }catch(Exception e){
-                    Log.d("Bulletin API", "Something went wrong with checking token " + e.getMessage());
+                    Log.d("Bulletin API", "Something went wrong with getting items " + e.getMessage());
                 }
             }
         }).start();
@@ -425,10 +425,56 @@ public class BulletinAPI {
 
 
                 }catch(Exception e){
-                    Log.d("Bulletin API", "Something went wrong with register " + e.getMessage());
+                    Log.d("Bulletin API", "Something went wrong with making conversation " + e.getMessage());
                 }
             }
         }).start();
+    }
+
+
+    public void getMyUserDetails(final OnRequestListener listener){
+        new Thread(new Runnable(){
+            public void run(){
+                try {
+                    URL url = new URL(getAPIAddress() + "/users/?token=" + getToken());
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.setRequestProperty("Content-length", "0");
+                    Log.d("Bulletin API", Integer.toString(connection.getResponseCode()));
+                    BufferedReader br = null;
+                    if(connection.getResponseCode() == 200) {
+                        br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    }else {
+                        br = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                    }
+                    String readLine = null;
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line+"\n");
+                    }
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    Gson gson = gsonBuilder.create();
+                    if(connection.getResponseCode() == 200){
+                        UserResponse response = gson.fromJson(sb.toString(), UserResponse.class);
+
+                        listener.onResponseReceived(OnRequestListener.RequestType.GetMyUserDetails, response);
+
+
+                    }else{
+                        SuccessMessageResponse response = new SuccessMessageResponse();
+                        response.setResponseCode(403);
+                        listener.onResponseReceived(OnRequestListener.RequestType.GetMyUserDetails, response);
+
+                    }
+
+
+                }catch(Exception e){
+                    Log.d("Bulletin API", "Something went wrong with getting user details " + e.getMessage());
+                }
+            }
+        }).start();
+
     }
 
 
