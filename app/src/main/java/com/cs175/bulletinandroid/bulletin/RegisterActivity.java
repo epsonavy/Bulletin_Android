@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,13 +46,16 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
     private String email;
     private String password;
     private String username;
-    private int responseCode;
+    private String title;
+    private static String GET_TOKEN = "FETCHTOKEN";
 
     private FormatValidator validator;
     private AlertDialogController alertDialog;
     private boolean UserInteractions;
     private SuccessMessageTokenResponse token;
-    private boolean loginFlag;
+    private int responseCode=0;
+    private boolean loginFlag = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
 
 
         userEmail = "deafult";
-        loginFlag = false;
+        title = "";
 
         //activity = (Activity)getApplicationContext();
         userEmail = getIntent().getStringExtra("key");
@@ -72,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
         nextButton = (Button)findViewById(R.id.nextButton);
         inst = new Instrumentation();
         flag = 0;
-        responseCode = 0;
+
 
 
         validator = new FormatValidator();
@@ -167,18 +171,15 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
                if (password.equals(passwordText.getText().toString())) {
                    email = emailText.getText().toString();
                    username = usernameText.getText().toString();
+                   title = nextButton.getText().toString();
+                   nextButton.setText("Verifying");
                    UserInteractions = false;
                    singleton.getInstance().getAPI().register((OnRequestListener) context, email, password, username);
-                   String title = nextButton.getText().toString();
-                   nextButton.setText("Verifying");
-                   while (UserInteractions == false) {
 
-                   }
-                   nextButton.setText(title);
+
+
                    if (responseCode == 200) {
-                       Intent intent = new Intent(RegisterActivity.this, RegistrationCompletedActivity.class);
-                       startActivity(intent);
-                       finish();
+
 
                    } else {
                        alertDialog.showDialog(RegisterActivity.this, "There was an problem with registering!");
@@ -382,21 +383,26 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
 
     @Override
     public void onResponseReceived(RequestType type, Response response) {
-        String message = "";
+        nextButton.setText(title);
         if(response.getResponseCode() == 400){
             //message = "register not work";
             responseCode = 400;
 
         }else if (response.getResponseCode() == 200){
             //message = "register works";
-            responseCode = 200;
-            if (loginFlag) {
-                token = (SuccessMessageTokenResponse)response;
+            if (type == RequestType.Login) {
+                token = (SuccessMessageTokenResponse) response;
+                String tokenInfo = token.getToken();
+                Log.d("token", tokenInfo);
+                singleton.getInstance().getAPI().setToken(tokenInfo);
+                SharedPreferences.Editor editor = getSharedPreferences(GET_TOKEN, MODE_PRIVATE).edit();
+                editor.putString("token", tokenInfo);
+                editor.apply();
+                runThread(1);
             }
         }else{
             //something went wrong with the server
         }
-        Log.d("god", message);
         UserInteractions = true;
     }
 
@@ -412,6 +418,33 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
         } else {
             return false;
         }
+    }
+
+    private void runThread(final int flag) {
+
+        new Thread() {
+            public void run() {
+
+                try {
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            if (flag == 1) {
+                                //login completed
+                                Intent intent = new Intent(RegisterActivity.this, RegistrationCompletedActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                    });
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }.start();
     }
 
 }

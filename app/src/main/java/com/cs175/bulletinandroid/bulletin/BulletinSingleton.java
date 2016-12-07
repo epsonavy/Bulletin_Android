@@ -19,6 +19,7 @@ public class BulletinSingleton {
     private BulletinSingleton() {
         API = new BulletinAPI();
         API.setAPIAddress(API_ADDRESS);
+        userResponse = new UserResponse();
     }
 
     private BulletinAPI API;
@@ -29,6 +30,11 @@ public class BulletinSingleton {
 
     private Typeface fontRoboto;
 
+    private UserResponse userResponse;
+
+    public UserResponse getUserResponse() {
+        return userResponse;
+    }
     public Typeface getFont() {
         return fontRoboto;
     }

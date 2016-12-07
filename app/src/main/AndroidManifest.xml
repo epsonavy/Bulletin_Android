@@ -11,44 +11,42 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:largeHeap="true"
-        android:hardwareAccelerated="false"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
             android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
             android:theme="@style/dialogFullScreen"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:screenOrientation="portrait" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".RegisterActivity"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".LoginActivityBackground"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegistrationCompletedActivity"
-            android:screenOrientation="portrait" >
-
-        </activity>
-        <activity android:name=".HomePageActivity"
-            android:screenOrientation="portrait" >
-
-
-        </activity>
-
-        <activity android:name=".Tabs.ViewItemActivity"
+        <activity
+            android:name=".RegistrationCompletedActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".HomePageActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Tabs.ViewItemActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".RetrieveProfile"></activity>
     </application>
 
 </manifest>

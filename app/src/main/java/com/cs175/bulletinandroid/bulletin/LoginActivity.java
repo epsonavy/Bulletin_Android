@@ -293,7 +293,7 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
                                 }
                                 //login in
                                 if (flag == 2) {
-                                    Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this, RetrieveProfile.class);
                                     startActivity(intent);
                                     finish();
                                 }
