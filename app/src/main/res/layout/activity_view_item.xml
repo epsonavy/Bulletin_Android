@@ -33,7 +33,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="275dp"
                 android:background="#FFFFFF"
-                android:id="@+id/itemImageView"/>
+                android:id="@+id/itemImageView"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,6 +77,8 @@
 
                     android:layout_marginLeft="17.5dp"
                     android:background="#DDDDDD"
+                    android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"
                     android:id="@+id/userImageView"/>
                 <TextView android:layout_width="0dp"
                     android:layout_height="match_parent"

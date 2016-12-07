@@ -108,6 +108,7 @@ public class Tab1 extends Fragment implements OnRequestListener, AdapterView.OnI
         viewItemIntent.putExtra("userName", item.getUserName());
         viewItemIntent.putExtra("itemPicture", item.getPictures()[0]);
         viewItemIntent.putExtra("userPicture", item.getUserPicture());
+        viewItemIntent.putExtra("itemId", item.get_id());
         startActivity(viewItemIntent);
     }
 }

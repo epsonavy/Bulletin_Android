@@ -11,7 +11,8 @@ public interface OnRequestListener{
         Register,
         CheckDisplayName,
         CheckToken,
-        GetItems
+        GetItems,
+        MakeConversation
     }
     public void onResponseReceived(RequestType type, Response response);
 
