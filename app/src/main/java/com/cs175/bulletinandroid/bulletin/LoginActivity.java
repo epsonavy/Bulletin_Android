@@ -268,6 +268,11 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
         UserInteractions = true;
     }
 
+    @Override
+    public void onResponsesReceived(RequestType type, int resCode, Response[] response) {
+
+    }
+
     private void runThread(final int flag) {
 
         new Thread() {

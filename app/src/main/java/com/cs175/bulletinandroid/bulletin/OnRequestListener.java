@@ -10,7 +10,10 @@ public interface OnRequestListener{
         Login,
         Register,
         CheckDisplayName,
-        CheckToken
+        CheckToken,
+        GetItems
     }
     public void onResponseReceived(RequestType type, Response response);
+
+    public void onResponsesReceived(RequestType type, int resCode, Response[] response);
 }

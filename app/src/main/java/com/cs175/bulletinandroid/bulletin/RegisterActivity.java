@@ -399,6 +399,12 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
         Log.d("god", message);
         UserInteractions = true;
     }
+
+    @Override
+    public void onResponsesReceived(RequestType type, int resCode, Response[] response) {
+
+    }
+
     @Override
     public boolean dispatchTouchEvent (MotionEvent ev) {
         if (UserInteractions) {

@@ -4,18 +4,53 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Tab 1"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
-        android:id="@+id/testButton"
-        android:text="Test"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:id="@+id/headerView">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bulletin"
+            android:textSize="40sp"
+            android:id="@+id/mainHeaderTextView"
+            android:layout_marginTop="15sp"
+            android:layout_marginLeft="15sp"
+            android:layout_marginBottom="5sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="San Jose State University"
+            android:id="@+id/universityTextView"
+            android:textSize="17sp"
+            android:layout_marginLeft="17.5sp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:hint="Please enter a search term."
+            android:textColorHint="#AAAAAA"
+            android:textColor="#222222"
+            android:layout_marginLeft="17.5sp"
+            android:background="#FFFFFF"
+            android:layout_marginTop="10sp"
+            android:layout_marginBottom="10sp"
+            android:id="@+id/searchEditText"/>
+    </LinearLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/headerView"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/contentListView"
+        android:layout_marginLeft="10dp"
+        android:divider="#FFFFFF"
+        android:background="#FFFFFF"
+        android:layout_marginRight="10dp"
+        android:dividerHeight="10dp"
         />
 </RelativeLayout>

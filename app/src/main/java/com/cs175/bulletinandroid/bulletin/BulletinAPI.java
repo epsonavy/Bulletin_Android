@@ -280,4 +280,57 @@ public class BulletinAPI {
 
     }
 
+    public void getItems(final OnRequestListener listener){
+
+        new Thread(new Runnable(){
+            public void run(){
+                try {
+                    URL url = new URL(getAPIAddress() + "/items/all/?token=" + getToken());
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.setRequestProperty("Content-length", "0");
+                    Log.d("Bulletin API", Integer.toString(connection.getResponseCode()));
+                    BufferedReader br = null;
+                    if(connection.getResponseCode() == 200) {
+                        br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    }else {
+                        br = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                    }
+                    String readLine = null;
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line+"\n");
+                    }
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    Gson gson = gsonBuilder.create();
+                    if(connection.getResponseCode() == 200){
+                        ItemResponse[] responses = gson.fromJson(sb.toString(), ItemResponse[].class);
+
+                        for(int i=0; i<responses.length; i++){
+                            responses[i].setResponseCode(connection.getResponseCode());
+                        }
+
+                        listener.onResponsesReceived(OnRequestListener.RequestType.GetItems, connection.getResponseCode(), responses);
+
+
+                    }else{
+                        SuccessMessageResponse response = gson.fromJson(sb.toString(), SuccessMessageResponse.class);
+                        response.setResponseCode(connection.getResponseCode());
+                        listener.onResponseReceived(OnRequestListener.RequestType.GetItems, response);
+
+                    }
+
+
+                }catch(Exception e){
+                    Log.d("Bulletin API", "Something went wrong with checking token " + e.getMessage());
+                }
+            }
+        }).start();
+
+
+    }
+
+
+
 }
