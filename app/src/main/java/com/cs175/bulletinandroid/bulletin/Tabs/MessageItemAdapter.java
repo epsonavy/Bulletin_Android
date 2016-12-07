@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cs175.bulletinandroid.bulletin.BulletinSingleton;
 import com.cs175.bulletinandroid.bulletin.ConversationResponse;
 import com.cs175.bulletinandroid.bulletin.ItemResponse;
 import com.cs175.bulletinandroid.bulletin.R;
@@ -24,6 +25,10 @@ import java.util.Date;
  */
 
 public class MessageItemAdapter extends BaseAdapter {
+
+    private BulletinSingleton singleton = BulletinSingleton.getInstance();
+
+    private String userId;
 
     private Typeface font;
 
@@ -47,6 +52,7 @@ public class MessageItemAdapter extends BaseAdapter {
         this.data = data;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         font = Typeface.createFromAsset(context.getAssets(), "Fonts/SF-UI-Display-Light.otf");
+        userId = singleton.getUserResponse().get_id();
 
     }
 
@@ -84,6 +90,29 @@ public class MessageItemAdapter extends BaseAdapter {
 
             HomeItemAdapter.ViewHolder userImageViewHolder = new HomeItemAdapter.ViewHolder();
             userImageViewHolder.imageView = userImageView;
+
+            String userWithId = conversation.getUserWith();
+            String userStartId = conversation.getUserStart();
+
+            String userWithName = conversation.getUserWithName();
+            String userStartName = conversation.getUserStart();
+
+            String userStartProfilePicture = conversation.getUserStartProfilePicture();
+            String userWithProfilePicture = conversation.getUserWithProfilePicture();
+
+            if(userId.equals(userWithId)){
+                //use start
+                nameTextView.setText(userStartName);
+                userImageViewHolder.url = userStartProfilePicture;
+            }else{
+                nameTextView.setText(userWithName);
+                userImageViewHolder.url = userWithProfilePicture;
+                //use with
+            }
+
+
+            new DownloadAsyncTask().execute(userImageViewHolder);
+
 
             /*
             TextView titleTextView = (TextView) v.findViewById(R.id.titleTextView);

@@ -1,5 +1,6 @@
 package com.cs175.bulletinandroid.bulletin.Tabs;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -89,6 +90,8 @@ public class Tab2 extends Fragment implements OnRequestListener, AdapterView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Intent conversationIntent = new Intent(getActivity(), ConversationActivity.class);
 
+        startActivity(conversationIntent);
     }
 }

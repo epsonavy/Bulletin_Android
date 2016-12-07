@@ -115,5 +115,25 @@ public class ConversationResponse extends Response{
     private int messageCount;
     private String _id;
 
+    private String userWithName;
+
+    public String getUserStartName() {
+        return userStartName;
+    }
+
+    public void setUserStartName(String userStartName) {
+        this.userStartName = userStartName;
+    }
+
+    public String getUserWithName() {
+        return userWithName;
+    }
+
+    public void setUserWithName(String userWithName) {
+        this.userWithName = userWithName;
+    }
+
+    private String userStartName;
+
 
 }
