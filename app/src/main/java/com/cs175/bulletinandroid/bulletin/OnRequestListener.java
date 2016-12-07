@@ -9,7 +9,8 @@ public interface OnRequestListener{
         CheckEmail,
         Login,
         Register,
-        CheckDisplayName
+        CheckDisplayName,
+        CheckToken
     }
     public void onResponseReceived(RequestType type, Response response);
 }
