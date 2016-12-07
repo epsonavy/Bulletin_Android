@@ -43,7 +43,7 @@ import org.w3c.dom.Text;
 public class LoginActivity extends AppCompatActivity implements OnRequestListener {
     RelativeLayout emailview;
     RelativeLayout passwordview;
-    RelativeLayout loadingPanel;
+
     EditText emailtext;
     EditText passwordtext;
     BulletinSingleton singleton;
@@ -86,9 +86,7 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
         passwordview = (RelativeLayout)findViewById(R.id.passwordview);
         emailtext = (EditText)findViewById(R.id.emailedittext);
         passwordtext = (EditText)findViewById(R.id.passwordedittext);
-        loadingPanel = (RelativeLayout)findViewById(R.id.loadingPanel);
 
-        loadingPanel.setVisibility(View.INVISIBLE);
         //getWindow().setBackgroundDrawableResource(R.drawable.background1);
         //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
@@ -97,6 +95,8 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
 
         passwordview.setVisibility(View.INVISIBLE);
         params = (RelativeLayout.LayoutParams)(emailview).getLayoutParams();
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        emailview.setLayoutParams(params);
         serverResponse = 0;
         email = "";
         password = "";
@@ -116,9 +116,6 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 
-
-
-        LoginAnimation loginAnimation = new LoginAnimation(emailview, getApplicationContext());
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         emailview.setLayoutParams(params);
         emailtext.setOnEditorActionListener(new TextView.OnEditorActionListener(){
@@ -129,7 +126,6 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
 
 
                     email = emailtext.getText().toString();
-                    Log.d("emailis:", email);
 
                     if (!validator.validateEmail(email)) {
 
@@ -139,31 +135,8 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
 
                     if (!email.equals("") && email != null) {
                         singleton.getInstance().getAPI().checkEmail((OnRequestListener) context, email);
-                        loadingPanel.setVisibility(View.VISIBLE);
                         UserInteractions = false;
 
-                        while (UserInteractions == false) {
-
-                        }
-                        loadingPanel.setVisibility(View.GONE);
-                        if (serverResponse == 200) {
-                            serverResponse = 0;
-                            passwordview.setVisibility(View.VISIBLE);
-                            passwordview.requestFocus();
-                            params.addRule(RelativeLayout.ABOVE, R.id.passwordview);
-                            params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                            emailview.setLayoutParams(params);
-                            return true;
-                        } else if (serverResponse == 418){
-
-                            alertDialog.startAnotherActivity(LoginActivity.this, "Let's get you registered", email);
-
-
-                        } else {
-
-                            alertDialog.showDialog(LoginActivity.this, "Unable to connect to server");
-                        }
-                        serverResponse = 0;
                     }
 
                 }
@@ -187,27 +160,14 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
                     int index = validator.validatePassword(password);
 
                     if (index == 0) {
-                        checkPassword = true;
                         singleton.getInstance().getAPI().login((OnRequestListener) context, email, password);
 
-                        loadingPanel.setVisibility(View.VISIBLE);
                         UserInteractions = false;
-                        int i = 0;
 
-                        while (UserInteractions == false) {
 
-                        }
-                        checkPassword = false;
-                        loadingPanel.setVisibility(View.GONE);
                         if (serverResponse == 200) {
 
-                            serverResponse = 0;
-                            String tokenInfo = token.getToken();
-                            Log.d("token", tokenInfo);
-                            singleton.getInstance().getAPI().setToken(tokenInfo);
-                            Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
-                            startActivity(intent);
-                            finish();
+
                             return true;
 
                         } else if (serverResponse == 400){
@@ -225,6 +185,11 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
                         alertDialog.showDialog(LoginActivity.this, "Password is too long!");
 
                     }
+                    passwordview.setVisibility(View.VISIBLE);
+                    params.addRule(RelativeLayout.ABOVE, R.id.passwordview);
+                    params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                    emailview.setLayoutParams(params);
+                    passwordview.requestFocus();
 
 
 
@@ -232,7 +197,7 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
                 return false;
             }
         });
-        //loginAnimation.startAnimation();
+
     }
 
     @Override
@@ -249,21 +214,76 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
         if(response.getResponseCode() == 418){
             //message = "email not found";
             serverResponse = 418;
+            if (type == RequestType.CheckEmail) {
+                runThread(0);
+                //alertDialog.startAnotherActivity(LoginActivity.this, "Let's get you registered", email);
+            }
+
 
         }else if (response.getResponseCode() == 200){
             //message = "email found";
-            serverResponse = 200;
-            if (checkPassword) {
+            if (type == RequestType.CheckEmail) {
+
+                runThread(1);
+            }
+            else if (type == RequestType.Login) {
                 token = (SuccessMessageTokenResponse) response;
+                String tokenInfo = token.getToken();
+                Log.d("token", tokenInfo);
+                singleton.getInstance().getAPI().setToken(tokenInfo);
+                runThread(2);
+
             }
         } else if (response.getResponseCode() == 400) {
             //password not found
-            serverResponse = 400;
+
+            if (type == RequestType.Login) {
+
+            }
+
         }
         else{
+            alertDialog.showDialog(LoginActivity.this, "Unable to connect to server");
             //something went wrong with the server
         }
 
         UserInteractions = true;
+    }
+
+    private void runThread(final int flag) {
+
+        new Thread() {
+            public void run() {
+
+                    try {
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                //go to register page
+                                if (flag == 0)
+                                    alertDialog.startAnotherActivity(LoginActivity.this, "Let's get you registered", email);
+                                //move to password view
+                                if (flag == 1) {
+                                    passwordview.setVisibility(View.VISIBLE);
+                                    params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                                    emailview.setLayoutParams(params);
+                                    passwordview.requestFocus();
+                                }
+                                //login in
+                                if (flag == 2) {
+                                    Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }
+                        });
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+            }
+
+        }.start();
     }
 }

@@ -5,22 +5,7 @@
     android:layout_height="match_parent"
     tools:context="com.cs175.bulletinandroid.bulletin.LoginActivity">
 
-    <RelativeLayout
-        android:id="@+id/loadingPanel"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/secondText"
-        android:layout_above="@+id/emailview"
-        android:gravity="center"
-        >
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            style="@android:style/Widget.ProgressBar.Large"
-            />
-    </RelativeLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,45 +21,6 @@
         android:layout_below="@+id/test"
         android:id="@+id/secondText"
         />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/emailview"
-        android:layout_above="@+id/passwordview"
-        android:background="#FFFFFF"
-        >
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/email_icon"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/emilicon"
-            />
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/emilicon"
-            android:textSize="14dp"
-            android:hint=" Please Enter your campus email"
-            android:textColorHint="#CCCCCC"
-            android:textColor="#DDDDDD"
-            android:id="@+id/emailedittext"
-            android:inputType="text|textNoSuggestions"
-            android:imeOptions="actionNext"
-            android:nextFocusForward="@+id/passwordview"/>
-    </RelativeLayout>
-
-
-
-
-
-
 
 
     <RelativeLayout
@@ -106,8 +52,42 @@
             android:layout_centerVertical="true"
             android:inputType="textPassword"
             android:imeOptions="actionDone"
-            android:nextFocusDown="@id/emailedittext"/>
+            />
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/emailview"
+        android:background="#FFFFFF"
+        android:layout_above="@id/passwordview"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/email_icon"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/emilicon"
+            />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/emilicon"
+            android:textSize="14dp"
+            android:hint=" Please Enter your campus email"
+            android:textColorHint="#CCCCCC"
+            android:textColor="#DDDDDD"
+            android:id="@+id/emailedittext"
+            android:inputType="text|textNoSuggestions"
+            android:imeOptions="actionNext"
+            />
     </RelativeLayout>
 
 </RelativeLayout>
