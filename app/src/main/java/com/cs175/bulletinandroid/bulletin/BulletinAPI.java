@@ -457,6 +457,7 @@ public class BulletinAPI {
                     Gson gson = gsonBuilder.create();
                     if(connection.getResponseCode() == 200){
                         UserResponse response = gson.fromJson(sb.toString(), UserResponse.class);
+                        response.setResponseCode(connection.getResponseCode());
 
                         listener.onResponseReceived(OnRequestListener.RequestType.GetMyUserDetails, response);
 
@@ -475,6 +476,50 @@ public class BulletinAPI {
             }
         }).start();
 
+    }
+
+    public void getConverations(final OnRequestListener listener){
+        new Thread(new Runnable(){
+            public void run(){
+                try {
+                    URL url = new URL(getAPIAddress() + "/conversations/?token=" + getToken());
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.setRequestProperty("Content-length", "0");
+                    Log.d("Bulletin API", Integer.toString(connection.getResponseCode()));
+                    BufferedReader br = null;
+                    if(connection.getResponseCode() == 200) {
+                        br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    }else {
+                        br = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                    }
+                    String readLine = null;
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line+"\n");
+                    }
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    Gson gson = gsonBuilder.create();
+                    if(connection.getResponseCode() == 200){
+                        ConversationResponse[] response = gson.fromJson(sb.toString(), ConversationResponse[].class);
+
+                        listener.onResponsesReceived(OnRequestListener.RequestType.GetConversations, connection.getResponseCode(), response);
+
+
+                    }else{
+                        SuccessMessageResponse response = new SuccessMessageResponse();
+                        response.setResponseCode(403);
+                        listener.onResponseReceived(OnRequestListener.RequestType.GetConversations, response);
+
+                    }
+
+
+                }catch(Exception e){
+                    Log.d("Bulletin API", "Something went wrong with getting conversations " + e.getMessage());
+                }
+            }
+        }).start();
     }
 
 
