@@ -13,7 +13,8 @@ public interface OnRequestListener{
         CheckToken,
         GetItems,
         MakeConversation,
-        GetMyUserDetails
+        GetMyUserDetails,
+        GetConversations
     }
     public void onResponseReceived(RequestType type, Response response);
 
