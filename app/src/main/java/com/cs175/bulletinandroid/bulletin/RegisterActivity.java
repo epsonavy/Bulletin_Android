@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -34,6 +35,8 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
     RelativeLayout usernameView;
     RelativeLayout passwordView;
     RelativeLayout confirmationView;
+    TextView mainTitle;
+    TextView subTitle;
 
     Button nextButton;
     Instrumentation inst;
@@ -53,8 +56,7 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
     private AlertDialogController alertDialog;
     private boolean UserInteractions;
     private SuccessMessageTokenResponse token;
-    private int responseCode=0;
-    private boolean loginFlag = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,14 +179,6 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
                    singleton.getInstance().getAPI().register((OnRequestListener) context, email, password, username);
 
 
-
-                   if (responseCode == 200) {
-
-
-                   } else {
-                       alertDialog.showDialog(RegisterActivity.this, "There was an problem with registering!");
-                   }
-
                } else {
                    alertDialog.showDialog(RegisterActivity.this, "Passwords do not match!");
                }
@@ -267,36 +261,9 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
                         email = emailText.getText().toString();
                         username = usernameText.getText().toString();
                         UserInteractions = false;
-                        singleton.getInstance().getAPI().register((OnRequestListener) context, email, password, username);
-                        String title = nextButton.getText().toString();
+                        title = nextButton.getText().toString();
                         nextButton.setText("Verifying");
-                        while (UserInteractions == false) {
-
-                        }
-                        nextButton.setText(title);
-                        if (responseCode == 200) {
-                            responseCode = 0;
-                            loginFlag = true;
-                            singleton.getInstance().getAPI().login((OnRequestListener) context, email, password);
-                            while (UserInteractions == false) {
-
-                            }
-                            loginFlag = false;
-                            if (responseCode == 200) {
-                                String tokenInfo = token.getToken();
-                                Log.d("token", tokenInfo);
-                                singleton.getInstance().getAPI().setToken(tokenInfo);
-
-                                Intent intent = new Intent(RegisterActivity.this, RegistrationCompletedActivity.class);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                alertDialog.showDialog(RegisterActivity.this, "There was an problem with registering!");
-                            }
-
-                        } else {
-                            alertDialog.showDialog(RegisterActivity.this, "There was an problem with registering!");
-                        }
+                        singleton.getInstance().getAPI().register((OnRequestListener) context, email, password, username);
 
                     } else {
                         alertDialog.showDialog(RegisterActivity.this, "Passwords do not match!");
@@ -318,10 +285,18 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
         passwordView = (RelativeLayout)findViewById(R.id.passwordlayout);
         confirmationView = (RelativeLayout)findViewById(R.id.conformationlayout);
 
+        mainTitle = (TextView)findViewById(R.id.registerMainTitle);
+        subTitle = (TextView)findViewById(R.id.registerSubtitle);
+
         usernameView.setVisibility(View.INVISIBLE);
         passwordView.setVisibility(View.INVISIBLE);
         confirmationView.setVisibility(View.INVISIBLE);
 
+        mainTitle.setTypeface(singleton.getInstance().getFont());
+        subTitle.setTypeface(singleton.getInstance().getFont());
+
+        passwordText.setTransformationMethod(new PasswordTransformationMethod());
+        confirmationText.setTransformationMethod(new PasswordTransformationMethod());
         alertDialog = new AlertDialogController();
 
     }
@@ -383,24 +358,23 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
 
     @Override
     public void onResponseReceived(RequestType type, Response response) {
-        nextButton.setText(title);
+
         if(response.getResponseCode() == 400){
-            //message = "register not work";
-            responseCode = 400;
+            if (type == RequestType.Register) {
+                alertDialog.showDialog(RegisterActivity.this, "There was an problem with registering!");
+            }
 
         }else if (response.getResponseCode() == 200){
             //message = "register works";
-            if (type == RequestType.Login) {
-                token = (SuccessMessageTokenResponse) response;
-                String tokenInfo = token.getToken();
-                Log.d("token", tokenInfo);
-                singleton.getInstance().getAPI().setToken(tokenInfo);
-                SharedPreferences.Editor editor = getSharedPreferences(GET_TOKEN, MODE_PRIVATE).edit();
-                editor.putString("token", tokenInfo);
-                editor.apply();
+            if (type == RequestType.Register) {
+
                 runThread(1);
             }
         }else{
+            if (type == RequestType.Register){
+                runThread(2);
+            }
+
             //something went wrong with the server
         }
         UserInteractions = true;
@@ -430,11 +404,18 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
 
                         @Override
                         public void run() {
+                            nextButton.setText(title);
                             if (flag == 1) {
                                 //login completed
                                 Intent intent = new Intent(RegisterActivity.this, RegistrationCompletedActivity.class);
+                                intent.putExtra("email", email);
+                                intent.putExtra("password", password);
                                 startActivity(intent);
                                 finish();
+                            }
+
+                            if (flag == 2) {
+                                alertDialog.showDialog(RegisterActivity.this, "There was an problem with registering!");
                             }
                         }
                     });

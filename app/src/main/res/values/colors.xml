@@ -5,5 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="themeColor">#FD8A7C</color>
     <color name="fontColor">#BDBDBD</color>
+    <color name="secondaryThemeColor">#8A8A8A</color>
 </resources>
 
