@@ -532,7 +532,13 @@ public class BulletinAPI {
                     connection.setRequestMethod("POST");
                     connection.setRequestProperty("Content-type", "application/json");
                     OutputStreamWriter os = new OutputStreamWriter(connection.getOutputStream());
-                    os.write("{ \"itemId\" : \"" + title + "\"}");
+                    if(!picture.equals("")) {
+                        os.write("{ \"title\":" + title + ", \"description\": " + description + ", \"pictures\": [\"" + picture + "\"], \"price\":" + Double.toString(price) +"}");
+                    }else{
+                        os.write("{ \"title\":" + title + ", \"description\": " + description + ", \"price\":" + Double.toString(price) + "}");
+                    }
+                    Log.d("Bulletin API", "{ \"title\":" + title + ", \"description\": " + description + ", \"pictures\": [\"" + picture + "\"], \"price\":" + Double.toString(price) +"}");
+                    Log.d("Bulletin API", "{ \"title\":" + title + ", \"description\": " + description + ", \"price\":" + Double.toString(price) + "}");
 
                     //{ "title" : title, "description" : description, "pictures": ["onepicture"], "price" : price}
                     os.flush();
