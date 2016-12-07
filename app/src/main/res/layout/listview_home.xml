@@ -13,13 +13,17 @@
         android:id="@+id/itemImageView"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"/>
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="50sp"
+    android:layout_alignParentBottom="true"
+    android:background="#000000"
+    android:alpha="0.5"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50sp"
         android:layout_alignParentBottom="true"
-        android:alpha="0.5"
-        android:background="#000000"
+        android:background="@null"
         >
         <LinearLayout
             android:layout_width="match_parent"

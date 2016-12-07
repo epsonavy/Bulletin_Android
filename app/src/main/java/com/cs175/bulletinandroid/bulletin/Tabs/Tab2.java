@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.LayoutInflaterCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,7 @@ public class Tab2 extends Fragment implements OnRequestListener, AdapterView.OnI
         processingMessages = false;
 
         contentListView = (ListView) view.findViewById(R.id.contentListView);
+        contentListView.setOnItemClickListener(this);
 
         refreshMessages();
         return view;
@@ -91,7 +93,20 @@ public class Tab2 extends Fragment implements OnRequestListener, AdapterView.OnI
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent conversationIntent = new Intent(getActivity(), ConversationActivity.class);
+        MessageItemAdapter adapter = (MessageItemAdapter) adapterView.getAdapter();
+        ConversationResponse conversation = (ConversationResponse) adapter.getItem(i);
+
+        String userId = singleton.getUserResponse().get_id();
+        if(userId.equals(conversation.getUserWith())){
+            conversationIntent.putExtra("userName", conversation.getUserStartName());
+        }else{
+            conversationIntent.putExtra("userName", conversation.getUserWithName());
+        }
+
+        conversationIntent.putExtra("conversationId", conversation.get_id());
+
 
         startActivity(conversationIntent);
+        Log.d("Bulletin", "Chnaged");
     }
 }

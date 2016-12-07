@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:id="@+id/headerView">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Conversation"
+            android:textSize="40sp"
+            android:id="@+id/mainHeaderTextView"
+            android:layout_marginTop="15sp"
+            android:layout_marginLeft="15sp"
+            android:layout_marginBottom="5sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="with UserName"
+            android:id="@+id/subHeaderTextView"
+            android:textSize="17sp"
+            android:layout_marginLeft="17.5sp"
+            android:layout_marginBottom="10sp"/>
+    </LinearLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/headerView"
+        android:layout_above="@+id/emailview"
+        android:id="@+id/contentListView"
+        android:layout_marginLeft="10dp"
+        android:divider="#FFFFFF"
+        android:background="#FFFFFF"
+        android:layout_marginRight="10dp"
+        android:dividerHeight="10dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/emailview"
+        android:background="#FFFFFF"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/messaging_icon"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/emilicon"
+            />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/emilicon"
+            android:textSize="14dp"
+            android:hint="Say something."
+            android:textColorHint="#CCCCCC"
+            android:textColor="@color/fontColor"
+            android:id="@+id/sendMessageEditText"
+            android:inputType="text|textNoSuggestions"
+            android:imeOptions="actionNext"
+            android:layout_marginLeft="5dp"
+            android:background="@android:color/transparent"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>

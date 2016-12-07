@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@null">
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="15sp"
+        android:layout_marginRight="15sp"
+        android:id="@+id/descriptionView">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textSize="17dp"
+            android:id="@+id/nameTextView"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time stamp"
+            android:textSize="13dp"
+            android:id="@+id/timestampTextView"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_alignRight="@+id/nameTextView"/>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/descriptionView"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="15sp"
+        android:layout_marginTop="5sp"
+        android:layout_marginRight="15sp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_alignParentBottom="true"
+            android:background="@null"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@+id/bar"
+            android:text="Hello"
+            android:layout_marginLeft="5dp"
+            android:layout_alignParentRight="true"
+            android:id="@+id/messageTextView"></TextView>
+        <ImageView
+            android:layout_height="match_parent"
+            android:layout_width="2sp"
+            android:id="@+id/bar"
+            android:src="@drawable/backgroundbar"
+            android:alpha="0"
+            android:scaleType="fitStart"
+            android:adjustViewBounds="true"
+            android:orientation="vertical"/>
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

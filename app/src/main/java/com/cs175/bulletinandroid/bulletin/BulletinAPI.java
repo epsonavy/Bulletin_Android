@@ -580,7 +580,106 @@ public class BulletinAPI {
         }).start();
     }
 
+    public void getAllMessages(final OnRequestListener listener, final String conversationId){
+        //need from and conversation
+        new Thread(new Runnable(){
+            public void run(){
+                try {
+                    URL url = new URL(getAPIAddress() + "/conversations/messages/?token=" + getToken() + "&conversationId=" + conversationId + "&from=0");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.setRequestProperty("Content-length", "0");
+                    Log.d("Bulletin API", Integer.toString(connection.getResponseCode()));
+                    BufferedReader br = null;
+                    if(connection.getResponseCode() == 200) {
+                        br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    }else {
+                        br = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                    }
+                    String readLine = null;
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line+"\n");
+                    }
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    Gson gson = gsonBuilder.create();
+                    if(connection.getResponseCode() == 200){
+                        MessageResponse[] response = gson.fromJson(sb.toString(), MessageResponse[].class);
 
+                        listener.onResponsesReceived(OnRequestListener.RequestType.GetAllMessages, connection.getResponseCode(), response);
+
+
+                    }else{
+                        SuccessMessageResponse response = new SuccessMessageResponse();
+                        response.setResponseCode(connection.getResponseCode());
+                        listener.onResponseReceived(OnRequestListener.RequestType.GetAllMessages, response);
+
+                    }
+
+
+                }catch(Exception e){
+                    Log.d("Bulletin API", "Something went wrong with getting conversations " + e.getMessage());
+                }
+            }
+        }).start();
+
+    }
+
+    public void sendMessage(final OnRequestListener listener, final String conversationId, final String message){
+        //need from and conversation
+        new Thread(new Runnable(){
+            public void run(){
+                try {
+                    URL url = new URL(getAPIAddress() + "/conversations/messages/?token=" + getToken());
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setRequestProperty("Content-type", "application/json");
+                    OutputStreamWriter os = new OutputStreamWriter(connection.getOutputStream());
+                    os.write("{ \"conversationId\": " + "\"" +conversationId + "\", \"message\": \"" + message + "\"}");
+                    Log.d("Bulletin API", "{ \"conversationId\": " + "\"" +conversationId + "\", \"message\": \"" + message + "\"}");
+
+                    //{ "title" : title, "description" : description, "pictures": ["onepicture"], "price" : price}
+                    os.flush();
+                    os.close();
+
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    Gson gson = new Gson();
+
+                    int resCode = connection.getResponseCode();
+                    if(resCode == 200){
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line = null;
+                        while((line = br.readLine()) != null){
+                            sb.append(line);
+                        }
+                        MessageResponse response = gson.fromJson(sb.toString(), MessageResponse.class);
+                        response.setResponseCode(connection.getResponseCode());
+                        listener.onResponseReceived(OnRequestListener.RequestType.SendMessage, response);
+
+                    }else{
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line = null;
+                        while((line = br.readLine()) != null){
+                            sb.append(line);
+                        }
+                        SuccessMessageResponse response = gson.fromJson(sb.toString(), SuccessMessageResponse.class);
+                        response.setResponseCode(resCode);
+                        listener.onResponseReceived(OnRequestListener.RequestType.SendMessage, response);
+
+                    }
+
+
+
+                }catch(Exception e){
+                    Log.d("Bulletin API", "Something went wrong with sending a message " + e.getMessage());
+                }
+            }
+        }).start();
+
+    }
 
 
 }
