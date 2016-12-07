@@ -61,7 +61,7 @@
                     android:textSize="14sp"
                     android:textColor="#999999"
                     android:layout_marginLeft="17.5sp"
-                    android:layout_marginBottom="17.5sp"/>
+                    android:layout_marginBottom="10sp"/>
 
             </LinearLayout>
 
@@ -77,7 +77,12 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enter a title"
+                android:hint="Enter a title"
+                android:textColorHint="#AAAAAA"
+                android:textColor="#222222"
+                android:background="#FFFFFF"
+                android:layout_marginTop="5sp"
+                android:layout_marginBottom="15sp"
                 android:id="@+id/inputCreateItemTitle"
                 android:layout_marginLeft="17.5sp"
                 android:layout_marginRight="17.5sp"/>
@@ -85,7 +90,12 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enter a Price"
+                android:hint="Enter a price"
+                android:textColorHint="#AAAAAA"
+                android:textColor="#222222"
+                android:background="#FFFFFF"
+                android:layout_marginTop="5sp"
+                android:layout_marginBottom="15sp"
                 android:id="@+id/inputCreateItemPrice"
                 android:layout_marginLeft="17.5sp"
                 android:layout_marginRight="17.5sp"/>
@@ -96,7 +106,12 @@
                 android:inputType="textMultiLine"
                 android:ems="10"
                 android:id="@+id/inputCreateDescription"
-                android:text="Enter description"
+                android:hint="Enter description"
+                android:textColorHint="#AAAAAA"
+                android:textColor="#222222"
+                android:background="#FFFFFF"
+                android:layout_marginTop="5sp"
+                android:layout_marginBottom="15sp"
                 android:layout_marginLeft="17.5sp"
                 android:layout_marginRight="17.5sp"/>
 
