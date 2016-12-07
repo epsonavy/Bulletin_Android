@@ -44,9 +44,12 @@
             android:name=".HomePageActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".Tabs.ViewItemActivity"
-            android:screenOrientation="portrait" />
+        android:name=".Tabs.ViewItemActivity"
+        android:screenOrientation="portrait" />
         <activity android:name=".RetrieveProfile"></activity>
+        <activity
+            android:name=".Tabs.ConversationActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

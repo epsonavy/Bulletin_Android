@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.LayoutInflaterCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,7 @@ public class Tab1 extends Fragment implements OnRequestListener, AdapterView.OnI
         changeFont(mainHeaderTextView);
         changeFont(universityTextView);
         contentListView.setOnItemClickListener(this);
+        Log.d("Bulletin Test", singleton.getUserResponse().get_id());
 
         refreshItems();
 
