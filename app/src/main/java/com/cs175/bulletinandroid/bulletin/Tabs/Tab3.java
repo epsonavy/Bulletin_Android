@@ -1,11 +1,13 @@
 package com.cs175.bulletinandroid.bulletin.Tabs;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.cs175.bulletinandroid.bulletin.BulletinSingleton;
 import com.cs175.bulletinandroid.bulletin.Elements.AlertDialogController;
@@ -21,12 +23,23 @@ public class Tab3 extends Fragment implements View.OnClickListener, OnRequestLis
 
     private AlertDialogController alertDialog;
 
+    private Typeface font;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.tab3, container, false);
 
+        TextView mainHeaderTextView = (TextView) view.findViewById(R.id.createItemTitleTextView);
+
+        font = Typeface.createFromAsset(getActivity().getAssets(), "Fonts/SF-UI-Display-Light.otf");
+        changeFont(mainHeaderTextView);
+
         return view;
+    }
+
+    public void changeFont(TextView text){
+        text.setTypeface(font);
     }
 
     @Override

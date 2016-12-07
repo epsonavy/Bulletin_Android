@@ -37,15 +37,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="#FFFFFF"
-                android:id="@+id/headerView">
+                android:id="@+id/createHeaderView">
 
                 <TextView
-                    android:id="@+id/myItemTitleTextView"
+                    android:id="@+id/createItemTitleTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="Create"
-                    android:textSize="35sp"
+                    android:textSize="40sp"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:layout_marginTop="15sp"
                     android:layout_marginLeft="15sp"
