@@ -523,5 +523,58 @@ public class BulletinAPI {
     }
 
 
+    public void postItem(final OnRequestListener listener, final String title, final String description, final String picture, final Double price){
+        new Thread(new Runnable(){
+            public void run(){
+                try{
+                    URL url = new URL(getAPIAddress() + "/items/new/?token=" + getToken());
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setRequestProperty("Content-type", "application/json");
+                    OutputStreamWriter os = new OutputStreamWriter(connection.getOutputStream());
+                    os.write("{ \"itemId\" : \"" + title + "\"}");
+
+                    //{ "title" : title, "description" : description, "pictures": ["onepicture"], "price" : price}
+                    os.flush();
+                    os.close();
+
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    Gson gson = new Gson();
+
+                    int resCode = connection.getResponseCode();
+                    if(resCode == 200){
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line = null;
+                        while((line = br.readLine()) != null){
+                            sb.append(line);
+                        }
+                        SuccessMessageResponse response = new SuccessMessageResponse();
+                        response.setResponseCode(connection.getResponseCode());
+                        listener.onResponseReceived(OnRequestListener.RequestType.MakeConversation, response);
+
+                    }else{
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line = null;
+                        while((line = br.readLine()) != null){
+                            sb.append(line);
+                        }
+                        SuccessMessageResponse response = gson.fromJson(sb.toString(), SuccessMessageResponse.class);
+                        response.setResponseCode(resCode);
+                        listener.onResponseReceived(OnRequestListener.RequestType.MakeConversation, response);
+
+                    }
+
+
+                }catch(Exception e){
+                    Log.d("Bulletin API", "Something went wrong with making conversation " + e.getMessage());
+                }
+            }
+        }).start();
+    }
+
+
+
 
 }

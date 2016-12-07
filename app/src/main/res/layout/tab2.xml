@@ -26,19 +26,8 @@
             android:text="Your messages are below."
             android:id="@+id/universityTextView"
             android:textSize="17sp"
-            android:layout_marginLeft="17.5sp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:hint="Please enter a search term."
-            android:textColorHint="#AAAAAA"
-            android:textColor="#222222"
             android:layout_marginLeft="17.5sp"
-            android:background="#FFFFFF"
-            android:layout_marginTop="10sp"
-            android:layout_marginBottom="10sp"
-            android:id="@+id/searchEditText"/>
+            android:layout_marginBottom="10sp"/>
     </LinearLayout>
     <ListView
         android:layout_width="match_parent"

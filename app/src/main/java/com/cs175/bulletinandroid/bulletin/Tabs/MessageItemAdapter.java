@@ -17,6 +17,7 @@ import com.cs175.bulletinandroid.bulletin.R;
 import com.cs175.bulletinandroid.bulletin.HomeItem;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Lucky on 12/6/16.
@@ -70,7 +71,20 @@ public class MessageItemAdapter extends BaseAdapter {
         View v = convertView;
         if(v == null){
             ConversationResponse conversation = data[i];
-            v = inflater.inflate(R.layout.listview_home, null);
+            v = inflater.inflate(R.layout.listview_messages, null);
+
+            TextView nameTextView = (TextView) v.findViewById(R.id.nameTextView);
+            TextView timestampTextView = (TextView) v.findViewById(R.id.timestampTextView);
+            ImageView userImageView = (ImageView) v.findViewById(R.id.userImageView);
+            TextView lastMessageTextView = (TextView) v.findViewById(R.id.lastMessageTextView);
+
+
+            timestampTextView.setText(Double.toString(conversation.getLastTimestamp()));
+            lastMessageTextView.setText(conversation.getLastMessage());
+
+            HomeItemAdapter.ViewHolder userImageViewHolder = new HomeItemAdapter.ViewHolder();
+            userImageViewHolder.imageView = userImageView;
+
             /*
             TextView titleTextView = (TextView) v.findViewById(R.id.titleTextView);
             TextView priceTextView = (TextView) v.findViewById(R.id.priceTextView);

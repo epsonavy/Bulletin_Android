@@ -4,7 +4,7 @@ package com.cs175.bulletinandroid.bulletin;
  * Created by Lucky on 12/6/16.
  */
 
-public class ConversationResponse {
+public class ConversationResponse extends Response{
     private String userStart;
     private String userWith;
 
