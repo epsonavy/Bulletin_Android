@@ -555,9 +555,9 @@ public class BulletinAPI {
                         while((line = br.readLine()) != null){
                             sb.append(line);
                         }
-                        SuccessMessageResponse response = new SuccessMessageResponse();
+                        ItemResponse response = gson.fromJson(sb.toString(), ItemResponse.class);
                         response.setResponseCode(connection.getResponseCode());
-                        listener.onResponseReceived(OnRequestListener.RequestType.MakeConversation, response);
+                        listener.onResponseReceived(OnRequestListener.RequestType.PostItem, response);
 
                     }else{
                         BufferedReader br = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
@@ -568,7 +568,7 @@ public class BulletinAPI {
                         }
                         SuccessMessageResponse response = gson.fromJson(sb.toString(), SuccessMessageResponse.class);
                         response.setResponseCode(resCode);
-                        listener.onResponseReceived(OnRequestListener.RequestType.MakeConversation, response);
+                        listener.onResponseReceived(OnRequestListener.RequestType.PostItem, response);
 
                     }
 
