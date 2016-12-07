@@ -3,6 +3,7 @@ package com.cs175.bulletinandroid.bulletin.Tabs;
 /**
  * Created by Lucky on 12/6/16.
  */
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -25,8 +26,9 @@ public class DownloadAsyncTask extends AsyncTask<HomeItemAdapter.ViewHolder, Voi
         HomeItemAdapter.ViewHolder viewHolder = params[0];
         try{
             URL imageUrl = new URL(viewHolder.url);
-            viewHolder.bitmap = BitmapFactory.decodeStream(imageUrl.openStream());
+            viewHolder.bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(imageUrl.openStream()), 100, 100, true);
         }catch(Exception e){
+
             viewHolder.bitmap = null;
         }
         return viewHolder;

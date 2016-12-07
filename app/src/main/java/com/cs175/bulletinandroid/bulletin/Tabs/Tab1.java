@@ -99,6 +99,15 @@ public class Tab1 extends Fragment implements OnRequestListener, AdapterView.OnI
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent viewItemIntent = new Intent(getActivity(), ViewItemActivity.class);
+
+        HomeItemAdapter adapter = (HomeItemAdapter) adapterView.getAdapter();
+        ItemResponse item = (ItemResponse) adapter.getItem(i);
+
+        viewItemIntent.putExtra("description", item.getDescription());
+        viewItemIntent.putExtra("title", item.getTitle());
+        viewItemIntent.putExtra("userName", item.getUserName());
+        viewItemIntent.putExtra("itemPicture", item.getPictures()[0]);
+        viewItemIntent.putExtra("userPicture", item.getUserPicture());
         startActivity(viewItemIntent);
     }
 }

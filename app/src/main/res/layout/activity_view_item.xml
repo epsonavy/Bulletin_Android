@@ -4,47 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-   <ScrollView
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:id="@+id/itemScrollView"
-       android:layout_above="@+id/makeConversationButton"
-       android:background="#FFFFFF">
-
-       <RelativeLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           >
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:orientation="vertical"
-               android:background="#FFFFFF"
-               android:id="@+id/headerView">
-
-               <TextView
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:text="Bulletin"
-                   android:textSize="40sp"
-                   android:id="@+id/mainHeaderTextView"
-                   android:layout_marginTop="15sp"
-                   android:layout_marginLeft="15sp"
-                   android:layout_marginBottom="5sp"/>
-
-               <TextView
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:text="San Jose State University"
-                   android:id="@+id/universityTextView"
-                   android:textSize="17sp"
-                   android:layout_marginLeft="17.5sp"/>
-
-           </LinearLayout>
-
-       </RelativeLayout>
-   </ScrollView>
-
     <Button
         android:id="@+id/makeConversationButton"
         android:layout_width="match_parent"
@@ -56,6 +15,83 @@
         android:textSize="20dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/itemScrollView"
+        android:background="#FFFFFF"
+        android:layout_above="@+id/makeConversationButton">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="275dp"
+                android:background="#FFFFFF"
+                android:id="@+id/itemImageView"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:id="@+id/headerView">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textSize="23sp"
+                    android:id="@+id/titleTextView"
+                    android:layout_marginTop="15sp"
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginRight="15sp"
+                    android:layout_marginBottom="5sp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Description"
+                    android:id="@+id/descriptionTextView"
+                    android:textSize="14sp"
+                    android:textColor="#999999"
+                    android:layout_marginLeft="17.5sp"
+                    android:layout_marginRight="17.5sp"/>
+
+            </LinearLayout>
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+                <ImageView android:layout_height="50sp"
+                    android:layout_width="50sp"
+                    android:layout_centerVertical="true"
+
+                    android:layout_marginLeft="17.5dp"
+                    android:background="#DDDDDD"
+                    android:id="@+id/userImageView"/>
+                <TextView android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:text="User"
+                    android:layout_toEndOf="@+id/userImageView"
+                    android:layout_marginLeft="15dp"
+                    android:id="@+id/userNameTextView"
+                    android:layout_marginRight="17.5dp"
+                    android:textSize="17dp"
+                    android:textColor="@color/themeColor"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
 
 
 </RelativeLayout>

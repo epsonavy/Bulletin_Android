@@ -80,6 +80,15 @@ public class ItemResponse extends Response{
     }
 
     private String userPicture;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     private String userName;
 
     public ItemResponse(){
