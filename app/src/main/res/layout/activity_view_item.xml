@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+   <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:id="@+id/itemScrollView"
+       android:layout_above="@+id/makeConversationButton"
+       android:background="#FFFFFF">
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           >
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               android:background="#FFFFFF"
+               android:id="@+id/headerView">
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:text="Bulletin"
+                   android:textSize="40sp"
+                   android:id="@+id/mainHeaderTextView"
+                   android:layout_marginTop="15sp"
+                   android:layout_marginLeft="15sp"
+                   android:layout_marginBottom="5sp"/>
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:text="San Jose State University"
+                   android:id="@+id/universityTextView"
+                   android:textSize="17sp"
+                   android:layout_marginLeft="17.5sp"/>
+
+           </LinearLayout>
+
+       </RelativeLayout>
+   </ScrollView>
+
+    <Button
+        android:id="@+id/makeConversationButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/themeColor"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:text="Make Conversation"
+        android:textSize="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>

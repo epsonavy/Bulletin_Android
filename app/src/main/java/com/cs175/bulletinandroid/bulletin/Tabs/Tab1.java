@@ -1,5 +1,6 @@
 package com.cs175.bulletinandroid.bulletin.Tabs;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.support.v4.view.LayoutInflaterCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -25,7 +27,7 @@ import java.util.ArrayList;
 /**
  * Created by chenyulong on 12/4/16.
  */
-public class Tab1 extends Fragment implements OnRequestListener {
+public class Tab1 extends Fragment implements OnRequestListener, AdapterView.OnItemClickListener{
 
     private BulletinSingleton singleton = BulletinSingleton.getInstance();
 
@@ -58,6 +60,7 @@ public class Tab1 extends Fragment implements OnRequestListener {
 
         changeFont(mainHeaderTextView);
         changeFont(universityTextView);
+        contentListView.setOnItemClickListener(this);
 
         refreshItems();
 
@@ -91,5 +94,11 @@ public class Tab1 extends Fragment implements OnRequestListener {
 
             }
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Intent viewItemIntent = new Intent(getActivity(), ViewItemActivity.class);
+        startActivity(viewItemIntent);
     }
 }

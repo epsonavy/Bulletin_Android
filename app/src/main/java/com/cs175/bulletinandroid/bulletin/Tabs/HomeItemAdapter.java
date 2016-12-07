@@ -94,7 +94,8 @@ public class HomeItemAdapter extends BaseAdapter {
 
             itemImageHolder.imageView = itemImageView;
             userImageHolder.imageView = userImageView;
-            v.setTag(itemImageHolder);
+            itemImageView.setTag(itemImageHolder);
+            userImageView.setTag(userImageHolder);
 
             changeFont(titleTextView);
             changeFont(priceTextView);
