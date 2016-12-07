@@ -532,7 +532,13 @@ public class BulletinAPI {
                     connection.setRequestMethod("POST");
                     connection.setRequestProperty("Content-type", "application/json");
                     OutputStreamWriter os = new OutputStreamWriter(connection.getOutputStream());
-                    os.write("{ \"itemId\" : \"" + title + "\"}");
+                    if(!picture.equals("")) {
+                        os.write("{ \"title\":" + title + ", \"description\": " + description + ", \"pictures\": [\"" + picture + "\"], \"price\":" + Double.toString(price) +"}");
+                    }else{
+                        os.write("{ \"title\":" + title + ", \"description\": " + description + ", \"price\":" + Double.toString(price) + "}");
+                    }
+                    Log.d("Bulletin API", "{ \"title\":" + title + ", \"description\": " + description + ", \"pictures\": [\"" + picture + "\"], \"price\":" + Double.toString(price) +"}");
+                    Log.d("Bulletin API", "{ \"title\":" + title + ", \"description\": " + description + ", \"price\":" + Double.toString(price) + "}");
 
                     //{ "title" : title, "description" : description, "pictures": ["onepicture"], "price" : price}
                     os.flush();
@@ -549,9 +555,9 @@ public class BulletinAPI {
                         while((line = br.readLine()) != null){
                             sb.append(line);
                         }
-                        SuccessMessageResponse response = new SuccessMessageResponse();
+                        ItemResponse response = gson.fromJson(sb.toString(), ItemResponse.class);
                         response.setResponseCode(connection.getResponseCode());
-                        listener.onResponseReceived(OnRequestListener.RequestType.MakeConversation, response);
+                        listener.onResponseReceived(OnRequestListener.RequestType.PostItem, response);
 
                     }else{
                         BufferedReader br = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
@@ -562,7 +568,7 @@ public class BulletinAPI {
                         }
                         SuccessMessageResponse response = gson.fromJson(sb.toString(), SuccessMessageResponse.class);
                         response.setResponseCode(resCode);
-                        listener.onResponseReceived(OnRequestListener.RequestType.MakeConversation, response);
+                        listener.onResponseReceived(OnRequestListener.RequestType.PostItem, response);
 
                     }
 

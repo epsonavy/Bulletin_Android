@@ -14,7 +14,8 @@ public interface OnRequestListener{
         GetItems,
         MakeConversation,
         GetMyUserDetails,
-        GetConversations
+        GetConversations,
+        PostItem
     }
     public void onResponseReceived(RequestType type, Response response);
 
