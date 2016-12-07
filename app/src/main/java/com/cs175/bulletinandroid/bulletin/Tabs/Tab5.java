@@ -35,6 +35,7 @@ public class Tab5 extends Fragment {
             public void onClick(View v) {
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences(GET_TOKEN, MODE_PRIVATE).edit();
                 editor.clear();
+                editor.commit();
                 Intent intent = new Intent(getActivity(), LoginActivityBackground.class);
                 startActivity(intent);
                 getActivity().finish();

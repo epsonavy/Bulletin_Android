@@ -68,6 +68,7 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
 
 
         setContentView(R.layout.activity_login);
+        context = LoginActivity.this;
 
         SharedPreferences prefs = getSharedPreferences(GET_TOKEN, MODE_PRIVATE);
 
@@ -86,7 +87,7 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
         d.setAlpha(0);
         getWindow().setBackgroundDrawable(d);
 
-        context = LoginActivity.this;
+
         validator = new FormatValidator();
         alertDialog = new AlertDialogController();
 
@@ -235,6 +236,7 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
                 runThread(1);
             }
             else if (type == RequestType.Login) {
+
                 token = (SuccessMessageTokenResponse) response;
                 String tokenInfo = token.getToken();
                 Log.d("token", tokenInfo);
