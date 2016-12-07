@@ -1,15 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/createItemButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Tab 3"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:background="@color/themeColor"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:text="Create"
+        android:textSize="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/createItemScrollView"
+        android:background="#FFFFFF"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:id="@+id/headerView">
+
+                <TextView
+                    android:id="@+id/myItemTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Create"
+                    android:textSize="35sp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_marginTop="15sp"
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginBottom="5sp"
+                    android:textColor="#808080"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Create an item."
+                    android:id="@+id/createDescriptionTextView"
+                    android:textSize="14sp"
+                    android:textColor="#999999"
+                    android:layout_marginLeft="17.5sp"
+                    android:layout_marginBottom="17.5sp"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="225dp"
+                android:background="#FFFFFF"
+                android:id="@+id/createItemImageView"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                app:srcCompat="@drawable/default_item" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter a title"
+                android:id="@+id/inputCreateItemTitle"
+                android:layout_marginLeft="17.5sp"
+                android:layout_marginRight="17.5sp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter a Price"
+                android:id="@+id/inputCreateItemPrice"
+                android:layout_marginLeft="17.5sp"
+                android:layout_marginRight="17.5sp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/inputCreateDescription"
+                android:text="Enter description"
+                android:layout_marginLeft="17.5sp"
+                android:layout_marginRight="17.5sp"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+
 
 </RelativeLayout>
