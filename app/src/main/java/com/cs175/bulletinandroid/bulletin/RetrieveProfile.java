@@ -23,13 +23,11 @@ public class RetrieveProfile extends AppCompatActivity implements OnRequestListe
 
     @Override
     public void onResponseReceived(RequestType type, Response response) {
-        Log.d("the code is :", ""+response.getResponseCode());
         if (response.getResponseCode() == 200) {
 
             UserResponse info = (UserResponse) response;
             String store_id = info.get_id();
             singleton.getInstance().getUserResponse().set_id(store_id);
-            Log.d("call new activity", store_id);
             runThread(1);
             Intent intent = new Intent(RetrieveProfile.this, HomePageActivity.class);
             startActivity(intent);

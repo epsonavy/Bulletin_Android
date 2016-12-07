@@ -1,5 +1,7 @@
 package com.cs175.bulletinandroid.bulletin;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -11,6 +13,7 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +32,7 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
 
     private RelativeLayout layout;
     private static final int RESULT_LOAD_IMAGE = 1;
+    private static final int CAMERA_REQUEST = 1888;
     private String selectedImagePath;
     private RoundedImageView imageView;
     private Button completeButton;
@@ -77,6 +81,7 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
                 if (loginEnable) {
                     Intent intent = new Intent(RegistrationCompletedActivity.this, RetrieveProfile.class);
                     startActivity(intent);
+                    finish();
                 } else {
                     alertDialog.showDialog(RegistrationCompletedActivity.this, "Login failed, try again!");
                 }
@@ -88,11 +93,28 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                CharSequence colors[] = new CharSequence[] {"Take a picture", "Choose from gallery"};
 
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationCompletedActivity.this);
+                builder.setTitle("Upload a picture");
+                builder.setItems(colors, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                        } else {
+                            Intent i = new Intent(
+                                    Intent.ACTION_PICK,
+                                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                            startActivityForResult(i, RESULT_LOAD_IMAGE);
+                        }
+                    }
+                });
+                builder.show();
+
+
 
             }
         });
@@ -102,6 +124,11 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            imageView.setImageBitmap(photo);
+        }
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
