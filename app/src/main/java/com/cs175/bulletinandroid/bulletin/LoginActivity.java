@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
     BulletinSingleton singleton;
     private Context context;
     private RelativeLayout.LayoutParams params;
-    private int serverResponse;
+
     private boolean UserInteractions = true;
     private String email;
     private String password;
@@ -59,6 +59,9 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
     private AlertDialogController alertDialog;
     private SuccessMessageTokenResponse token;
     private String getStoredToken;
+
+    private TextView mainTitle;
+    private TextView subTitle;
 
 
 
@@ -69,6 +72,7 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
 
         setContentView(R.layout.activity_login);
         context = LoginActivity.this;
+        singleton.getInstance().setFont(context);
 
         SharedPreferences prefs = getSharedPreferences(GET_TOKEN, MODE_PRIVATE);
 
@@ -94,17 +98,23 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
 
 
 
+
+        mainTitle = (TextView)findViewById(R.id.LoginMainTitle);
+        subTitle = (TextView)findViewById(R.id.LoginSubTitle);
         emailview = (RelativeLayout)findViewById(R.id.emailview);
         passwordview = (RelativeLayout)findViewById(R.id.passwordview);
         emailtext = (EditText)findViewById(R.id.emailedittext);
         passwordtext = (EditText)findViewById(R.id.passwordedittext);
+
+        mainTitle.setTypeface(singleton.getInstance().getFont());
+        subTitle.setTypeface(singleton.getInstance().getFont());
 
 
         passwordview.setVisibility(View.INVISIBLE);
         params = (RelativeLayout.LayoutParams)(emailview).getLayoutParams();
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         emailview.setLayoutParams(params);
-        serverResponse = 0;
+
         email = "";
         password = "";
 
@@ -172,19 +182,6 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
                         UserInteractions = false;
 
 
-                        if (serverResponse == 200) {
-
-
-                            return true;
-
-                        } else if (serverResponse == 400){
-                            serverResponse = 0;
-                            alertDialog.showDialog(LoginActivity.this, "Password not recognized");
-                        } else {
-                            alertDialog.showDialog(LoginActivity.this, "Unable to connect to server");
-                        }
-                        return false;
-
                     } else if (index == 1) {
                         alertDialog.showDialog(LoginActivity.this, "Password is too short!");
 
@@ -192,11 +189,7 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
                         alertDialog.showDialog(LoginActivity.this, "Password is too long!");
 
                     }
-                    passwordview.setVisibility(View.VISIBLE);
-                    params.addRule(RelativeLayout.ABOVE, R.id.passwordview);
-                    params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                    emailview.setLayoutParams(params);
-                    passwordview.requestFocus();
+
 
 
 
@@ -221,7 +214,7 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
 
         if(response.getResponseCode() == 418){
             //message = "email not found";
-            serverResponse = 418;
+
             if (type == RequestType.CheckEmail) {
                 runThread(0);
                 //alertDialog.startAnotherActivity(LoginActivity.this, "Let's get you registered", email);
@@ -256,11 +249,12 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
             //password not found
 
             if (type == RequestType.Login) {
-
+                alertDialog.showDialog(LoginActivity.this, "Password not recognized");
             }
 
         }
         else{
+
             alertDialog.showDialog(LoginActivity.this, "Unable to connect to server");
             //something went wrong with the server
         }

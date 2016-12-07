@@ -1,5 +1,8 @@
 package com.cs175.bulletinandroid.bulletin;
 
+import android.content.Context;
+import android.graphics.Typeface;
+
 /**
  * Created by Lucky on 11/22/16.
  */
@@ -23,4 +26,17 @@ public class BulletinSingleton {
     public BulletinAPI getAPI(){
         return API;
     }
+
+    private Typeface fontRoboto;
+
+    public Typeface getFont() {
+        return fontRoboto;
+    }
+
+    public void setFont(Context context) {
+        fontRoboto = Typeface.createFromAsset(context.getAssets(), "Fonts/SF-UI-Display-Light.otf");
+    }
+
+
+
 }

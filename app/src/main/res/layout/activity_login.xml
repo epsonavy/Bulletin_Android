@@ -11,15 +11,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:id="@+id/test"
+        android:text="Bulletin"
+        android:id="@+id/LoginMainTitle"
+
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14dp"
-        android:text="A tool to communicate with others"
-        android:layout_below="@+id/test"
-        android:id="@+id/secondText"
+        android:text=""
+        android:layout_below="@+id/LoginMainTitle"
+        android:id="@+id/LoginSubTitle"
         />
 
 
