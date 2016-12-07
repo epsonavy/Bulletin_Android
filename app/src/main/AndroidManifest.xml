@@ -46,6 +46,12 @@
         <activity
         android:name=".Tabs.ViewItemActivity"
         android:screenOrientation="portrait" />
+        <activity
+            android:name=".Tabs.EditItemActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Tabs.CreateItemActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".RetrieveProfile"></activity>
         <activity
             android:name=".Tabs.ConversationActivity"

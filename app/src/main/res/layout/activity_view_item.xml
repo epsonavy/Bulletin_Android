@@ -4,18 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/makeConversationButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/themeColor"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:text="Make Conversation"
-        android:textSize="20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -96,6 +84,18 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/makeConversationButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/themeColor"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:text="Make Conversation"
+        android:textSize="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

@@ -68,12 +68,12 @@ public class MyListingItemAdapter extends BaseAdapter {
             v = inflater.inflate(R.layout.listview_mylisting, null);
             TextView titleTextView = (TextView) v.findViewById(R.id.itemTitleTextView);
             TextView priceTextView = (TextView) v.findViewById(R.id.itemPriceTextView);
-            //TextView descriptionTextView = (TextView) v.findViewById(R.id.descriptionTextView);
+            TextView timeStampTextView = (TextView) v.findViewById(R.id.itemTimeStampTextView);
             ImageView itemImageView = (ImageView) v.findViewById(R.id.myListingItemImageView);
 
             titleTextView.setText(item.getTitle());
-            //descriptionTextView.setText(item.getDescription());
-            priceTextView.setText("$"+Double.toString(item.getPrice()));
+            priceTextView.setText("$" + Double.toString(item.getPrice()));
+            timeStampTextView.setText(item.getDescription()); // display description for now
 
             ViewHolder itemImageHolder = new ViewHolder();
 

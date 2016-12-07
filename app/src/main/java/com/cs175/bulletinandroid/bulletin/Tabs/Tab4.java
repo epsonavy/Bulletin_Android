@@ -1,5 +1,6 @@
 package com.cs175.bulletinandroid.bulletin.Tabs;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -41,6 +42,7 @@ public class Tab4 extends Fragment implements OnRequestListener, AdapterView.OnI
         headerTextView = (TextView) view.findViewById(R.id.myListingTitleTextView);
         existNoItemTextView = (TextView) view.findViewById(R.id.myListingSubTitleTextView);
         itemListView = (ListView) view.findViewById(R.id.itemListView);
+        itemListView.setOnItemClickListener(this);
 
         font = Typeface.createFromAsset(getActivity().getAssets(), "Fonts/SF-UI-Display-Light.otf");
 
@@ -65,8 +67,18 @@ public class Tab4 extends Fragment implements OnRequestListener, AdapterView.OnI
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Intent viewItemIntent = new Intent(getActivity(), ViewItemActivity.class);
 
+        MyListingItemAdapter adapter = (MyListingItemAdapter) adapterView.getAdapter();
+        ItemResponse item = (ItemResponse) adapter.getItem(i);
+
+        viewItemIntent.putExtra("description", item.getDescription());
+        viewItemIntent.putExtra("title", item.getTitle());
+        viewItemIntent.putExtra("itemPicture", item.getPictures()[0]);
+        viewItemIntent.putExtra("itemPrice", item.getPrice());
+        viewItemIntent.putExtra("itemId", item.get_id());
+        startActivity(viewItemIntent);
     }
 
     @Override
