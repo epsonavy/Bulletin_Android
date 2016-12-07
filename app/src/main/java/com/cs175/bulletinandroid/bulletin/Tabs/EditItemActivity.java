@@ -2,8 +2,10 @@ package com.cs175.bulletinandroid.bulletin.Tabs;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,47 +32,39 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_item);
+        setContentView(R.layout.activity_edit_item);
         processingConversation = false;
 
         alertDialog = new AlertDialogController();
 
-        TextView titleTextView = (TextView) findViewById(R.id.titleTextView);
-        TextView descriptionTextView = (TextView) findViewById(R.id.descriptionTextView);
-        TextView userNameTextView = (TextView) findViewById(R.id.userNameTextView);
-
-        ImageView itemImageView = (ImageView)findViewById(R.id.itemImageView);
-        ImageView userImageView = (ImageView)findViewById(R.id.userImageView);
-
+        EditText titleEditText = (EditText) findViewById(R.id.titleEditText);
+        EditText descriptionEditText = (EditText) findViewById(R.id.descriptionEditText);
+        EditText priceEditText = (EditText) findViewById(R.id.priceEditText);
+        ImageView itemImageView = (ImageView)findViewById(R.id.editItemImageView);
 
         itemId = getIntent().getStringExtra("itemId");
         String title = getIntent().getStringExtra("title");
         String description = getIntent().getStringExtra("description");
         String itemPicture = getIntent().getStringExtra("itemPicture");
-        String userPicture = getIntent().getStringExtra("userPicture");
-        String userName = getIntent().getStringExtra("userName");
+        String itemPrice = getIntent().getStringExtra("itemPrice");
 
-        titleTextView.setText(title);
-        descriptionTextView.setText(description);
-        userNameTextView.setText(userName);
 
-        HomeItemAdapter.ViewHolder itemViewHolder = new HomeItemAdapter.ViewHolder();
-        HomeItemAdapter.ViewHolder userViewHolder = new HomeItemAdapter.ViewHolder();
+        titleEditText.setText(title);
+        descriptionEditText.setText(description);
+        priceEditText.setText(itemPrice);
+
+        MyListingItemAdapter.ViewHolder itemViewHolder = new MyListingItemAdapter.ViewHolder();
 
         itemViewHolder.url = itemPicture;
-        userViewHolder.url = userPicture;
 
         itemImageView.setTag(itemViewHolder);
-        userImageView.setTag(userViewHolder);
 
         itemViewHolder.imageView = itemImageView;
-        userViewHolder.imageView = userImageView;
 
-        new DownloadAsyncTask().execute(itemViewHolder);
-        new DownloadAsyncTask().execute(userViewHolder);
+        new DownloadItemsAsyncTask().execute(itemViewHolder);
 
-        Button conversationButton = (Button) findViewById(R.id.makeConversationButton);
-        conversationButton.setOnClickListener(this);
+        Button updateButton = (Button) findViewById(R.id.updateItemButton);
+        updateButton.setOnClickListener(this);
 
 
 
@@ -81,11 +75,12 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.makeConversationButton){
+        if(view.getId() == R.id.updateItemButton){
             if (processingConversation == false){
 
                 processingConversation = true;
-                singleton.getAPI().makeConversation(this, itemId);
+                //singleton.getAPI().makeConversation(this, itemId);
+                //updating
 
             }
         }
@@ -93,6 +88,8 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onResponseReceived(RequestType type, Response response) {
+
+        /*
         if(type == RequestType.MakeConversation){
             if(response.getResponseCode() == 200){
                 EditItemActivity.this.runOnUiThread(new Runnable(){
@@ -109,7 +106,7 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
                 });
             }
             processingConversation = false;
-        }
+        }*/
     }
 
     @Override

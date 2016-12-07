@@ -68,7 +68,7 @@ public class Tab4 extends Fragment implements OnRequestListener, AdapterView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent viewItemIntent = new Intent(getActivity(), ViewItemActivity.class);
+        Intent viewItemIntent = new Intent(getActivity(), EditItemActivity.class);
 
         MyListingItemAdapter adapter = (MyListingItemAdapter) adapterView.getAdapter();
         ItemResponse item = (ItemResponse) adapter.getItem(i);
@@ -76,7 +76,7 @@ public class Tab4 extends Fragment implements OnRequestListener, AdapterView.OnI
         viewItemIntent.putExtra("description", item.getDescription());
         viewItemIntent.putExtra("title", item.getTitle());
         viewItemIntent.putExtra("itemPicture", item.getPictures()[0]);
-        viewItemIntent.putExtra("itemPrice", item.getPrice());
+        viewItemIntent.putExtra("itemPrice", "$"+item.getPrice());
         viewItemIntent.putExtra("itemId", item.get_id());
         startActivity(viewItemIntent);
     }

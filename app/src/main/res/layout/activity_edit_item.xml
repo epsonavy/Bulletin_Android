@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/makeConversationButton"
+        android:id="@+id/updateItemButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/themeColor"
@@ -40,7 +40,7 @@
                 android:id="@+id/headerView">
 
                 <TextView
-                    android:id="@+id/myListingTitleTextView"
+                    android:id="@+id/modifyTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Edit an item."
-                    android:id="@+id/descriptionTextView"
+                    android:id="@+id/secondTextView"
                     android:textSize="14sp"
                     android:textColor="#999999"
                     android:layout_marginLeft="17.5sp"
@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="225dp"
                 android:background="#FFFFFF"
-                android:id="@+id/itemImageView"
+                android:id="@+id/editItemImageView"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
                 app:srcCompat="@drawable/default_item" />
@@ -78,12 +78,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Enter a title"
+                android:id="@+id/titleEditText"
             android:layout_marginLeft="17.5sp"
                 android:layout_marginRight="17.5sp"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/priceEditText"
                 android:text="Enter a Price"
                 android:layout_marginLeft="17.5sp"
                 android:layout_marginRight="17.5sp"/>
@@ -93,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:ems="10"
-                android:id="@+id/editText"
+                android:id="@+id/descriptionEditText"
                 android:text="Enter description"
                 android:layout_marginLeft="17.5sp"
                 android:layout_marginRight="17.5sp"/>
