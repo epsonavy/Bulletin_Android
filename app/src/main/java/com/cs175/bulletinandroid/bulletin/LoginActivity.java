@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
 
         setContentView(R.layout.activity_login);
         context = LoginActivity.this;
+
         singleton.getInstance().setFont(context);
 
         SharedPreferences prefs = getSharedPreferences(GET_TOKEN, MODE_PRIVATE);
