@@ -361,7 +361,7 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
 
         if(response.getResponseCode() == 400){
             if (type == RequestType.Register) {
-                alertDialog.showDialog(RegisterActivity.this, "There was an problem with registering!");
+                runThread(2);
             }
 
         }else if (response.getResponseCode() == 200){
@@ -404,7 +404,7 @@ public class RegisterActivity extends AppCompatActivity  implements OnRequestLis
 
                         @Override
                         public void run() {
-                            nextButton.setText(title);
+                            //nextButton.setText(title);
                             if (flag == 1) {
                                 //login completed
                                 Intent intent = new Intent(RegisterActivity.this, RegistrationCompletedActivity.class);

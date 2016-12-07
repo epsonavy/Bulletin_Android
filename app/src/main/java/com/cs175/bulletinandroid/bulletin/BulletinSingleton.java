@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 public class BulletinSingleton {
     public static String API_ADDRESS = "http://54.145.163.155/api/";
 
+    public static String GET_TOKEN = "FETCHTOKEN";
 
     private static BulletinSingleton ourInstance = new BulletinSingleton();
 

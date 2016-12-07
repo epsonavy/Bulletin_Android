@@ -7,18 +7,27 @@
     tools:context="com.cs175.bulletinandroid.bulletin.RegistrationCompletedActivity">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="35dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
         android:text="Bulletin"
-        android:id="@+id/maintitle"
-        android:textSize="50dp"/>
+        android:textColor="@color/secondaryThemeColor"
+        android:layout_alignParentTop="true"
+        android:id="@+id/confirmationMainTitle"
+        />
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to Bulletin!"
-        android:id="@+id/subtitle"
-        android:layout_below="@id/maintitle"
-        android:textSize="20dp"
+        android:textSize="18dp"
+        android:text="Let's get started!"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="3dp"
+        android:textColor="@color/secondaryThemeColor"
+        android:layout_below="@id/confirmationMainTitle"
+        android:id="@+id/confirmationSubTitle"
+
         />
 
 
