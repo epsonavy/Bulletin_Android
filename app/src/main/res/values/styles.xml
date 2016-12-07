@@ -9,7 +9,7 @@
     </style>
 
     <style name="dialogFullScreen" parent="Theme.AppCompat.Dialog">
-
+        <item name="android:windowFullscreen">true</item>
 
     </style>
 
