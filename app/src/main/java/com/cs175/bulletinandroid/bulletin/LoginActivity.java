@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -44,6 +45,7 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
     RelativeLayout emailview;
     RelativeLayout passwordview;
 
+    private static String GET_TOKEN = "FETCHTOKEN";
     EditText emailtext;
     EditText passwordtext;
     BulletinSingleton singleton;
@@ -56,18 +58,28 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
     private FormatValidator validator;
     private AlertDialogController alertDialog;
     private SuccessMessageTokenResponse token;
-    private boolean checkPassword;
+    private String getStoredToken;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_login);
 
+        SharedPreferences prefs = getSharedPreferences(GET_TOKEN, MODE_PRIVATE);
 
+        getStoredToken = "x";
+
+        getStoredToken = prefs.getString("token", "error");//"No name defined" is the default value.
+
+        Log.d("checktokensave", getStoredToken);
+        if (!getStoredToken.equals("error")) {
+            Log.d("checktokensave", getStoredToken);
+            singleton.getInstance().getAPI().checkToken((OnRequestListener) context, getStoredToken);
+        }
 
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         Drawable d = new ColorDrawable(Color.BLACK);
@@ -77,7 +89,6 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
         context = LoginActivity.this;
         validator = new FormatValidator();
         alertDialog = new AlertDialogController();
-        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
 
 
@@ -86,11 +97,6 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
         passwordview = (RelativeLayout)findViewById(R.id.passwordview);
         emailtext = (EditText)findViewById(R.id.emailedittext);
         passwordtext = (EditText)findViewById(R.id.passwordedittext);
-
-        //getWindow().setBackgroundDrawableResource(R.drawable.background1);
-        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
-        //getWindow().setGravity(Gravity.TOP| Gravity.CENTER_HORIZONTAL);
 
 
         passwordview.setVisibility(View.INVISIBLE);
@@ -211,6 +217,7 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
 
     @Override
     public void onResponseReceived(RequestType type, Response response) {
+
         if(response.getResponseCode() == 418){
             //message = "email not found";
             serverResponse = 418;
@@ -222,6 +229,7 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
 
         }else if (response.getResponseCode() == 200){
             //message = "email found";
+            Log.d("run" ,"x");
             if (type == RequestType.CheckEmail) {
 
                 runThread(1);
@@ -231,8 +239,16 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
                 String tokenInfo = token.getToken();
                 Log.d("token", tokenInfo);
                 singleton.getInstance().getAPI().setToken(tokenInfo);
+                SharedPreferences.Editor editor = getSharedPreferences(GET_TOKEN, MODE_PRIVATE).edit();
+                editor.putString("token", tokenInfo);
+                editor.apply();
                 runThread(2);
 
+            } else if (type == RequestType.CheckToken) {
+                Log.d("run" ,getStoredToken);
+                singleton.getInstance().getAPI().setToken(getStoredToken);
+
+                runThread(2);
             }
         } else if (response.getResponseCode() == 400) {
             //password not found

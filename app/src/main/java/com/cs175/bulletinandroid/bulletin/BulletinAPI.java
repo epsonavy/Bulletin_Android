@@ -238,7 +238,7 @@ public class BulletinAPI {
         new Thread(new Runnable(){
             public void run(){
                 try {
-                    URL url = new URL(getAPIAddress() + "/auth/token=" + token);
+                    URL url = new URL(getAPIAddress() + "/auth/?token=" + token);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
                     connection.setRequestProperty("Content-length", "0");
@@ -260,13 +260,13 @@ public class BulletinAPI {
                     if(connection.getResponseCode() == 200){
                         SuccessMessageResponse response = gson.fromJson(sb.toString(), SuccessMessageResponse.class);
                         response.setResponseCode(connection.getResponseCode());
-                        listener.onResponseReceived(OnRequestListener.RequestType.CheckEmail, response);
+                        listener.onResponseReceived(OnRequestListener.RequestType.CheckToken, response);
 
 
                     }else{
                         SuccessMessageResponse response = gson.fromJson(sb.toString(), SuccessMessageResponse.class);
                         response.setResponseCode(connection.getResponseCode());
-                        listener.onResponseReceived(OnRequestListener.RequestType.CheckEmail, response);
+                        listener.onResponseReceived(OnRequestListener.RequestType.CheckToken, response);
 
                     }
 
