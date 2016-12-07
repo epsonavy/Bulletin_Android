@@ -46,20 +46,25 @@
         </activity>
         <activity
             android:name=".HomePageActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
         android:name=".Tabs.ViewItemActivity"
-        android:screenOrientation="portrait" />
+        android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".Tabs.EditItemActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".Tabs.CreateItemActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".RetrieveProfile"></activity>
         <activity
             android:name=".Tabs.ConversationActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>
