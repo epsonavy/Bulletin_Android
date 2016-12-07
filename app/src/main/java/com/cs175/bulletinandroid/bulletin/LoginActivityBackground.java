@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.cs175.bulletinandroid.bulletin.animations.BackgroundAnimation;
 
@@ -14,6 +15,7 @@ public class LoginActivityBackground extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_background);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         BackgroundAnimation backgroundAnimation = new BackgroundAnimation(this, (View)findViewById(android.R.id.content), getApplicationContext());
         backgroundAnimation.startAnimation();
 

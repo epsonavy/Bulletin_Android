@@ -20,6 +20,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Layout;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -112,6 +113,7 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
 
 
         passwordview.setVisibility(View.INVISIBLE);
+        passwordtext.setTransformationMethod(new PasswordTransformationMethod());
         params = (RelativeLayout.LayoutParams)(emailview).getLayoutParams();
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         emailview.setLayoutParams(params);
@@ -250,13 +252,14 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
             //password not found
 
             if (type == RequestType.Login) {
-                alertDialog.showDialog(LoginActivity.this, "Password not recognized");
+                runThread(3);
+
             }
 
         }
         else{
 
-            alertDialog.showDialog(LoginActivity.this, "Unable to connect to server");
+            runThread(9);
             //something went wrong with the server
         }
 
@@ -293,6 +296,14 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
                                     Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
                                     startActivity(intent);
                                     finish();
+                                }
+
+                                if (flag == 3) {
+                                    alertDialog.showDialog(LoginActivity.this, "Password not recognized");
+                                }
+
+                                if (flag == 9) {
+                                    alertDialog.showDialog(LoginActivity.this, "Unable to connect to server");
                                 }
                             }
                         });
