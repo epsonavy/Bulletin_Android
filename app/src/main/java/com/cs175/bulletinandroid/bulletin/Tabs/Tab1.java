@@ -56,6 +56,8 @@ public class Tab1 extends Fragment implements OnRequestListener {
 
         font = Typeface.createFromAsset(getActivity().getAssets(), "Fonts/SF-UI-Display-Light.otf");
 
+        changeFont(mainHeaderTextView);
+        changeFont(universityTextView);
 
         refreshItems();
 

@@ -2,6 +2,7 @@ package com.cs175.bulletinandroid.bulletin.Tabs;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,13 @@ import java.util.ArrayList;
  */
 
 public class HomeItemAdapter extends BaseAdapter {
+
+    private Typeface font;
+
+    public void changeFont(TextView text){
+        text.setTypeface(font);
+    }
+
     public static class ViewHolder {
         ImageView imageView;
         Bitmap bitmap;
@@ -36,6 +44,8 @@ public class HomeItemAdapter extends BaseAdapter {
         this.context = context;
         this.data = data;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        font = Typeface.createFromAsset(context.getAssets(), "Fonts/SF-UI-Display-Light.otf");
+
     }
 
     @Override
@@ -85,6 +95,11 @@ public class HomeItemAdapter extends BaseAdapter {
             itemImageHolder.imageView = itemImageView;
             userImageHolder.imageView = userImageView;
             v.setTag(itemImageHolder);
+
+            changeFont(titleTextView);
+            changeFont(priceTextView);
+            changeFont(descriptionTextView);
+
 
             new DownloadAsyncTask().execute(itemImageHolder);
             //new DownloadAsyncTask().execute(userImageHolder);
