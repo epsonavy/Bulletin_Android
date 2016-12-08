@@ -98,6 +98,7 @@ public class ConversationActivity extends AppCompatActivity implements OnRequest
         refreshMessages();
 
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.scrollControl);
+        swipeRefresh.setOnRefreshListener(this);
 
 
 
@@ -132,7 +133,6 @@ public class ConversationActivity extends AppCompatActivity implements OnRequest
 
     @Override
     public void onResponsesReceived(RequestType type, int resCode, Response[] response) {
-
         if(type == RequestType.GetAllMessages){
             if (resCode == 200){
 
