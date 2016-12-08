@@ -1,6 +1,7 @@
 package com.cs175.bulletinandroid.bulletin;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,8 +26,15 @@ import android.widget.RelativeLayout;
 import com.cs175.bulletinandroid.bulletin.Elements.AlertDialogController;
 import com.cs175.bulletinandroid.bulletin.Elements.RoundedImageView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
+import java.io.File;
 import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+
+import static android.R.attr.bitmap;
 
 public class RegistrationCompletedActivity extends AppCompatActivity implements  OnRequestListener {
 
@@ -40,6 +48,7 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
     private String password;
     private boolean loginEnable;
     private BulletinSingleton singleton;
+    private Context context;
     private AlertDialogController alertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +58,7 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
 
         email = getIntent().getStringExtra("email");
         password = getIntent().getStringExtra("password");
+        context = RegistrationCompletedActivity.this;
 
         loginEnable = false;
         alertDialog = new AlertDialogController();
@@ -128,6 +138,7 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(photo);
+
         }
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
@@ -151,6 +162,35 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
                 e.printStackTrace();
             }
             imageView.setImageBitmap(bmp);
+
+
+
+
+            //create a file to write bitmap data
+            File f = new File(context.getCacheDir(), "profile_picture");
+            try {
+                f.createNewFile();
+
+//Convert bitmap to byte array
+
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.PNG, 100 /*ignored for PNG*/, bos);
+                byte[] bitmapdata = bos.toByteArray();
+
+//write the bytes in file
+                FileOutputStream fos = new FileOutputStream(f);
+                fos.write(bitmapdata);
+                fos.flush();
+                fos.close();
+            }catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            singleton.getInstance().getAPI().uploadImage((OnRequestListener)context, f);
+
+
 
         }
 
@@ -180,6 +220,11 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
     public void onResponseReceived(RequestType type, Response response) {
         if (response.getResponseCode() == 200){
             //message = "register works";
+
+            if (type == RequestType.UploadImage) {
+                Log.d("dddd", "upload image works");
+                runThread(1);
+            }
             if (type == RequestType.Login) {
                 loginEnable = true;
                 SuccessMessageTokenResponse token = (SuccessMessageTokenResponse) response;
@@ -189,6 +234,14 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
                 SharedPreferences.Editor editor = getSharedPreferences(singleton.getInstance().GET_TOKEN, MODE_PRIVATE).edit();
                 editor.putString("token", tokenInfo);
                 editor.apply();
+            }
+        } else if (response.getResponseCode() == 400) {
+            if (type == RequestType.UploadImage) {
+                runThread(2);
+            }
+        } else {
+            if (type == RequestType.UploadImage) {
+                runThread(3);
             }
         }
     }
@@ -212,6 +265,13 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
                         public void run() {
                             //nextButton.setText(title);
                             if (flag == 1) {
+                                alertDialog.showDialog(RegistrationCompletedActivity.this, "works!");
+                            }
+                            if (flag == 2) {
+                                alertDialog.showDialog(RegistrationCompletedActivity.this, "400 error");
+                            }
+                            if (flag == 3) {
+                                alertDialog.showDialog(RegistrationCompletedActivity.this, "other errors");
                             }
                         }
                     });
