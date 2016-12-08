@@ -65,7 +65,7 @@ public class BackgroundAnimation {
                 }
                 hanldechange();
             }
-        }, 3000);
+        }, 4000);
     }
 
 }
