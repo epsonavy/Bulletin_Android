@@ -98,6 +98,7 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
                 ViewItemActivity.this.runOnUiThread(new Runnable(){
                     public void run(){
                         alertDialog.showDialog(ViewItemActivity.this, "You made a conversation!");
+                        BulletinSingleton.getInstance().homePageActivity.tab2Refresh();
                     }
                 });
 

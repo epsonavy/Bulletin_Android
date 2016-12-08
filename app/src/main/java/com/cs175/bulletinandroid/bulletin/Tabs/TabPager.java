@@ -11,6 +11,14 @@ public class TabPager extends FragmentStatePagerAdapter {
 
     int tabCount;
 
+
+    private Tab1 tab1 = new Tab1();
+    private Tab2 tab2 = new Tab2();
+    private Tab3 tab3 = new Tab3();
+    private Tab4 tab4 = new Tab4();
+    private Tab5 tab5 = new Tab5();
+
+
     public TabPager(FragmentManager fm, int tabCount) {
         super(fm);
         this.tabCount = tabCount;
@@ -25,19 +33,14 @@ public class TabPager extends FragmentStatePagerAdapter {
 
         switch(position){
             case 0:
-                Tab1 tab1 = new Tab1();
                 return tab1;
             case 1:
-                Tab2 tab2 = new Tab2();
                 return tab2;
             case 2:
-                Tab3 tab3 = new Tab3();
                 return tab3;
             case 3:
-                Tab4 tab4 = new Tab4();
                 return tab4;
             case 4:
-                Tab5 tab5 = new Tab5();
                 return tab5;
             default:
                 return null;

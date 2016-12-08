@@ -24,6 +24,8 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
     private TabLayout.Tab tab4;
     private TabLayout.Tab tab5;
 
+    private TabPager adapter;
+
     private ViewPager viewPager;
 
     @Override
@@ -37,13 +39,17 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
 
         viewPager = (ViewPager)findViewById(R.id.pager);
 
-        TabPager adapter = new TabPager(getSupportFragmentManager(), tabLayout.getTabCount());
+        adapter = new TabPager(getSupportFragmentManager(), tabLayout.getTabCount());
+
+
 
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(5);
         tabLayout.addOnTabSelectedListener(this);
 
         Log.d("tabCount", ""+adapter.getCount());
+
+        BulletinSingleton.getInstance().homePageActivity = this;
 
 
     }
@@ -76,6 +82,18 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
         Log.d("tabCount", "count is: "+tab.getPosition());
         viewPager.setCurrentItem(tab.getPosition());
 
+    }
+
+    public void tab1Refresh(){
+        ((Tab1)adapter.getItem(0)).refreshItems();
+    }
+
+    public void tab2Refresh(){
+        ((Tab2)adapter.getItem(1)).refreshMessages();
+    }
+
+    public void tab4Refresh(){
+        ((Tab4)adapter.getItem(3)).refreshItems();
     }
 
     @Override

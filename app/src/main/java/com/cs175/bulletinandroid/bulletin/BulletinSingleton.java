@@ -45,5 +45,7 @@ public class BulletinSingleton {
     }
 
 
+    public HomePageActivity homePageActivity;
+
 
 }

@@ -148,6 +148,11 @@ public class ConversationActivity extends AppCompatActivity implements OnRequest
         processingMessages = false;
     }
 
+    public void onBackPressed(){
+        BulletinSingleton.getInstance().homePageActivity.tab2Refresh();
+        super.onBackPressed();
+    }
+
     @Override
     public void onRefresh() {
         if (processingMessages == true) swipeRefresh.setRefreshing(false);
