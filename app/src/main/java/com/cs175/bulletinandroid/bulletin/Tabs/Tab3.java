@@ -46,6 +46,7 @@ public class Tab3 extends Fragment implements View.OnClickListener, OnRequestLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.tab3, container, false);
+        processingItemRefresh = false;
 
         TextView mainHeaderTextView = (TextView) view.findViewById(R.id.createItemTitleTextView);
         titleEditText = (EditText) view.findViewById(R.id.inputCreateItemTitle);
@@ -95,11 +96,9 @@ public class Tab3 extends Fragment implements View.OnClickListener, OnRequestLis
 
     @Override
     public void onResponseReceived(RequestType type, Response response) {
-        Toast.makeText(getActivity(), "received Response",
-                Toast.LENGTH_LONG).show();
+
+
         if(type == RequestType.PostItem) {
-            Toast.makeText(getActivity(), ""+response.getResponseCode(),
-                    Toast.LENGTH_LONG).show();
             processingItemRefresh = false;
             if(response.getResponseCode() == 200){
                 getActivity().runOnUiThread(new Runnable(){
