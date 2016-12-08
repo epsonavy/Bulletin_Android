@@ -128,6 +128,11 @@ public class ConversationActivity extends AppCompatActivity implements OnRequest
                 refreshMessages();
             }
         }
+        ConversationActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                swipeRefresh.setRefreshing(false);
+            }
+        });
         processingMessages = false;
     }
 
@@ -140,11 +145,16 @@ public class ConversationActivity extends AppCompatActivity implements OnRequest
                 ConversationActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
                         contentListView.setAdapter(adapter);
-                        swipeRefresh.setRefreshing(false);
+
                     }
                 });
             }
         }
+        ConversationActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                swipeRefresh.setRefreshing(false);
+            }
+        });
         processingMessages = false;
     }
 

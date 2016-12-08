@@ -89,6 +89,11 @@ public class Tab1 extends Fragment implements OnRequestListener, AdapterView.OnI
     @Override
     public void onResponseReceived(RequestType type, Response response) {
         processingItemRefresh = false;
+        getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                swipeRefresh.setRefreshing(false);
+            }
+        });
     }
 
     @Override
@@ -131,13 +136,16 @@ public class Tab1 extends Fragment implements OnRequestListener, AdapterView.OnI
                 getActivity().runOnUiThread(new Runnable(){
                     public void run(){
                         contentListView.setAdapter(adapter);
-                        swipeRefresh.setRefreshing(false);
-                        Log.d("Bulletin", "Swiping should stop");
                     }
                 });
 
             }
         }
+        getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                swipeRefresh.setRefreshing(false);
+            }
+        });
         processingItemRefresh = false;
     }
 

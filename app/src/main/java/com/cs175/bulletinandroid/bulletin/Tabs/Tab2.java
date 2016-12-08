@@ -80,6 +80,11 @@ public class Tab2 extends Fragment implements OnRequestListener, AdapterView.OnI
     @Override
     public void onResponseReceived(RequestType type, Response response) {
         processingMessages = false;
+        getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                swipeRefresh.setRefreshing(false);
+            }
+        });
     }
 
     @Override
@@ -95,6 +100,11 @@ public class Tab2 extends Fragment implements OnRequestListener, AdapterView.OnI
                 });
             }
         }
+        getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                swipeRefresh.setRefreshing(false);
+            }
+        });
         processingMessages = false;
     }
 
