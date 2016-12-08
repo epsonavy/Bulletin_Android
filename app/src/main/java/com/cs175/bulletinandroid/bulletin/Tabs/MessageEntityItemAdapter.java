@@ -3,6 +3,7 @@ package com.cs175.bulletinandroid.bulletin.Tabs;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,7 @@ public class MessageEntityItemAdapter extends BaseAdapter {
         font = Typeface.createFromAsset(context.getAssets(), "Fonts/SF-UI-Display-Light.otf");
         userId = singleton.getUserResponse().get_id();
         myName = singleton.getUserResponse().getDisplay_name();
+        Log.d("Bulletin", "My name is " + myName);
         this.userName = userName;
 
     }

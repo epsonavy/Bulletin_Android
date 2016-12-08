@@ -115,7 +115,6 @@ public class Tab2 extends Fragment implements OnRequestListener, AdapterView.OnI
 
 
         startActivity(conversationIntent);
-        Log.d("Bulletin", "Chnaged");
     }
 
     @Override

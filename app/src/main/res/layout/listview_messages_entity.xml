@@ -51,8 +51,8 @@
             android:layout_width="2sp"
             android:id="@+id/bar"
             android:src="@drawable/backgroundbar"
-            android:alpha="0"
-            android:scaleType="fitStart"
+            android:alpha="1"
+            android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             android:orientation="vertical"/>
     </RelativeLayout>

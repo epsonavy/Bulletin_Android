@@ -27,7 +27,9 @@ public class RetrieveProfile extends AppCompatActivity implements OnRequestListe
 
             UserResponse info = (UserResponse) response;
             String store_id = info.get_id();
+            String displayName = info.getDisplay_name();
             singleton.getInstance().getUserResponse().set_id(store_id);
+            singleton.getInstance().getUserResponse().setDisplay_name(displayName);
             runThread(1);
             Intent intent = new Intent(RetrieveProfile.this, HomePageActivity.class);
             startActivity(intent);
