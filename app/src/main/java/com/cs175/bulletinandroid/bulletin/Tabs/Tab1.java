@@ -25,6 +25,8 @@ import com.cs175.bulletinandroid.bulletin.R;
 import com.cs175.bulletinandroid.bulletin.Response;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * Created by chenyulong on 12/4/16.
@@ -93,7 +95,39 @@ public class Tab1 extends Fragment implements OnRequestListener, AdapterView.OnI
     public void onResponsesReceived(RequestType type, int resCode,  Response[] response) {
         if(type == RequestType.GetItems){
             if (resCode == 200){
-                final HomeItemAdapter adapter = new HomeItemAdapter(getContext(), (ItemResponse[]) response);
+                Arrays.sort((ItemResponse[]) response, new Comparator<ItemResponse>() {
+                    @Override
+                    public int compare(ItemResponse t1, ItemResponse t2) {
+                        if(t1.getExpiration() > t2.getExpiration()){
+                            return -1;
+                        }
+                        return 1;
+                    }
+                });
+
+                String userId = BulletinSingleton.getInstance().getUserResponse().get_id();
+                int count = 0;
+                for(int i=0; i<response.length; i++){
+                    if (((ItemResponse)response[i]).getUserId().equals(userId) == false) count++;
+                }
+
+                final ItemResponse[] filteredResponses = new ItemResponse[count];
+                int filterCount = 0;
+                for(int i=0; i<response.length; i++){
+                    if (((ItemResponse)response[i]).getUserId().equals(userId) == false){
+                        ItemResponse r = (ItemResponse) response[i];
+                        filteredResponses[filterCount] = new ItemResponse();
+                        filteredResponses[filterCount].setUserId(r.getUserId());
+                        filteredResponses[filterCount].setTitle(r.getTitle());
+                        filteredResponses[filterCount].setPrice(r.getPrice());
+                        filteredResponses[filterCount].setPictures(new String[] { r.getPictures()[0]});
+                        filteredResponses[filterCount].setUserName(r.getUserName());
+                        filteredResponses[filterCount].setUserPicture(r.getUserPicture());
+                        filteredResponses[filterCount++].setDescription(r.getDescription());
+                    }
+                }
+
+                final HomeItemAdapter adapter = new HomeItemAdapter(getContext(), filteredResponses);
                 getActivity().runOnUiThread(new Runnable(){
                     public void run(){
                         contentListView.setAdapter(adapter);

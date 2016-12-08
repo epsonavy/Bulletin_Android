@@ -869,7 +869,7 @@ public class BulletinAPI {
 
 
                 }catch(Exception e){
-                    Log.d("Bulletin API", "Something went wrong with updating item " + e.getMessage());
+                    Log.d("Bulletin API", "Something went wrong with updating user " + e.getMessage());
                 }
             }
         }).start();
@@ -920,7 +920,7 @@ public class BulletinAPI {
 
 
                 }catch(Exception e){
-                    Log.d("Bulletin API", "Something went wrong with updating item " + e.getMessage());
+                    Log.d("Bulletin API", "Something went wrong with updating user " + e.getMessage());
                 }
             }
         }).start();
