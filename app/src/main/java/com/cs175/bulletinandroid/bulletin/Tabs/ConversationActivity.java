@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -25,7 +26,10 @@ import com.cs175.bulletinandroid.bulletin.Response;
  * Created by Lucky on 12/7/16.
  */
 
-public class ConversationActivity extends AppCompatActivity implements OnRequestListener, TextView.OnEditorActionListener{
+public class ConversationActivity extends AppCompatActivity implements OnRequestListener, TextView.OnEditorActionListener, SwipeRefreshLayout.OnRefreshListener{
+
+    private SwipeRefreshLayout swipeRefresh;
+
     @Override
     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
         if (i == EditorInfo.IME_ACTION_NEXT) {
@@ -93,6 +97,9 @@ public class ConversationActivity extends AppCompatActivity implements OnRequest
 
         refreshMessages();
 
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.scrollControl);
+
+
 
 
     }
@@ -128,16 +135,22 @@ public class ConversationActivity extends AppCompatActivity implements OnRequest
 
         if(type == RequestType.GetAllMessages){
             if (resCode == 200){
-                Log.d("Bulletin", "wtF");
 
                 final MessageEntityItemAdapter adapter = new MessageEntityItemAdapter(this, (MessageResponse[]) response, userName);
                 ConversationActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
                         contentListView.setAdapter(adapter);
+                        swipeRefresh.setRefreshing(false);
                     }
                 });
             }
         }
         processingMessages = false;
+    }
+
+    @Override
+    public void onRefresh() {
+        if (processingMessages == true) swipeRefresh.setRefreshing(false);
+        refreshMessages();
     }
 }

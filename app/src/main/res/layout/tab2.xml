@@ -29,16 +29,27 @@
             android:layout_marginLeft="17.5sp"
             android:layout_marginBottom="10sp"/>
     </LinearLayout>
-    <ListView
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/scrollControl"
         android:layout_below="@+id/headerView"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/contentListView"
         android:layout_marginLeft="10dp"
-        android:divider="#FFFFFF"
-        android:background="#FFFFFF"
         android:layout_marginRight="10dp"
-        android:dividerHeight="10dp"
-        />
+        android:layout_alignParentBottom="true"
+        >
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:id="@+id/contentListView"
+
+            android:divider="#FFFFFF"
+            android:background="#FFFFFF"
+
+            android:dividerHeight="10dp"
+            />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </RelativeLayout>

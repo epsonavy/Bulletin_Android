@@ -111,7 +111,7 @@ public class MessageItemAdapter extends BaseAdapter {
             }
 
 
-            new DownloadAsyncTask().execute(userImageViewHolder);
+            new DownloadSmallerItemsAsyncTask().execute(userImageViewHolder);
 
 
             /*

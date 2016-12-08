@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.LayoutInflaterCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +24,7 @@ import com.cs175.bulletinandroid.bulletin.Response;
 /**
  * Created by chenyulong on 12/4/16.
  */
-public class Tab2 extends Fragment implements OnRequestListener, AdapterView.OnItemClickListener {
+public class Tab2 extends Fragment implements OnRequestListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     private boolean processingMessages;
     private ListView contentListView;
 
@@ -38,6 +39,8 @@ public class Tab2 extends Fragment implements OnRequestListener, AdapterView.OnI
         text.setTypeface(font);
     }
 
+    private SwipeRefreshLayout swipeRefresh;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -51,6 +54,10 @@ public class Tab2 extends Fragment implements OnRequestListener, AdapterView.OnI
 
         changeFont(mainHeaderTextView);
         changeFont(subHeaderTextView);
+
+        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.scrollControl);
+
+        swipeRefresh.setOnRefreshListener(this);
 
         processingMessages = false;
 
@@ -72,7 +79,7 @@ public class Tab2 extends Fragment implements OnRequestListener, AdapterView.OnI
 
     @Override
     public void onResponseReceived(RequestType type, Response response) {
-
+        processingMessages = false;
     }
 
     @Override
@@ -83,6 +90,7 @@ public class Tab2 extends Fragment implements OnRequestListener, AdapterView.OnI
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         contentListView.setAdapter(adapter);
+                        swipeRefresh.setRefreshing(false);
                     }
                 });
             }
@@ -108,5 +116,11 @@ public class Tab2 extends Fragment implements OnRequestListener, AdapterView.OnI
 
         startActivity(conversationIntent);
         Log.d("Bulletin", "Chnaged");
+    }
+
+    @Override
+    public void onRefresh() {
+        if (processingMessages == true) swipeRefresh.setRefreshing(false);
+        refreshMessages();
     }
 }

@@ -21,13 +21,13 @@ import java.net.URL;
  * Created by Lucky on 10/8/2016.
  */
 
-public class DownloadAsyncTask extends AsyncTask<HomeItemAdapter.ViewHolder, Void, HomeItemAdapter.ViewHolder> {
+public class DownloadSmallerItemsAsyncTask extends AsyncTask<HomeItemAdapter.ViewHolder, Void, HomeItemAdapter.ViewHolder> {
     protected HomeItemAdapter.ViewHolder doInBackground(HomeItemAdapter.ViewHolder... params){
         HomeItemAdapter.ViewHolder viewHolder = params[0];
         try{
             URL imageUrl = new URL(viewHolder.url);
-            viewHolder.bitmap = BitmapFactory.decodeStream(imageUrl.openStream());
-            viewHolder.bitmap = Bitmap.createScaledBitmap(viewHolder.bitmap, 300, 250, true);
+            viewHolder.bitmap = BitmapFactory.decodeStream(imageUrl.openStream());//this isnt actually smaller Lol
+            viewHolder.bitmap = Bitmap.createScaledBitmap(viewHolder.bitmap, 100, 85, true);
         }catch(Exception e){
 
             viewHolder.bitmap = null;
