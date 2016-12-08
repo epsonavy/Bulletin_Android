@@ -187,30 +187,25 @@ public class Tab3 extends Fragment implements View.OnClickListener, OnRequestLis
 
     @Override
     public void onResponseReceived(RequestType type, Response response) {
-        if (type == RequestType.UploadImage) {
-            UploadResponse itemResponse = (UploadResponse) response;
-            itemPicture = itemResponse.getUrl();
-            runThread(1);
-        } else {
 
-            if(type == RequestType.PostItem) {
+        if (type == RequestType.UploadImage) {
+            if(response.getResponseCode() == 200) {
+                UploadResponse itemResponse = (UploadResponse) response;
+                itemPicture = itemResponse.getUrl();
+                runThread(1);
+            } else {
+                runThread(2);
+            }
+        } else {
+            if (type == RequestType.UpdateItem){
                 processingItemRefresh = false;
-                if(response.getResponseCode() == 200){
+                if(response.getResponseCode() == 200) {
                     getActivity().runOnUiThread(new Runnable(){
                         public void run(){
                             singleton.homePageActivity.tab4Refresh();
                             Toast.makeText(getActivity(), "You Post an item!",
                                     Toast.LENGTH_LONG).show();
                             //alertDialog.showDialog(getActivity(), "You Post an item!");
-                        }
-                    });
-
-                }else{
-                    getActivity().runOnUiThread(new Runnable(){
-                        public void run(){
-                            Toast.makeText(getActivity(), "The server is down!",
-                                    Toast.LENGTH_LONG).show();
-                            //alertDialog.showDialog(getActivity(), "The server is down!");
                         }
                     });
                 }
@@ -239,11 +234,11 @@ public class Tab3 extends Fragment implements View.OnClickListener, OnRequestLis
                                 alertDialog.showDialog(getActivity(), "Upload image succeeded in fragment!");
                             }
                             if (flag == 2) {
-
+                                alertDialog.showDialog(getActivity(), "Server error, please try again");
 
                             }
                             if (flag == 3) {
-                                alertDialog.showDialog(getActivity(), "Server error, please try agai");
+                                alertDialog.showDialog(getActivity(), "Server error, please try again");
                             }
                         }
                     });

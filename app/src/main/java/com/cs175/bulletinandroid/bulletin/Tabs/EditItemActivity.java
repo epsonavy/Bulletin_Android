@@ -189,9 +189,13 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onResponseReceived(RequestType type, Response response) {
         if (type == RequestType.UploadImage) {
-            UploadResponse itemResponse = (UploadResponse) response;
-            itemPicture = itemResponse.getUrl();
-            runThread(1);
+            if(response.getResponseCode() == 200) {
+                UploadResponse itemResponse = (UploadResponse) response;
+                itemPicture = itemResponse.getUrl();
+                runThread(1);
+            } else {
+                runThread(2);
+            }
         } else {
             if (type == RequestType.UpdateItem){
                 processingMessages = false;
