@@ -91,10 +91,11 @@ public class Tab4 extends Fragment implements OnRequestListener, AdapterView.OnI
         if(type == RequestType.GetItems){
 
             if (resCode == 200){
-                existNoItemTextView.setText("Your items are below.");
+
                 final MyListingItemAdapter adapter = new MyListingItemAdapter(getContext(), (ItemResponse[]) response);
                 getActivity().runOnUiThread(new Runnable(){
                     public void run(){
+                        existNoItemTextView.setText("Your items are below.");
                         itemListView.setAdapter(adapter);
                     }
                 });
