@@ -123,7 +123,7 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             itemImageView.setImageBitmap(photo);
-            singleton.getInstance().getAPI().uploadImage((OnRequestListener)EditItemActivity.this, photo);
+            singleton.getAPI().uploadImage((OnRequestListener)EditItemActivity.this, photo);
 
         }
 
@@ -149,7 +149,7 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
             }
             itemImageView.setImageBitmap(bmp);
 
-            singleton.getInstance().getAPI().uploadImage((OnRequestListener)EditItemActivity.this, bmp);
+            singleton.getAPI().uploadImage((OnRequestListener)EditItemActivity.this, bmp);
 
         }
 

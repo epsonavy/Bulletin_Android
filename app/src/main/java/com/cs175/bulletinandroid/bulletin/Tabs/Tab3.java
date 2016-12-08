@@ -144,7 +144,7 @@ public class Tab3 extends Fragment implements View.OnClickListener, OnRequestLis
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             itemImageView.setImageBitmap(photo);
-            singleton.getInstance().getAPI().uploadImage((OnRequestListener)getActivity(), photo);
+            singleton.getAPI().uploadImage((OnRequestListener)getActivity(), photo);
 
         }
 
@@ -170,7 +170,7 @@ public class Tab3 extends Fragment implements View.OnClickListener, OnRequestLis
             }
             itemImageView.setImageBitmap(bmp);
 
-            singleton.getInstance().getAPI().uploadImage((OnRequestListener)getActivity(), bmp);
+            singleton.getAPI().uploadImage((OnRequestListener)getActivity(), bmp);
 
         }
 
