@@ -68,7 +68,7 @@ public class Tab5 extends Fragment implements OnRequestListener {
         HomeItemAdapter.ViewHolder viewHolder = new HomeItemAdapter.ViewHolder();
         viewHolder.imageView = settingPicture;
 
-        alertDialog.showDialog(getActivity(), singleton.getInstance().getUserResponse().getProfile_picture());
+        //alertDialog.showDialog(getActivity(), singleton.getInstance().getUserResponse().getProfile_picture());
         viewHolder.url = singleton.getInstance().getUserResponse().getProfile_picture();
         settingPicture.setTag(viewHolder);
         new DownloadAsyncTask().execute(viewHolder);

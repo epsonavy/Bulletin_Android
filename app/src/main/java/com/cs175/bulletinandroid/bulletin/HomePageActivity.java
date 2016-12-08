@@ -64,7 +64,7 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
         tab4 = tabLayout.newTab();
         tab5 = tabLayout.newTab();
 
-        tab1.setIcon(R.drawable.home);
+        tab1.setIcon(R.drawable.home_filled);
         tab2.setIcon(R.drawable.message);
         tab3.setIcon(R.drawable.user);
         tab4.setIcon(R.drawable.talk);
@@ -83,6 +83,24 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         Log.d("tabCount", "count is: "+tab.getPosition());
+        tab1.setIcon(R.drawable.home);
+        tab2.setIcon(R.drawable.message);
+        tab3.setIcon(R.drawable.user);
+        tab4.setIcon(R.drawable.talk);
+        tab5.setIcon(R.drawable.settings);
+
+        int index = tab.getPosition();
+        if (index == 0) {
+            tab1.setIcon(R.drawable.home_filled);
+        } else if (index == 1) {
+            tab2.setIcon(R.drawable.message_filled);
+        } else if (index == 2) {
+            tab3.setIcon(R.drawable.user_filled);
+        } else if (index == 3) {
+            tab4.setIcon(R.drawable.talk_filled);
+        } else if (index == 4) {
+            tab5.setIcon(R.drawable.settings_filled);
+        }
         viewPager.setCurrentItem(tab.getPosition());
 
     }
