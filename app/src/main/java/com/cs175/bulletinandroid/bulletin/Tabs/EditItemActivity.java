@@ -23,7 +23,17 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
 
     private String itemId;
 
-    private boolean processingConversation;
+    private String title;
+    private String description;
+    private String itemPicture;
+    private String itemPrice;
+
+    private EditText titleEditText;
+    private EditText descriptionEditText;
+    private EditText priceEditText;
+    private ImageView itemImageView;
+
+    private boolean processingMessages;
 
     private AlertDialogController alertDialog;
 
@@ -33,21 +43,20 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
-        processingConversation = false;
 
+        processingMessages = false;
         alertDialog = new AlertDialogController();
 
-        EditText titleEditText = (EditText) findViewById(R.id.titleEditText);
-        EditText descriptionEditText = (EditText) findViewById(R.id.descriptionEditText);
-        EditText priceEditText = (EditText) findViewById(R.id.priceEditText);
-        ImageView itemImageView = (ImageView)findViewById(R.id.editItemImageView);
+        titleEditText = (EditText) findViewById(R.id.titleEditText);
+        descriptionEditText = (EditText) findViewById(R.id.descriptionEditText);
+        priceEditText = (EditText) findViewById(R.id.priceEditText);
+        itemImageView = (ImageView)findViewById(R.id.editItemImageView);
 
         itemId = getIntent().getStringExtra("itemId");
-        String title = getIntent().getStringExtra("title");
-        String description = getIntent().getStringExtra("description");
-        String itemPicture = getIntent().getStringExtra("itemPicture");
-        String itemPrice = getIntent().getStringExtra("itemPrice");
-
+        title = getIntent().getStringExtra("title");
+        description = getIntent().getStringExtra("description");
+        itemPicture = getIntent().getStringExtra("itemPicture");
+        itemPrice = getIntent().getStringExtra("itemPrice");
 
         titleEditText.setText(title);
         descriptionEditText.setText(description);
@@ -65,48 +74,47 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
 
         Button updateButton = (Button) findViewById(R.id.updateItemButton);
         updateButton.setOnClickListener(this);
-
-
-
-
-
-
     }
 
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.updateItemButton){
-            if (processingConversation == false){
-
-                processingConversation = true;
-                //singleton.getAPI().makeConversation(this, itemId);
-                //updating
-
+            itemPrice = priceEditText.getText().toString();
+            Double price;
+            try {
+                price = Double.parseDouble(itemPrice);
+            } catch (NumberFormatException e) {
+                alertDialog.showDialog(EditItemActivity.this, "Please enter valid Price!");
+                return;
             }
+
+            title = titleEditText.getText().toString();
+            description = descriptionEditText.getText().toString();
+            //Need to add update picture = ??
+
+            processingMessages = true;
+            //test message
+            //alertDialog.showDialog(EditItemActivity.this, "desc:"+ description+"Price:"+price);
+
+            singleton.getAPI().updateItem(this, itemId, title, description, price, itemPicture);
         }
     }
 
     @Override
     public void onResponseReceived(RequestType type, Response response) {
 
-        /*
-        if(type == RequestType.MakeConversation){
-            if(response.getResponseCode() == 200){
+        if (type == RequestType.UpdateItem){
+            processingMessages = false;
+            if(response.getResponseCode() == 200) {
                 EditItemActivity.this.runOnUiThread(new Runnable(){
                     public void run(){
-                        alertDialog.showDialog(EditItemActivity.this, "You made a conversation!");
-                    }
-                });
-
-            }else{
-                EditItemActivity.this.runOnUiThread(new Runnable(){
-                    public void run(){
-                        alertDialog.showDialog(EditItemActivity.this, "Conversation has already been made!");
+                        singleton.homePageActivity.tab4Refresh();
+                        alertDialog.showDialog(EditItemActivity.this, "You updated this item!");
                     }
                 });
             }
-            processingConversation = false;
-        }*/
+        }
+        processingMessages = false;
     }
 
     @Override
