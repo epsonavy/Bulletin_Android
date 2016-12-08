@@ -39,6 +39,8 @@ public class Tab3 extends Fragment implements View.OnClickListener, OnRequestLis
     private EditText descriptionEditText;
     private EditText priceEditText;
     private ImageView itemImageView;
+    private static final int RESULT_LOAD_IMAGE = 1;
+    private static final int CAMERA_REQUEST = 1888;
 
     private Typeface font;
 
@@ -103,7 +105,6 @@ public class Tab3 extends Fragment implements View.OnClickListener, OnRequestLis
             if(response.getResponseCode() == 200){
                 getActivity().runOnUiThread(new Runnable(){
                     public void run(){
-                        singleton.homePageActivity.tab1Refresh();
                         singleton.homePageActivity.tab4Refresh();
                         Toast.makeText(getActivity(), "You Post an item!",
                                 Toast.LENGTH_LONG).show();
