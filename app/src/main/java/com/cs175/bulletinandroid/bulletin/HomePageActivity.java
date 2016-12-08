@@ -139,6 +139,19 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
                 pictureURL = itemResponse.getUrl();
                 runThread(1);
             }
+
+            if (type == RequestType.UploadImage && singleton.getInstance().getflag().equals("tab3")) {
+                singleton.getInstance().setflag("");
+                UploadResponse itemResponse = (UploadResponse) response;
+                String itemPicture = itemResponse.getUrl();
+                singleton.getInstance().itemURL =itemPicture;
+                //runThread(4);
+            }
+
+            if (type == RequestType.PostItem) {
+                runThread(6);
+            }
+
             if (type ==RequestType.UpdatePicture && singleton.getInstance().getflag().equals("tab5") ) {
                 singleton.getInstance().setflag(" ");
                 runThread(4);
@@ -146,11 +159,14 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
             if (type == RequestType.UpdatePassword) {
                 runThread(5);
             }
+
+
         } else if (response.getResponseCode() == 400) {
             if (type == RequestType.UploadImage) {
                 runThread(2);
             }
         } else {
+            if (type == RequestType.PostItem)
             runThread(3);
 
         }
@@ -158,7 +174,10 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
 
     @Override
     public void onResponsesReceived(RequestType type, int resCode, Response[] response) {
-
+        if (type == RequestType.GetItems && singleton.getInstance().getflag().equals("tab4")) {
+            Tab4 tab = new Tab4();
+            tab.onResponsesReceived(type, resCode, response);
+        }
     }
 
     private void runThread(final int flag) {
@@ -182,13 +201,16 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
                                 alertDialog.showDialog(HomePageActivity.this, "Server error, please try again");
                             }
                             if (flag == 3) {
-                                alertDialog.showDialog(HomePageActivity.this, "Server error, please try agai");
+                                alertDialog.showDialog(HomePageActivity.this, "Server error, post item is not working");
                             }
                             if (flag == 4) {
                                 alertDialog.showDialog(HomePageActivity.this, "Upload image succeeded!");
                             }
                             if (flag == 5) {
                                 alertDialog.showDialog(HomePageActivity.this, "Change password succeeded!");
+                            }
+                            if (flag == 6) {
+                                alertDialog.showDialog(HomePageActivity.this, "Item Posted!");
                             }
                         }
                     });

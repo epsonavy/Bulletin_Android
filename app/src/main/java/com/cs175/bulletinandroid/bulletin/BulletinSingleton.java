@@ -27,6 +27,7 @@ public class BulletinSingleton {
     private BulletinAPI API;
     private String flag;
 
+    public String itemURL;
     public String getflag() {
         return flag;
     }

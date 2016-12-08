@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/myListingHeaderView"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/refreshButton"
         android:id="@+id/itemListView"
         android:layout_marginLeft="10dp"
         android:divider="#FFFFFF"
@@ -50,4 +50,15 @@
         android:layout_marginRight="10dp"
         android:dividerHeight="10dp"
         />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/refreshButton"
+        android:textAllCaps="false"
+        android:background="@color/themeColor"
+        android:text="Refresh"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        android:layout_alignParentStart="true"/>
 </RelativeLayout>

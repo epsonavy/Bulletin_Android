@@ -43,7 +43,7 @@ public class Tab3 extends Fragment implements View.OnClickListener, OnRequestLis
 
     private AlertDialogController alertDialog;
     private boolean processingItemRefresh;
-    private BulletinSingleton singleton = BulletinSingleton.getInstance();
+    private BulletinSingleton singleton;
 
     private String title;
     private String description;
@@ -132,7 +132,10 @@ public class Tab3 extends Fragment implements View.OnClickListener, OnRequestLis
             description = descriptionEditText.getText().toString();
 
             processingItemRefresh = true;
-            singleton.getAPI().postItem(this, title, description, itemPicture, price);
+            if (singleton.getInstance().itemURL!=null) {
+                singleton.getInstance().setflag("tab3");
+                singleton.getInstance().getAPI().postItem((OnRequestListener) getActivity(), title, description, singleton.getInstance().itemURL, price);
+            }
         }
     }
 
@@ -144,7 +147,8 @@ public class Tab3 extends Fragment implements View.OnClickListener, OnRequestLis
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             itemImageView.setImageBitmap(photo);
-            singleton.getAPI().uploadImage((OnRequestListener)getActivity(), photo);
+            singleton.getInstance().setflag("tab3");
+            singleton.getInstance().getAPI().uploadImage((OnRequestListener)getActivity(), photo);
 
         }
 
@@ -169,8 +173,8 @@ public class Tab3 extends Fragment implements View.OnClickListener, OnRequestLis
                 e.printStackTrace();
             }
             itemImageView.setImageBitmap(bmp);
-
-            singleton.getAPI().uploadImage((OnRequestListener)getActivity(), bmp);
+            singleton.getInstance().setflag("tab3");
+            singleton.getInstance().getAPI().uploadImage((OnRequestListener)getActivity(), bmp);
 
         }
 
@@ -188,6 +192,7 @@ public class Tab3 extends Fragment implements View.OnClickListener, OnRequestLis
     @Override
     public void onResponseReceived(RequestType type, Response response) {
 
+        singleton.getInstance().setflag("");
         if (type == RequestType.UploadImage) {
             if(response.getResponseCode() == 200) {
                 UploadResponse itemResponse = (UploadResponse) response;
@@ -196,13 +201,17 @@ public class Tab3 extends Fragment implements View.OnClickListener, OnRequestLis
             } else {
                 runThread(2);
             }
-        } else {
+        } else  if (type == RequestType.PostItem) {
+            singleton.getInstance().itemURL ="";
+            runThread(6);
+        }
+        else {
             if (type == RequestType.UpdateItem){
                 processingItemRefresh = false;
                 if(response.getResponseCode() == 200) {
                     getActivity().runOnUiThread(new Runnable(){
                         public void run(){
-                            singleton.homePageActivity.tab4Refresh();
+                            singleton.getInstance().homePageActivity.tab4Refresh();
                             Toast.makeText(getActivity(), "You Post an item!",
                                     Toast.LENGTH_LONG).show();
                             //alertDialog.showDialog(getActivity(), "You Post an item!");
@@ -225,6 +234,8 @@ public class Tab3 extends Fragment implements View.OnClickListener, OnRequestLis
             public void run() {
 
                 try {
+                    if(getActivity() == null)
+                        return;
                     getActivity().runOnUiThread(new Runnable() {
 
                         @Override
@@ -234,11 +245,14 @@ public class Tab3 extends Fragment implements View.OnClickListener, OnRequestLis
                                 alertDialog.showDialog(getActivity(), "Upload image succeeded in fragment!");
                             }
                             if (flag == 2) {
-                                alertDialog.showDialog(getActivity(), "Server error, please try again");
+                                alertDialog.showDialog(getActivity(), "Server error, please try again1");
 
                             }
                             if (flag == 3) {
-                                alertDialog.showDialog(getActivity(), "Server error, please try again");
+                                alertDialog.showDialog(getActivity(), "Server error, please try again2");
+                            }
+                            if (flag == 6) {
+                                alertDialog.showDialog(getActivity(), "Item Post!");
                             }
                         }
                     });

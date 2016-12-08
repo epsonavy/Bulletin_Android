@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -51,6 +52,14 @@ public class Tab4 extends Fragment implements OnRequestListener, AdapterView.OnI
 
         refreshItems();
 
+        Button refreshButton = (Button)view.findViewById(R.id.refreshButton);
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                singleton.setflag("tab4");
+                singleton.getAPI().getMyItems(Tab4.this);
+            }
+        });
 
         return view;
     }
@@ -62,6 +71,7 @@ public class Tab4 extends Fragment implements OnRequestListener, AdapterView.OnI
     public void refreshItems(){
         if(processingItemRefresh == false){
             processingItemRefresh = true;
+            singleton.setflag("tab4");
             singleton.getAPI().getMyItems(this);
         }
     }
@@ -88,6 +98,7 @@ public class Tab4 extends Fragment implements OnRequestListener, AdapterView.OnI
 
     @Override
     public void onResponsesReceived(RequestType type, int resCode, Response[] response) {
+        singleton.setflag("tab4");
         if(type == RequestType.GetItems){
             processingItemRefresh = false;
             if (resCode == 200){
