@@ -62,10 +62,10 @@ public class LoginActivity extends AppCompatActivity implements OnRequestListene
         getStoredToken = prefs.getString("token", "error");//"No name defined" is the default value.
 
         Log.d("checktokensave", getStoredToken);
-        if (!getStoredToken.equals("error")) {
+        /*if (!getStoredToken.equals("error")) {
             Log.d("checktokensave", getStoredToken);
             singleton.getInstance().getAPI().checkToken((OnRequestListener) context, getStoredToken);
-        }
+        }*/
 
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         Drawable d = new ColorDrawable(Color.BLACK);

@@ -28,11 +28,12 @@ public class DownloadAsyncTask extends AsyncTask<HomeItemAdapter.ViewHolder, Voi
         try{
             if (ImageCache.doesImageExist(viewHolder.url)){
                 Log.d("Bulletin", "Found it?");
-                viewHolder.bitmap = Bitmap.createScaledBitmap(ImageCache.getImage(viewHolder.url), 300, 250, true);
+                viewHolder.bitmap = ImageCache.getImage(viewHolder.url);
+                //viewHolder.bitmap = Bitmap.createScaledBitmap(ImageCache.getImage(viewHolder.url), 500, 400, true);
             }else {
                 URL imageUrl = new URL(viewHolder.url);
                 viewHolder.bitmap = BitmapFactory.decodeStream(imageUrl.openStream());
-                viewHolder.bitmap = Bitmap.createScaledBitmap(viewHolder.bitmap, 300, 250, true);
+                //viewHolder.bitmap = Bitmap.createScaledBitmap(viewHolder.bitmap, 500, 400, true);
                 ImageCache.saveImage(viewHolder.url, viewHolder.bitmap);
             }
         }catch(Exception e){
