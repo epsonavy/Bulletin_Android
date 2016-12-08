@@ -73,7 +73,7 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
 
         imageView = new RoundedImageView(getApplicationContext());
 
-        imageView.setImageResource(R.drawable.tuzki);
+        imageView.setImageResource(R.drawable.default_profile);
         imageView.setAdjustViewBounds(true);
         imageView.setBackgroundResource(R.drawable.profile_circle_shape);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(dp, dp);
@@ -83,40 +83,6 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
         params.setMargins(0, dpTop, 0, 0);
         imageView.setLayoutParams(params);
         layout.addView(imageView);
-
-
-
-
-
-        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.tuzki);
-        File f = new File(context.getCacheDir(), "profile_picture");
-        try {
-            f.createNewFile();
-
-//Convert bitmap to byte array
-
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.PNG, 100 /*ignored for PNG*/, bos);
-            byte[] bitmapdata = bos.toByteArray();
-
-//write the bytes in file
-            FileOutputStream fos = new FileOutputStream(f);
-            fos.write(bitmapdata);
-            fos.flush();
-            fos.close();
-        }catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        singleton.getInstance().getAPI().uploadImage((OnRequestListener)context, bmp);
-
-
-
-
-
 
 
 
@@ -174,6 +140,7 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(photo);
+            singleton.getInstance().getAPI().uploadImage((OnRequestListener)context, photo);
 
         }
 
@@ -198,31 +165,6 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
                 e.printStackTrace();
             }
             imageView.setImageBitmap(bmp);
-
-
-
-
-            //create a file to write bitmap data
-            File f = new File(context.getCacheDir(), "profile_picture");
-            try {
-                f.createNewFile();
-
-//Convert bitmap to byte array
-
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                bmp.compress(Bitmap.CompressFormat.PNG, 100 /*ignored for PNG*/, bos);
-                byte[] bitmapdata = bos.toByteArray();
-
-//write the bytes in file
-                FileOutputStream fos = new FileOutputStream(f);
-                fos.write(bitmapdata);
-                fos.flush();
-                fos.close();
-            }catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
             singleton.getInstance().getAPI().uploadImage((OnRequestListener)context, bmp);
 
@@ -258,7 +200,6 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
             //message = "register works";
 
             if (type == RequestType.UploadImage) {
-                Log.d("dddd", "upload image works");
                 runThread(1);
             }
             if (type == RequestType.Login) {
@@ -301,13 +242,13 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
                         public void run() {
                             //nextButton.setText(title);
                             if (flag == 1) {
-                                alertDialog.showDialog(RegistrationCompletedActivity.this, "works!");
+                                alertDialog.showDialog(RegistrationCompletedActivity.this, "Upload image succeeded!");
                             }
                             if (flag == 2) {
-                                alertDialog.showDialog(RegistrationCompletedActivity.this, "400 error");
+                                alertDialog.showDialog(RegistrationCompletedActivity.this, "Server error, please try again");
                             }
                             if (flag == 3) {
-                                alertDialog.showDialog(RegistrationCompletedActivity.this, "other errors");
+                                alertDialog.showDialog(RegistrationCompletedActivity.this, "Server error, please try agai");
                             }
                         }
                     });

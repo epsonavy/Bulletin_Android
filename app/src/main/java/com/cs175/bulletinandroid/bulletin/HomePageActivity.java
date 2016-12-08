@@ -12,9 +12,10 @@ import android.view.View;
 import android.widget.TableLayout;
 
 
+import com.cs175.bulletinandroid.bulletin.Elements.AlertDialogController;
 import com.cs175.bulletinandroid.bulletin.Tabs.*;
 
-public class HomePageActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener  {
+public class HomePageActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, OnRequestListener {
 
     private TabLayout tabLayout;
 
@@ -23,6 +24,7 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
     private TabLayout.Tab tab3;
     private TabLayout.Tab tab4;
     private TabLayout.Tab tab5;
+    private AlertDialogController alertDialog;
 
     private TabPager adapter;
 
@@ -34,6 +36,7 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
+        alertDialog = new AlertDialogController();
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         initTabIcons();
 
@@ -104,5 +107,48 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 
+    }
+
+    @Override
+    public void onResponseReceived(RequestType type, Response response) {
+        if (type == RequestType.UploadImage) {
+            runThread(1);
+        }
+    }
+
+    @Override
+    public void onResponsesReceived(RequestType type, int resCode, Response[] response) {
+
+    }
+
+    private void runThread(final int flag) {
+
+        new Thread() {
+            public void run() {
+
+                try {
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            //nextButton.setText(title);
+                            if (flag == 1) {
+                                alertDialog.showDialog(HomePageActivity.this, "Upload image succeeded!");
+                            }
+                            if (flag == 2) {
+                                alertDialog.showDialog(HomePageActivity.this, "Server error, please try again");
+                            }
+                            if (flag == 3) {
+                                alertDialog.showDialog(HomePageActivity.this, "Server error, please try agai");
+                            }
+                        }
+                    });
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }.start();
     }
 }
