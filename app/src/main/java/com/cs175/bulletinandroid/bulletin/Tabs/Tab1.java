@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.LayoutInflaterCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 /**
  * Created by chenyulong on 12/4/16.
  */
-public class Tab1 extends Fragment implements OnRequestListener, AdapterView.OnItemClickListener{
+public class Tab1 extends Fragment implements OnRequestListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener{
 
     private BulletinSingleton singleton = BulletinSingleton.getInstance();
 
@@ -38,6 +39,8 @@ public class Tab1 extends Fragment implements OnRequestListener, AdapterView.OnI
     private TextView universityTextView;
     private EditText searchEditText;
     private ListView contentListView;
+
+    private SwipeRefreshLayout swipeRefresh;
 
     private boolean processingItemRefresh;
 
@@ -56,6 +59,9 @@ public class Tab1 extends Fragment implements OnRequestListener, AdapterView.OnI
         searchEditText = (EditText) view.findViewById(R.id.searchEditText);
         contentListView = (ListView) view.findViewById(R.id.contentListView);
 
+        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.scrollControl);
+
+        swipeRefresh.setOnRefreshListener(this);
 
         font = Typeface.createFromAsset(getActivity().getAssets(), "Fonts/SF-UI-Display-Light.otf");
 
@@ -80,7 +86,7 @@ public class Tab1 extends Fragment implements OnRequestListener, AdapterView.OnI
 
     @Override
     public void onResponseReceived(RequestType type, Response response) {
-
+        processingItemRefresh = false;
     }
 
     @Override
@@ -91,11 +97,14 @@ public class Tab1 extends Fragment implements OnRequestListener, AdapterView.OnI
                 getActivity().runOnUiThread(new Runnable(){
                     public void run(){
                         contentListView.setAdapter(adapter);
+                        swipeRefresh.setRefreshing(false);
+                        Log.d("Bulletin", "Swiping should stop");
                     }
                 });
 
             }
         }
+        processingItemRefresh = false;
     }
 
     @Override
@@ -112,5 +121,11 @@ public class Tab1 extends Fragment implements OnRequestListener, AdapterView.OnI
         viewItemIntent.putExtra("userPicture", item.getUserPicture());
         viewItemIntent.putExtra("itemId", item.get_id());
         startActivity(viewItemIntent);
+    }
+
+    @Override
+    public void onRefresh() {
+        if(processingItemRefresh == true) swipeRefresh.setRefreshing(false);
+        refreshItems();
     }
 }

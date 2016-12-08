@@ -48,17 +48,17 @@
                 android:layout_height="wrap_content"
                 android:text="Description"
                 android:textColor="#BBBBBB"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="4dp"
                 android:alpha="1.5"
                 android:id="@+id/descriptionTextView"/>
         </LinearLayout>
 
-        <ImageView
+        <com.cs175.bulletinandroid.bulletin.Elements.RoundedImageView
             android:background="@null"
             android:layout_width="50sp"
             android:layout_height="50sp"
             android:layout_alignParentRight="true"
-            android:id="@+id/userImageView"></ImageView>
+            android:id="@+id/userImageView"></com.cs175.bulletinandroid.bulletin.Elements.RoundedImageView>
 
     </RelativeLayout>
 

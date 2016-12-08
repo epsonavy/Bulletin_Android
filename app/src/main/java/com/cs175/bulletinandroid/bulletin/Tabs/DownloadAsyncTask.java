@@ -26,7 +26,8 @@ public class DownloadAsyncTask extends AsyncTask<HomeItemAdapter.ViewHolder, Voi
         HomeItemAdapter.ViewHolder viewHolder = params[0];
         try{
             URL imageUrl = new URL(viewHolder.url);
-            viewHolder.bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(imageUrl.openStream()), 100, 100, true);
+            viewHolder.bitmap = BitmapFactory.decodeStream(imageUrl.openStream());
+            viewHolder.bitmap = Bitmap.createScaledBitmap(viewHolder.bitmap, 300, 250, true);
         }catch(Exception e){
 
             viewHolder.bitmap = null;
@@ -42,6 +43,26 @@ public class DownloadAsyncTask extends AsyncTask<HomeItemAdapter.ViewHolder, Voi
         }else{
 
         }
+    }
+
+
+    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            // Calculate ratios of height and width to requested height and width
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+
+            // Choose the smallest ratio as inSampleSize value, this will guarantee
+            // a final image with both dimensions larger than or equal to the
+            // requested height and width.
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+        return inSampleSize;
     }
 
 }

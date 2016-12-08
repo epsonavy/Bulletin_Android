@@ -3,13 +3,15 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="125dp"
     android:background="#FFFFFF">
-    <ImageView
+    <com.cs175.bulletinandroid.bulletin.Elements.RoundedImageView
         android:layout_height="80dp"
         android:layout_width="80dp"
         android:background="#AAAAAA"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
         android:id="@+id/userImageView"/>
 
     <LinearLayout

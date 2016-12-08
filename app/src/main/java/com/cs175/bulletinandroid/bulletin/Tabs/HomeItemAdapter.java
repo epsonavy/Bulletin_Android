@@ -103,7 +103,7 @@ public class HomeItemAdapter extends BaseAdapter {
 
 
             new DownloadAsyncTask().execute(itemImageHolder);
-            //new DownloadAsyncTask().execute(userImageHolder);
+            new DownloadAsyncTask().execute(userImageHolder);
 
         }
 
