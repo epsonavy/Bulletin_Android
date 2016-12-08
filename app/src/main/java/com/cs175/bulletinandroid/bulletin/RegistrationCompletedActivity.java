@@ -50,6 +50,7 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
     private BulletinSingleton singleton;
     private Context context;
     private AlertDialogController alertDialog;
+    private String pictureURL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -200,8 +201,14 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
             //message = "register works";
 
             if (type == RequestType.UploadImage) {
+                UploadResponse itemResponse = (UploadResponse) response;
+                pictureURL = itemResponse.getUrl();
                 runThread(1);
             }
+            if (type == RequestType.UpdatePicture) {
+                runThread(4);
+            }
+
             if (type == RequestType.Login) {
                 loginEnable = true;
                 SuccessMessageTokenResponse token = (SuccessMessageTokenResponse) response;
@@ -242,13 +249,21 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
                         public void run() {
                             //nextButton.setText(title);
                             if (flag == 1) {
-                                alertDialog.showDialog(RegistrationCompletedActivity.this, "Upload image succeeded!");
+                                if (pictureURL!=null) {
+                                    singleton.getInstance().getAPI().updatePicture((OnRequestListener) RegistrationCompletedActivity.this, pictureURL);
+                                }
+
+
                             }
                             if (flag == 2) {
                                 alertDialog.showDialog(RegistrationCompletedActivity.this, "Server error, please try again");
                             }
                             if (flag == 3) {
                                 alertDialog.showDialog(RegistrationCompletedActivity.this, "Server error, please try agai");
+                            }
+
+                            if (flag == 4) {
+                                alertDialog.showDialog(RegistrationCompletedActivity.this, "Upload image succeeded!");
                             }
                         }
                     });

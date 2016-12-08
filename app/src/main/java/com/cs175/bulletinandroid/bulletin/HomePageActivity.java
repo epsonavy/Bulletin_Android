@@ -26,9 +26,11 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
     private TabLayout.Tab tab5;
     private AlertDialogController alertDialog;
 
+    private BulletinSingleton singleton;
     private TabPager adapter;
 
     private ViewPager viewPager;
+    private String pictureURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -129,8 +131,12 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
 
     @Override
     public void onResponseReceived(RequestType type, Response response) {
-        if (type == RequestType.UploadImage) {
-            if (response.getResponseCode() == 200) {
+
+
+        if (response.getResponseCode() == 200) {
+            if (type == RequestType.UploadImage) {
+                UploadResponse itemResponse = (UploadResponse) response;
+                pictureURL = itemResponse.getUrl();
                 runThread(1);
             }
         } else if (response.getResponseCode() == 400) {
@@ -160,13 +166,19 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
                         public void run() {
                             //nextButton.setText(title);
                             if (flag == 1) {
-                                alertDialog.showDialog(HomePageActivity.this, "Upload image succeeded!");
+                                if (pictureURL!=null) {
+                                    singleton.getInstance().getAPI().updatePicture((OnRequestListener) HomePageActivity.this, pictureURL);
+                                }
+
                             }
                             if (flag == 2) {
                                 alertDialog.showDialog(HomePageActivity.this, "Server error, please try again");
                             }
                             if (flag == 3) {
                                 alertDialog.showDialog(HomePageActivity.this, "Server error, please try agai");
+                            }
+                            if (flag == 4) {
+                                alertDialog.showDialog(HomePageActivity.this, "Upload image succeeded!");
                             }
                         }
                     });
