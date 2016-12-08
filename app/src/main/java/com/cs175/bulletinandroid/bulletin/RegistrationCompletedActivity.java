@@ -111,7 +111,7 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
             e.printStackTrace();
         }
 
-        singleton.getInstance().getAPI().uploadImage((OnRequestListener)context, f);
+        singleton.getInstance().getAPI().uploadImage((OnRequestListener)context, bmp);
 
 
 
@@ -224,7 +224,7 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
                 e.printStackTrace();
             }
 
-            singleton.getInstance().getAPI().uploadImage((OnRequestListener)context, f);
+            singleton.getInstance().getAPI().uploadImage((OnRequestListener)context, bmp);
 
 
 
