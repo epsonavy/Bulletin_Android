@@ -729,6 +729,7 @@ public class BulletinAPI {
                     os.flush();
                     os.append("\r\n");
                     os.flush();
+                    os.write(boundary + "\r\n");
                     inputStream.close();
                     os.close();
 
