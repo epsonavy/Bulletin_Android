@@ -8,9 +8,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
@@ -687,51 +690,45 @@ public class BulletinAPI {
 
     }
 
-    public void uploadImage(final OnRequestListener listener, final File image){
+    public void uploadImage(final OnRequestListener listener, final Bitmap image){
         new Thread(new Runnable(){
             public void run(){
                 try {
                     URL url = new URL(getAPIAddress() + "/upload/?token=" + getToken());
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
-                    String boundary = "===" + System.currentTimeMillis() + "===";
+                    String boundary = "*****";
                     connection.setUseCaches(false);
                     connection.setDoOutput(true);
-                    connection.setDoInput(true);
-                    connection.setRequestProperty("Content-Type",
-                            "multipart/form-data; boundary=" + boundary);
+                    connection.setRequestMethod("POST");
+                    connection.setRequestProperty(
+                            "Content-Type", "multipart/form-data;boundary=" + boundary);
                     //connection.setFixedLengthStreamingMode(4096);
-                    PrintWriter os = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()));
+                    DataOutputStream request = new DataOutputStream(
+                            connection.getOutputStream());
+
+                    request.writeBytes("--" + boundary + "\r\n");
+                    request.writeBytes("Content-Disposition: form-data; name=\"" +
+                            "test" + "\"\r\n\r\n");
+                    request.writeBytes("hi\r\n");
+                    request.writeBytes("--" + boundary + "\r\n");
+                    request.writeBytes("Content-Disposition: form-data; name=\"" +
+                            "file" + "\";filename=\"" +
+                            "nothing_important.png" + "\"" + "\r\n");
+                    request.writeBytes("Content-Type: image/png\r\n\r\n");
 
 
 
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    image.compress(Bitmap.CompressFormat.PNG, 100 /*ignored for PNG*/, bos);
+                    request.write(bos.toByteArray());
 
-                    String fileName = image.getName();
-                    os.append("--" + boundary).append("\r\n");
-                    os.append(
-                            "Content-Disposition: form-data; name=\"" + "\"file\""
-                                    + "\"; filename=\"" + fileName + "\"")
-                            .append("\r\n");
-                    os.append(
-                            "Content-Type: "
-                                    + URLConnection.guessContentTypeFromName(fileName))
-                            .append("\r\n");
-                    os.append("Content-Transfer-Encoding: binary").append("\r\n");
-                    os.append("\r\n");
-                    os.flush();
+                    int length = bos.toByteArray().length;
 
-                    FileInputStream inputStream = new FileInputStream(image);
-                    byte[] buffer = new byte[4096];
-                    int bytesRead = -1;
-                    while ((bytesRead = inputStream.read(buffer)) != -1) {
-                       os.write(new String(buffer).toCharArray(), 0, bytesRead);
-                    }
-                    os.flush();
-                    os.append("\r\n");
-                    os.flush();
-                    os.write("--" +boundary + "--" + "\r\n");
-                    inputStream.close();
-                    os.close();
+                    request.writeBytes("\r\n");
+                    request.writeBytes("--" +boundary + "--" + "\r\n");
+                    request.flush();
+                    request.close();
 
                     GsonBuilder gsonBuilder = new GsonBuilder();
                     Gson gson = new Gson();
