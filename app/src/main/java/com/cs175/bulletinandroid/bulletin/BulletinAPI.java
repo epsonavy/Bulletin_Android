@@ -412,7 +412,7 @@ public class BulletinAPI {
                         while((line = br.readLine()) != null){
                             sb.append(line);
                         }
-                        SuccessMessageResponse response = new SuccessMessageResponse();
+                        ConversationResponse response = gson.fromJson(sb.toString(), ConversationResponse.class);
                         response.setResponseCode(connection.getResponseCode());
                         listener.onResponseReceived(OnRequestListener.RequestType.MakeConversation, response);
 

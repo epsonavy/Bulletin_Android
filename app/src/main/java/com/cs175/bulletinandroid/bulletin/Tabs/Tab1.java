@@ -128,6 +128,7 @@ public class Tab1 extends Fragment implements OnRequestListener, AdapterView.OnI
                         filteredResponses[filterCount].setPictures(new String[] { r.getPictures()[0]});
                         filteredResponses[filterCount].setUserName(r.getUserName());
                         filteredResponses[filterCount].setUserPicture(r.getUserPicture());
+                        filteredResponses[filterCount].set_id(r.get_id());
                         filteredResponses[filterCount++].setDescription(r.getDescription());
                     }
                 }
