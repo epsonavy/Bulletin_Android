@@ -85,6 +85,42 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
         layout.addView(imageView);
 
 
+
+
+
+        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.tuzki);
+        File f = new File(context.getCacheDir(), "profile_picture");
+        try {
+            f.createNewFile();
+
+//Convert bitmap to byte array
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100 /*ignored for PNG*/, bos);
+            byte[] bitmapdata = bos.toByteArray();
+
+//write the bytes in file
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+        }catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        singleton.getInstance().getAPI().uploadImage((OnRequestListener)context, f);
+
+
+
+
+
+
+
+
+
         completeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -240,9 +276,9 @@ public class RegistrationCompletedActivity extends AppCompatActivity implements 
                 runThread(2);
             }
         } else {
-            if (type == RequestType.UploadImage) {
+
                 runThread(3);
-            }
+
         }
     }
 
