@@ -700,7 +700,7 @@ public class BulletinAPI {
                     connection.setDoInput(true);
                     connection.setRequestProperty("Content-Type",
                             "multipart/form-data; boundary=" + boundary);
-                    connection.setFixedLengthStreamingMode(1024);
+                    //connection.setFixedLengthStreamingMode(4096);
                     PrintWriter os = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()));
 
 
@@ -729,7 +729,7 @@ public class BulletinAPI {
                     os.flush();
                     os.append("\r\n");
                     os.flush();
-                    os.write(boundary + "\r\n");
+                    os.write("--" +boundary + "--" + "\r\n");
                     inputStream.close();
                     os.close();
 
