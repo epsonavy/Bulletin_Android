@@ -1,16 +1,22 @@
 package com.cs175.bulletinandroid.bulletin;
 
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
+import java.nio.ByteBuffer;
 
 /**
  * Created by Lucky on 11/22/16.
@@ -679,6 +685,145 @@ public class BulletinAPI {
             }
         }).start();
 
+    }
+
+    public void uploadImage(final OnRequestListener listener, final File image){
+        new Thread(new Runnable(){
+            public void run(){
+                try {
+                    URL url = new URL(getAPIAddress() + "/upload/?token=" + getToken());
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    String boundary = "===" + System.currentTimeMillis() + "===";
+                    connection.setUseCaches(false);
+                    connection.setDoOutput(true);
+                    connection.setDoInput(true);
+                    connection.setRequestProperty("Content-Type",
+                            "multipart/form-data; boundary=" + boundary);
+                    connection.setFixedLengthStreamingMode(1024);
+                    PrintWriter os = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()));
+
+
+
+
+                    String fileName = image.getName();
+                    os.append("--" + boundary).append("\r\n");
+                    os.append(
+                            "Content-Disposition: form-data; name=\"" + "\"file\""
+                                    + "\"; filename=\"" + fileName + "\"")
+                            .append("\r\n");
+                    os.append(
+                            "Content-Type: "
+                                    + URLConnection.guessContentTypeFromName(fileName))
+                            .append("\r\n");
+                    os.append("Content-Transfer-Encoding: binary").append("\r\n");
+                    os.append("\r\n");
+                    os.flush();
+
+                    FileInputStream inputStream = new FileInputStream(image);
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                       os.write(new String(buffer).toCharArray(), 0, bytesRead);
+                    }
+                    os.flush();
+                    os.append("\r\n");
+                    os.flush();
+                    inputStream.close();
+                    os.close();
+
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    Gson gson = new Gson();
+
+                    int resCode = connection.getResponseCode();
+                    if(resCode == 200){
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line = null;
+                        while((line = br.readLine()) != null){
+                            sb.append(line);
+                        }
+                        UploadResponse response = gson.fromJson(sb.toString(), UploadResponse.class);
+                        response.setResponseCode(connection.getResponseCode());
+                        listener.onResponseReceived(OnRequestListener.RequestType.UploadImage, response);
+
+                    }else{
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line = null;
+                        while((line = br.readLine()) != null){
+                            sb.append(line);
+                        }
+                        SuccessMessageResponse response = new SuccessMessageResponse();
+                        response.setResponseCode(400);
+                        listener.onResponseReceived(OnRequestListener.RequestType.UploadImage, response);
+
+                    }
+
+
+
+                }catch(Exception e){
+                    Log.d("Bulletin API", "Something went wrong with uploading an image " + e.getMessage());
+                }
+            }
+        }).start();
+    }
+
+    public void updateItem(final OnRequestListener listener, final String itemId, final String title, final String description, final Double price, final String picture){
+        new Thread(new Runnable(){
+            public void run(){
+                try{
+                    URL url = new URL(getAPIAddress() + "/items/update/?token=" + getToken() + "&itemId=" + itemId);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setRequestProperty("Content-type", "application/json");
+                    OutputStreamWriter os = new OutputStreamWriter(connection.getOutputStream());
+                    if(!picture.equals("")) {
+                        os.write("{ \"title\":" + title + ", \"description\": " + description + ", \"pictures\": [\"" + picture + "\"], \"price\":" + Double.toString(price) +"}");
+                    }else{
+                        os.write("{ \"title\":" + title + ", \"description\": " + description + ", \"price\":" + Double.toString(price) + "}");
+                    }
+                    Log.d("Bulletin API", "{ \"title\":" + title + ", \"description\": " + description + ", \"pictures\": [\"" + picture + "\"], \"price\":" + Double.toString(price) +"}");
+                    Log.d("Bulletin API", "{ \"title\":" + title + ", \"description\": " + description + ", \"price\":" + Double.toString(price) + "}");
+
+                    //{ "title" : title, "description" : description, "pictures": ["onepicture"], "price" : price}
+                    os.flush();
+                    os.close();
+
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    Gson gson = new Gson();
+
+                    int resCode = connection.getResponseCode();
+                    if(resCode == 200){
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line = null;
+                        while((line = br.readLine()) != null){
+                            sb.append(line);
+                        }
+                        ItemResponse response = gson.fromJson(sb.toString(), ItemResponse.class);
+                        response.setResponseCode(connection.getResponseCode());
+                        listener.onResponseReceived(OnRequestListener.RequestType.UpdateItem, response);
+
+                    }else{
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line = null;
+                        while((line = br.readLine()) != null){
+                            sb.append(line);
+                        }
+                        SuccessMessageResponse response = gson.fromJson(sb.toString(), SuccessMessageResponse.class);
+                        response.setResponseCode(resCode);
+                        listener.onResponseReceived(OnRequestListener.RequestType.UpdateItem, response);
+
+                    }
+
+
+                }catch(Exception e){
+                    Log.d("Bulletin API", "Something went wrong with updating item " + e.getMessage());
+                }
+            }
+        }).start();
     }
 
 

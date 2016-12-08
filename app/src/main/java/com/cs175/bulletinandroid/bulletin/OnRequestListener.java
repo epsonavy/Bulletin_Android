@@ -17,7 +17,9 @@ public interface OnRequestListener{
         GetConversations,
         PostItem,
         GetAllMessages,
-        SendMessage
+        SendMessage,
+        UploadImage,
+        UpdateItem
     }
     public void onResponseReceived(RequestType type, Response response);
 
