@@ -90,11 +90,9 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
 
             title = titleEditText.getText().toString();
             description = descriptionEditText.getText().toString();
-            //Need to add update picture = ??
+            // Need to add update picture here <<<================
 
             processingMessages = true;
-            //test message
-            //alertDialog.showDialog(EditItemActivity.this, "desc:"+ description+"Price:"+price);
 
             singleton.getAPI().updateItem(this, itemId, title, description, price, itemPicture);
         }

@@ -89,7 +89,7 @@ public class Tab4 extends Fragment implements OnRequestListener, AdapterView.OnI
     @Override
     public void onResponsesReceived(RequestType type, int resCode, Response[] response) {
         if(type == RequestType.GetItems){
-
+            processingItemRefresh = false;
             if (resCode == 200){
 
                 final MyListingItemAdapter adapter = new MyListingItemAdapter(getContext(), (ItemResponse[]) response);
@@ -102,5 +102,6 @@ public class Tab4 extends Fragment implements OnRequestListener, AdapterView.OnI
 
             }
         }
+        processingItemRefresh = false;
     }
 }

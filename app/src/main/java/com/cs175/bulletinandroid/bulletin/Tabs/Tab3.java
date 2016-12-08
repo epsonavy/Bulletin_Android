@@ -22,6 +22,7 @@ import com.cs175.bulletinandroid.bulletin.Response;
 public class Tab3 extends Fragment implements View.OnClickListener, OnRequestListener {
 
     private AlertDialogController alertDialog;
+    private boolean processingItemRefresh;
 
     private Typeface font;
 
