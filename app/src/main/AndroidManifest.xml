@@ -47,7 +47,7 @@
         <activity
             android:name=".HomePageActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity
         android:name=".Tabs.ViewItemActivity"
         android:screenOrientation="portrait"

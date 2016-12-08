@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.cs175.bulletinandroid.bulletin.LoginActivityBackground;
@@ -27,6 +28,8 @@ public class Tab5 extends Fragment {
 
         View view = inflater.inflate(R.layout.tab5, container, false);
         settingButton = (Button)view.findViewById(R.id.SettingButton);
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
