@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.cs175.bulletinandroid.bulletin.ImageCache;
 import com.cs175.bulletinandroid.bulletin.Tabs.HomeItemAdapter;
 
 import java.io.InputStream;
@@ -25,9 +26,15 @@ public class DownloadSmallerItemsAsyncTask extends AsyncTask<HomeItemAdapter.Vie
     protected HomeItemAdapter.ViewHolder doInBackground(HomeItemAdapter.ViewHolder... params){
         HomeItemAdapter.ViewHolder viewHolder = params[0];
         try{
-            URL imageUrl = new URL(viewHolder.url);
-            viewHolder.bitmap = BitmapFactory.decodeStream(imageUrl.openStream());//this isnt actually smaller Lol
-            viewHolder.bitmap = Bitmap.createScaledBitmap(viewHolder.bitmap, 100, 85, true);
+            if (ImageCache.doesImageExist(viewHolder.url)){
+                Log.d("Bulletin", "Found it?");
+                viewHolder.bitmap = Bitmap.createScaledBitmap(ImageCache.getImage(viewHolder.url), 100, 85, true);
+            }else {
+                URL imageUrl = new URL(viewHolder.url);
+                viewHolder.bitmap = BitmapFactory.decodeStream(imageUrl.openStream());
+                viewHolder.bitmap = Bitmap.createScaledBitmap(viewHolder.bitmap, 100, 85, true);
+                ImageCache.saveImage(viewHolder.url, viewHolder.bitmap);
+            }
         }catch(Exception e){
 
             viewHolder.bitmap = null;

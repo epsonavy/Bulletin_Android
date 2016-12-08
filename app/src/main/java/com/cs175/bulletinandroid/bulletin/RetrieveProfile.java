@@ -1,6 +1,10 @@
 package com.cs175.bulletinandroid.bulletin;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,9 +35,6 @@ public class RetrieveProfile extends AppCompatActivity implements OnRequestListe
             singleton.getInstance().getUserResponse().set_id(store_id);
             singleton.getInstance().getUserResponse().setDisplay_name(displayName);
             runThread(1);
-            Intent intent = new Intent(RetrieveProfile.this, HomePageActivity.class);
-            startActivity(intent);
-            finish();
         } else {
             runThread(2);
         }
@@ -42,6 +43,53 @@ public class RetrieveProfile extends AppCompatActivity implements OnRequestListe
     @Override
     public void onResponsesReceived(RequestType type, int resCode, Response[] response) {
 
+    }
+
+    public void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    1
+            );
+        }else{
+            Intent intent = new Intent(RetrieveProfile.this, HomePageActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    Log.d("Bulletin", "You're set to go!");
+                    Intent intent = new Intent(RetrieveProfile.this, HomePageActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Intent goHome = new Intent(this, LoginActivity.class);
+                    startActivity(goHome);
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     private void runThread(final int flag) {
@@ -56,10 +104,8 @@ public class RetrieveProfile extends AppCompatActivity implements OnRequestListe
                         public void run() {
                             if (flag == 1) {
                                 //login completed
+                                verifyStoragePermissions(RetrieveProfile.this);
 
-                                Intent intent = new Intent(RetrieveProfile.this, HomePageActivity.class);
-                                startActivity(intent);
-                                finish();
                             }
                             if (flag == 2) {
                                 dialog.showDialog(RetrieveProfile.this, "Something wrong");
