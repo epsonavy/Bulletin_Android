@@ -59,12 +59,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp">
-                <ImageView android:layout_height="50sp"
+                <com.cs175.bulletinandroid.bulletin.Elements.RoundedImageView android:layout_height="50sp"
                     android:layout_width="50sp"
                     android:layout_centerVertical="true"
 
                     android:layout_marginLeft="17.5dp"
-                    android:background="#DDDDDD"
+                    android:background="@null"
                     android:scaleType="centerCrop"
                     android:adjustViewBounds="true"
                     android:id="@+id/userImageView"/>
