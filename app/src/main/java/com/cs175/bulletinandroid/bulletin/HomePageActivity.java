@@ -134,10 +134,17 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
 
 
         if (response.getResponseCode() == 200) {
-            if (type == RequestType.UploadImage) {
+            if (type == RequestType.UploadImage && singleton.getInstance().getflag().equals("tab5")) {
                 UploadResponse itemResponse = (UploadResponse) response;
                 pictureURL = itemResponse.getUrl();
                 runThread(1);
+            }
+            if (type ==RequestType.UpdatePicture && singleton.getInstance().getflag().equals("tab5") ) {
+                singleton.getInstance().setflag(" ");
+                runThread(4);
+            }
+            if (type == RequestType.UpdatePassword) {
+                runThread(5);
             }
         } else if (response.getResponseCode() == 400) {
             if (type == RequestType.UploadImage) {
@@ -179,6 +186,9 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
                             }
                             if (flag == 4) {
                                 alertDialog.showDialog(HomePageActivity.this, "Upload image succeeded!");
+                            }
+                            if (flag == 5) {
+                                alertDialog.showDialog(HomePageActivity.this, "Change password succeeded!");
                             }
                         }
                     });

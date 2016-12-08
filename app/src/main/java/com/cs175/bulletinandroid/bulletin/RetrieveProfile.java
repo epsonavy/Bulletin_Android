@@ -19,7 +19,7 @@ public class RetrieveProfile extends AppCompatActivity implements OnRequestListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_retrieve_profile);
+        //setContentView(R.layout.activity_retrieve_profile);
 
         dialog = new AlertDialogController();
         singleton.getInstance().getAPI().getMyUserDetails(RetrieveProfile.this);
@@ -33,9 +33,11 @@ public class RetrieveProfile extends AppCompatActivity implements OnRequestListe
             String store_id = info.get_id();
             String displayName = info.getDisplay_name();
             String profile_picture = info.getProfile_picture();
+            String email = info.getEmail();
             singleton.getInstance().getUserResponse().set_id(store_id);
             singleton.getInstance().getUserResponse().setDisplay_name(displayName);
             singleton.getInstance().getUserResponse().setProfile_picture(profile_picture);
+            singleton.getInstance().getUserResponse().setEmail(email);
             runThread(1);
         } else {
             runThread(2);

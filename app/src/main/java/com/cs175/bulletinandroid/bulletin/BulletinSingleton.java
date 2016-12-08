@@ -21,10 +21,18 @@ public class BulletinSingleton {
         API = new BulletinAPI();
         API.setAPIAddress(API_ADDRESS);
         userResponse = new UserResponse();
+        flag = " ";
     }
 
     private BulletinAPI API;
+    private String flag;
 
+    public String getflag() {
+        return flag;
+    }
+    public void setflag(String f) {
+        flag = f;
+    }
     public BulletinAPI getAPI(){
         return API;
     }
