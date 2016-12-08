@@ -542,12 +542,12 @@ public class BulletinAPI {
                     connection.setRequestProperty("Content-type", "application/json");
                     OutputStreamWriter os = new OutputStreamWriter(connection.getOutputStream());
                     if(!picture.equals("")) {
-                        os.write("{ \"title\":" + title + ", \"description\": " + description + ", \"pictures\": [\"" + picture + "\"], \"price\":" + Double.toString(price) +"}");
+                        os.write("{ \"title\": \"" + title + "\", \"description\": \"" + description + "\", \"pictures\": [\"" + picture + "\"], \"price\": " + Double.toString(price) +"}");
                     }else{
-                        os.write("{ \"title\":" + title + ", \"description\": " + description + ", \"price\":" + Double.toString(price) + "}");
+                        os.write("{ \"title\": \"" + title + "\", \"description\": \"" + description + "\", \"price\":" + Double.toString(price) + "}");
                     }
                     Log.d("Bulletin API", "{ \"title\":" + title + ", \"description\": " + description + ", \"pictures\": [\"" + picture + "\"], \"price\":" + Double.toString(price) +"}");
-                    Log.d("Bulletin API", "{ \"title\":" + title + ", \"description\": " + description + ", \"price\":" + Double.toString(price) + "}");
+                    Log.d("Bulletin API", "{ \"title\": " + title + ", \"description\": " + description + ", \"price\":" + "200" + "}");
 
                     //{ "title" : title, "description" : description, "pictures": ["onepicture"], "price" : price}
                     os.flush();
