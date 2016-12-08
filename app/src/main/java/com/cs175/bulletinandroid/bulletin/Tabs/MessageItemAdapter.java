@@ -95,7 +95,7 @@ public class MessageItemAdapter extends BaseAdapter {
             String userStartId = conversation.getUserStart();
 
             String userWithName = conversation.getUserWithName();
-            String userStartName = conversation.getUserStart();
+            String userStartName = conversation.getUserStartName();
 
             String userStartProfilePicture = conversation.getUserStartProfilePicture();
             String userWithProfilePicture = conversation.getUserWithProfilePicture();
