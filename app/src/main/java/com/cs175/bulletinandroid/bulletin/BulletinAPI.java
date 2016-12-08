@@ -779,12 +779,12 @@ public class BulletinAPI {
                     connection.setRequestProperty("Content-type", "application/json");
                     OutputStreamWriter os = new OutputStreamWriter(connection.getOutputStream());
                     if(!picture.equals("")) {
-                        os.write("{ \"title\":" + title + ", \"description\": " + description + ", \"pictures\": [\"" + picture + "\"], \"price\":" + Double.toString(price) +"}");
+                        os.write("{ \"title\": \"" + title + "\", \"description\": \"" + description + "\", \"pictures\": [\"" + picture + "\"], \"price\":" + Double.toString(price) +"}");
                     }else{
-                        os.write("{ \"title\":" + title + ", \"description\": " + description + ", \"price\":" + Double.toString(price) + "}");
+                        os.write("{ \"title\": \"" + title + "\", \"description\": \"" + description + "\", \"price\":" + Double.toString(price) + "}");
                     }
-                    Log.d("Bulletin API", "{ \"title\":" + title + ", \"description\": " + description + ", \"pictures\": [\"" + picture + "\"], \"price\":" + Double.toString(price) +"}");
-                    Log.d("Bulletin API", "{ \"title\":" + title + ", \"description\": " + description + ", \"price\":" + Double.toString(price) + "}");
+                    Log.d("Bulletin API", "{ \"title\": \"" + title + "\", \"description\": \"" + description + "\", \"pictures\": [\"" + picture + "\"], \"price\":" + Double.toString(price) +"}");
+                    Log.d("Bulletin API", "{ \"title\": \"" + title + "\", \"description\": \"" + description + "\", \"price\":" + Double.toString(price) + "}");
 
                     //{ "title" : title, "description" : description, "pictures": ["onepicture"], "price" : price}
                     os.flush();
@@ -815,6 +815,106 @@ public class BulletinAPI {
                         SuccessMessageResponse response = gson.fromJson(sb.toString(), SuccessMessageResponse.class);
                         response.setResponseCode(resCode);
                         listener.onResponseReceived(OnRequestListener.RequestType.UpdateItem, response);
+
+                    }
+
+
+                }catch(Exception e){
+                    Log.d("Bulletin API", "Something went wrong with updating item " + e.getMessage());
+                }
+            }
+        }).start();
+    }
+
+    public void updatePassword(final OnRequestListener listener, final String password){
+        new Thread(new Runnable(){
+            public void run(){
+                try{
+                    URL url = new URL(getAPIAddress() + "/users/update/?token=" + getToken());
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setRequestProperty("Content-type", "application/json");
+                    OutputStreamWriter os = new OutputStreamWriter(connection.getOutputStream());
+                        os.write("{ \"password\": \"" + password + "\"}");
+                    os.flush();
+                    os.close();
+
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    Gson gson = new Gson();
+
+                    int resCode = connection.getResponseCode();
+                    if(resCode == 200){
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line = null;
+                        while((line = br.readLine()) != null){
+                            sb.append(line);
+                        }
+                        UserResponse response = gson.fromJson(sb.toString(), UserResponse.class);
+                        response.setResponseCode(connection.getResponseCode());
+                        listener.onResponseReceived(OnRequestListener.RequestType.UpdatePassword, response);
+
+                    }else{
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line = null;
+                        while((line = br.readLine()) != null){
+                            sb.append(line);
+                        }
+                        SuccessMessageResponse response = gson.fromJson(sb.toString(), SuccessMessageResponse.class);
+                        response.setResponseCode(resCode);
+                        listener.onResponseReceived(OnRequestListener.RequestType.UpdatePassword, response);
+
+                    }
+
+
+                }catch(Exception e){
+                    Log.d("Bulletin API", "Something went wrong with updating item " + e.getMessage());
+                }
+            }
+        }).start();
+    }
+
+
+    public void updatePicture(final OnRequestListener listener, final String picture){
+        new Thread(new Runnable(){
+            public void run(){
+                try{
+                    URL url = new URL(getAPIAddress() + "/users/update/?token=" + getToken());
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setRequestProperty("Content-type", "application/json");
+                    OutputStreamWriter os = new OutputStreamWriter(connection.getOutputStream());
+                    os.write("{ \"profile_picture\": \"" + picture + "\"}");
+                    //{ "title" : title, "description" : description, "pictures": ["onepicture"], "price" : price}
+                    os.flush();
+                    os.close();
+
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    Gson gson = new Gson();
+
+                    int resCode = connection.getResponseCode();
+                    if(resCode == 200){
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line = null;
+                        while((line = br.readLine()) != null){
+                            sb.append(line);
+                        }
+                        UserResponse response = gson.fromJson(sb.toString(), UserResponse.class);
+                        response.setResponseCode(connection.getResponseCode());
+                        listener.onResponseReceived(OnRequestListener.RequestType.UpdatePicture, response);
+
+                    }else{
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line = null;
+                        while((line = br.readLine()) != null){
+                            sb.append(line);
+                        }
+                        SuccessMessageResponse response = gson.fromJson(sb.toString(), SuccessMessageResponse.class);
+                        response.setResponseCode(resCode);
+                        listener.onResponseReceived(OnRequestListener.RequestType.UpdatePicture, response);
 
                     }
 

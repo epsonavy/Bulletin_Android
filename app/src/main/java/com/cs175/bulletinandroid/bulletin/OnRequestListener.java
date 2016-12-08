@@ -19,7 +19,9 @@ public interface OnRequestListener{
         GetAllMessages,
         SendMessage,
         UploadImage,
-        UpdateItem
+        UpdateItem,
+        UpdatePassword,
+        UpdatePicture
     }
     public void onResponseReceived(RequestType type, Response response);
 
