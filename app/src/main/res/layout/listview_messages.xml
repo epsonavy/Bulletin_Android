@@ -6,7 +6,7 @@
     <com.cs175.bulletinandroid.bulletin.Elements.RoundedImageView
         android:layout_height="80dp"
         android:layout_width="80dp"
-        android:background="#AAAAAA"
+        android:background="@null"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
