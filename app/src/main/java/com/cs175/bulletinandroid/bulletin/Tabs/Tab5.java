@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.cs175.bulletinandroid.bulletin.BulletinSingleton;
 import com.cs175.bulletinandroid.bulletin.Elements.AlertDialogController;
@@ -31,6 +33,9 @@ import com.cs175.bulletinandroid.bulletin.Response;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
@@ -57,6 +62,16 @@ public class Tab5 extends Fragment implements OnRequestListener {
         alertDialog = new AlertDialogController();
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+
+
+        HomeItemAdapter.ViewHolder viewHolder = new HomeItemAdapter.ViewHolder();
+        viewHolder.imageView = settingPicture;
+
+        alertDialog.showDialog(getActivity(), singleton.getInstance().getUserResponse().getProfile_picture());
+        viewHolder.url = singleton.getInstance().getUserResponse().getProfile_picture();
+        settingPicture.setTag(viewHolder);
+        new DownloadAsyncTask().execute(viewHolder);
 
 
 
@@ -179,7 +194,8 @@ public class Tab5 extends Fragment implements OnRequestListener {
                                 alertDialog.showDialog(getActivity(), "Upload image succeeded in fragment!");
                             }
                             if (flag == 2) {
-                                alertDialog.showDialog(getActivity(), "Server error, please try again");
+
+
                             }
                             if (flag == 3) {
                                 alertDialog.showDialog(getActivity(), "Server error, please try agai");
@@ -194,4 +210,7 @@ public class Tab5 extends Fragment implements OnRequestListener {
 
         }.start();
     }
+
+
+
 }

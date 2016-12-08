@@ -32,8 +32,10 @@ public class RetrieveProfile extends AppCompatActivity implements OnRequestListe
             UserResponse info = (UserResponse) response;
             String store_id = info.get_id();
             String displayName = info.getDisplay_name();
+            String profile_picture = info.getProfile_picture();
             singleton.getInstance().getUserResponse().set_id(store_id);
             singleton.getInstance().getUserResponse().setDisplay_name(displayName);
+            singleton.getInstance().getUserResponse().setProfile_picture(profile_picture);
             runThread(1);
         } else {
             runThread(2);

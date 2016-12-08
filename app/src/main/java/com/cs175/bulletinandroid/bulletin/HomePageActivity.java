@@ -112,7 +112,16 @@ public class HomePageActivity extends AppCompatActivity implements TabLayout.OnT
     @Override
     public void onResponseReceived(RequestType type, Response response) {
         if (type == RequestType.UploadImage) {
-            runThread(1);
+            if (response.getResponseCode() == 200) {
+                runThread(1);
+            }
+        } else if (response.getResponseCode() == 400) {
+            if (type == RequestType.UploadImage) {
+                runThread(2);
+            }
+        } else {
+            runThread(3);
+
         }
     }
 
