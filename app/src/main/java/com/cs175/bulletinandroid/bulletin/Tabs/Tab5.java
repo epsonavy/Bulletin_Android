@@ -330,6 +330,7 @@ public class Tab5 extends Fragment implements OnRequestListener {
 
                             }
                             if (flag == 3) {
+                                System.out.println("yolo");
                                 alertDialog.showDialog(getActivity(), "Server error, please try agai");
                             }
                         }

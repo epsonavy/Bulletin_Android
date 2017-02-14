@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 /**
+ *
  * Created by chenyulong on 12/4/16.
  */
 public class Tab1 extends Fragment implements OnRequestListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener{
