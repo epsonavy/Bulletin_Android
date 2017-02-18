@@ -48,7 +48,6 @@ public class AlertDialogController {
         TextView text = (TextView) dialog.findViewById(R.id.alertText);
         text.setText(msg);
 
-        Log.d("checkshit", text.getText().toString());
         Button dialogButton = (Button)dialog.findViewById(R.id.alertButton);
 
         dialogButton.setOnClickListener(new View.OnClickListener() {

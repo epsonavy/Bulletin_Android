@@ -72,6 +72,8 @@
                 android:id="@+id/createItemImageView"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
+                android:layout_marginLeft="17.5sp"
+                android:layout_marginRight="17.5sp"
                 app:srcCompat="@drawable/default_item" />
 
             <EditText
@@ -81,7 +83,7 @@
                 android:textColorHint="#AAAAAA"
                 android:textColor="#222222"
                 android:background="#FFFFFF"
-                android:layout_marginTop="5sp"
+                android:layout_marginTop="20sp"
                 android:layout_marginBottom="5sp"
                 android:id="@+id/inputCreateItemTitle"
                 android:layout_marginLeft="17.5sp"
@@ -107,13 +109,15 @@
                 android:ems="10"
                 android:id="@+id/inputCreateDescription"
                 android:hint="Enter description"
+
                 android:textColorHint="#AAAAAA"
                 android:textColor="#222222"
                 android:background="#FFFFFF"
                 android:layout_marginTop="5sp"
                 android:layout_marginBottom="5sp"
                 android:layout_marginLeft="17.5sp"
-                android:layout_marginRight="17.5sp"/>
+                android:layout_marginRight="17.5sp"
+                />
 
 
         </LinearLayout>
